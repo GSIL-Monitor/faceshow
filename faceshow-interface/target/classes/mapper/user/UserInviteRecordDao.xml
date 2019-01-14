@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.UserInviteRecordDao">
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.user.entity.UserInviteRecord">
+    <id column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="record_user" jdbcType="VARCHAR" property="recordUser" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <if test="fields == null">
+      record_id, user_id, create_time, record_user, mobile
+    </if>
+    <if test="fields != null">
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    record_id,user_id,create_time,record_user,mobile
+    from user_invite_record
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_invite_record
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.user.entity.UserInviteRecord">
+    insert into user_invite_record (record_id, user_id, create_time, 
+      record_user, mobile)
+    values (#{recordId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{recordUser,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.user.entity.UserInviteRecord">
+    insert into user_invite_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="recordUser != null">
+        record_user,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordUser != null">
+        #{recordUser,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.user.entity.UserInviteRecord">
+    update user_invite_record
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordUser != null">
+        record_user = #{recordUser,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.user.entity.UserInviteRecord">
+    update user_invite_record
+    set user_id = #{userId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      record_user = #{recordUser,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR}
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+</mapper>

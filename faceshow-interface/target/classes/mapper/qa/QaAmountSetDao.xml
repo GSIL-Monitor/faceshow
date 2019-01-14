@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.qa.dao.QaAmountSetDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.qa.entity.QaAmountSet" >
+    <id column="set_id" property="setId" jdbcType="INTEGER" />
+    <result column="info_id" property="infoId" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="two_price" property="twoPrice" jdbcType="INTEGER" />
+    <result column="three_price" property="threePrice" jdbcType="INTEGER" />
+    <result column="is_pay" property="isPay" jdbcType="TINYINT" />
+    <result column="days" property="days" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    set_id, info_id, price, two_price, three_price, is_pay, days
+  </sql>
+
+  <!-- 保存悬赏金额设置-->
+  <insert id="save" parameterType="com.faceshow.modules.qa.entity.QaAmountSet" >
+    insert into qa_amount_set
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="setId != null" >
+        set_id,
+      </if>
+      <if test="infoId != null" >
+        info_id,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="twoPrice != null" >
+        two_price,
+      </if>
+      <if test="threePrice != null" >
+        three_price,
+      </if>
+      <if test="isPay != null" >
+        is_pay,
+      </if>
+      <if test="days != null" >
+        days,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="setId != null" >
+        #{setId,jdbcType=INTEGER},
+      </if>
+      <if test="infoId != null" >
+        #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="twoPrice != null" >
+        #{twoPrice,jdbcType=INTEGER},
+      </if>
+      <if test="threePrice != null" >
+        #{threePrice,jdbcType=INTEGER},
+      </if>
+      <if test="isPay != null" >
+        #{isPay,jdbcType=TINYINT},
+      </if>
+      <if test="days != null" >
+        #{days,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+
+  <!-- 查询问答的支付状态-->
+  <select id="findIsPayByInfoId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select is_pay from qa_amount_set where info_id = #{infoId}
+  </select>
+
+  <!-- 修改问答支付状态-->
+  <update id="updateIsPayByInfoId" parameterType="java.lang.Integer">
+    update qa_amount_set set is_pay = #{isPay} where info_id = #{infoId}
+  </update>
+
+  <!-- 根据问答id查询问答金额-->
+  <select id="findPriceByInfoId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select price from qa_amount_set where info_id = #{infoId}
+  </select>
+  
+</mapper>

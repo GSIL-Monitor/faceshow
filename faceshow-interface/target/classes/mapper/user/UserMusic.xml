@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.UserMusicDao">
+  <select id="typeMusic" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    SELECT
+        type_id,
+        type_name,
+        type_img
+    FROM
+        music_type
+      <where>
+      <if test="search != null and search != null">
+          AND  type_name LIKE CONCAT(CONCAT('%', #{search}),'%')
+      </if>
+      </where>
+      <if test="offset != null and limit != null">
+          limit #{offset}, #{limit}
+      </if>
+  </select>
+    <!--分页-->
+    <select id="typeMusicTotal" parameterType="java.util.HashMap" resultType="int">
+       select count(*)
+        FROM
+        music_type
+        <where>
+            <if test="search != null and search != null">
+                AND  type_name LIKE CONCAT(CONCAT('%', #{search}),'%')
+            </if>
+        </where>
+    </select>
+    <!--模糊搜索音乐表带分页-->
+    <select id="getMusic" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            music_id musicId,
+            url,
+            mname,
+            img,
+            numbers,
+            introduce
+        FROM
+            music_info
+            <where>
+                <if test="mname!= null and mname != ''"><!-- 模糊搜索 -->
+                    AND  mname LIKE CONCAT(CONCAT('%', #{mname}),'%')
+                </if>
+                <if test="type_id!= null and type_id != ''"><!-- 类型搜索-->
+                    AND  type_id=#{type_id}
+                </if>
+            </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="getMusicTotal" parameterType="java.util.HashMap" resultType="int">
+        select count(*)
+        FROM
+        music_info
+        <where>
+            <if test="mname!= null and mname != ''"><!-- 模糊搜索 -->
+                AND  mname LIKE CONCAT(CONCAT('%', #{mname}),'%')
+            </if>
+            <if test="type_id!= null and type_id != ''"><!-- 类型搜索-->
+                AND  type_id=#{type_id}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

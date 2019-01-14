@@ -1,0 +1,59 @@
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        druid:
+            first:
+                url: jdbc:mysql://104.243.131.2:3306/newfaceshow?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+                username: faceshow
+                password: '!Gchao999'
+            second:
+                url: jdbc:mysql://104.243.131.2:3306/newfaceshow?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+                username: faceshow
+                password: '!Gchao999'
+            initial-size: 10
+            max-active: 100
+            min-idle: 10
+            max-wait: 60000
+            pool-prepared-statements: true
+            max-pool-prepared-statement-per-connection-size: 20
+            time-between-eviction-runs-millis: 60000
+            min-evictable-idle-time-millis: 300000
+            validation-query: SELECT 1 FROM DUAL
+            test-while-idle: true
+            test-on-borrow: false
+            test-on-return: false
+            stat-view-servlet:
+                enabled: true
+                url-pattern: /druid/*
+                #login-username: admin
+                #login-password: admin
+            filter:
+                stat:
+                    log-slow-sql: true
+                    slow-sql-millis: 1000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true
+
+    redis:
+        open: true  # 是否开启redis缓存  true开启   false关闭
+        database: 0
+        #host: 104.243.131.3
+        #port: 7001
+        #clusterNodes: 104.243.131.3:7001,104.243.131.3:7002,104.243.131.3:7003,104.243.131.3:7004,104.243.131.4:7001,104.243.131.4:7002,104.243.131.4:7003,104.243.131.4:7004
+        password:       # 密码（默认为空）
+        timeout: 6000  # 连接超时时长（毫秒）
+        cluster:
+            nodes: 104.243.131.3:7001,104.243.131.3:7002,104.243.131.3:7003,104.243.131.3:7004,104.243.131.4:7001,104.243.131.4:7002,104.243.131.4:7003,104.243.131.4:7004
+        pool:
+            max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+            max-wait: -1      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+            max-idle: 10      # 连接池中的最大空闲连接
+            min-idle: 5       # 连接池中的最小空闲连接
+#rocketmq配置
+rocketmq:
+  producer:
+    namesrvAddr: 104.243.131.9:9876
+    sendMsgTimeout: 100

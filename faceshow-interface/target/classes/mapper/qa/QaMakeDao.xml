@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.qa.dao.QaMakeDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.qa.entity.QaMake" >
+    <id column="make_id" property="makeId" jdbcType="INTEGER" />
+    <result column="info_id" property="infoId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <!-- 保存吐槽记录-->
+  <insert id="save" parameterType="com.faceshow.modules.qa.entity.QaMake" >
+    insert into qa_make (info_id, user_id, create_time) values 
+    (#{infoId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <!-- 根据用户id和问答id删除吐槽记录-->
+  <delete id="deleteByUserIdAndInfoId" parameterType="java.lang.Integer">
+    delete from qa_make where user_id = #{userId} and info_id = #{infoId}
+  </delete>
+
+  <!-- 根据问答id和用户id查询吐槽信息-->
+  <select id="findByInfoIdAndUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1) from qa_make where user_id = #{userId} and info_id = #{infoId}
+  </select>
+  
+</mapper>

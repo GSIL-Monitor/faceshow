@@ -1,0 +1,65 @@
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0,maximum-scale=1.0">
+		<meta name="renderer" content="webkit">
+		<title>商家帮</title>
+		<style>
+			*{
+				margin:0;
+				padding:0;
+			}
+			.content{
+				width:90%;
+				margin:20px auto;
+			}
+			.content img{
+				width:100%;
+			}
+			.content p{
+				padding-top:30px;
+				text-indent:20px;
+				line-height:30px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="content" class="content">
+			<!--内容部分-->
+			<img src="img/1.png" alt="">
+			<p><span></span></p>
+			<p>它是对传统家庭养老模式的补充与更新，是我国发展社区服务，建立养老服务体系的一项重要内容。</p>
+
+		</div>
+	</body>
+	<script>
+        var url=getRootPath()+"/api/first/contactServicer";
+
+
+        $.ajax({
+            type: "post",
+            url: url,//请求后台方法
+            dataType:"json",
+            data:{
+                title:"联系客服"
+            },
+            success: function (data){
+                // console.log(data);
+                if(data.code==200){
+                    var timeArr = data.result.comments.split(",");
+                    //	alert(timeArr[0]);
+                    console.log(timeArr);
+                    $(".tel").text(timeArr[0]);//联系客服
+                    $(".teltime").text(timeArr[1]);//客服时间
+                    $(".qq").text(timeArr[2]);//客服QQ
+                    $(".qqtime").text(timeArr[3]);//客服时间
+                }
+
+            }
+        })
+
+
+	</script>
+
+</html>

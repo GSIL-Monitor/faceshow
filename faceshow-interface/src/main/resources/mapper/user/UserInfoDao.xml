@@ -1,0 +1,1360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.UserInfoDao">
+    <resultMap id="BaseResultMap" type="com.faceshow.modules.user.entity.UserInfo">
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="level_id" property="levelId" jdbcType="INTEGER"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="is_vip" property="isVip" jdbcType="TINYINT"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="pwd" property="pwd" jdbcType="VARCHAR"/>
+        <result column="statues" property="statues" jdbcType="TINYINT"/>
+        <result column="pay_password" property="payPassword" jdbcType="VARCHAR"/>
+        <result column="frozen" property="frozen" jdbcType="BIT"/>
+        <result column="balance" property="balance" jdbcType="DECIMAL"/>
+        <result column="is_type" property="isType" jdbcType="TINYINT"/>
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="TINYINT"/>
+        <result column="tencent_signature" property="tencentSignature" jdbcType="VARCHAR"/>
+        <result column="signature" property="signature" jdbcType="VARCHAR"/>
+        <result column="img" property="img" jdbcType="VARCHAR"/>
+        <result column="small_img" property="smallImg" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="reg_time" property="regTime" jdbcType="TIMESTAMP"/>
+        <result column="login_time" property="loginTime" jdbcType="TIMESTAMP"/>
+        <result column="last_time" property="lastTime" jdbcType="TIMESTAMP"/>
+        <result column="qr_code" property="qrCode" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="country_id" property="countryId" jdbcType="INTEGER"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="recommend_id" property="recommendId" jdbcType="INTEGER"/>
+        <result column="uid" property="uid" jdbcType="VARCHAR"/>
+        <result column="openid" property="openid" jdbcType="VARCHAR"/>
+        <result column="token" property="token" jdbcType="VARCHAR"/>
+        <result column="editor" property="editor" jdbcType="INTEGER"/>
+        <result column="editor_time" property="editorTime" jdbcType="TIMESTAMP"/>
+        <result column="del" property="del" jdbcType="TINYINT"/>
+        <result column="charm_values" property="charmValues" jdbcType="INTEGER"/>
+        <result column="attention_num" property="attentionNum" jdbcType="INTEGER"/>
+        <result column="fensi_num" property="fensiNum" jdbcType="INTEGER"/>
+        <result column="is_anchor" property="isAnchor" jdbcType="TINYINT"/>
+        <result column="anchor_no" property="anchorNo" jdbcType="VARCHAR"/>
+        <result column="birthday" property="birthday" jdbcType="DATE"/>
+        <result column="job" property="job" jdbcType="VARCHAR"/>
+        <result column="stature" property="stature" jdbcType="VARCHAR"/>
+        <result column="weight" property="weight" jdbcType="VARCHAR"/>
+        <result column="constellation" property="constellation" jdbcType="VARCHAR"/>
+        <result column="longitude" property="longitude" jdbcType="VARCHAR"/>
+        <result column="latitude" property="latitude" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+      user_id, level_id, mobile, is_vip, user_name, pwd, statues, pay_password, frozen,
+      balance, is_type, nick_name, sex, tencent_signature, signature, img, small_img, email,
+      reg_time, login_time, last_time, qr_code, country, country_id, address, recommend_id,
+      openid, uid, token, editor, editor_time, del, charm_values, attention_num, fensi_num,
+      is_anchor, anchor_no, birthday, job, stature, weight, constellation, longitude, latitude
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <insert id="insertSelective" parameterType="com.faceshow.modules.user.entity.UserInfo" useGeneratedKeys="true" keyProperty="userId">
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != 0">
+                user_id,
+            </if>
+            <if test="levelId != null and levelId != 0">
+                level_id,
+            </if>
+            <if test="mobile != null and mobile.trim() != ''">
+                mobile,
+            </if>
+            <if test="isVip != null">
+                is_vip,
+            </if>
+            <if test="userName != null and userName.trim() != ''">
+                user_name,
+            </if>
+            <if test="pwd != null and pwd.trim() != ''">
+                pwd,
+            </if>
+            <if test="statues != null">
+                statues,
+            </if>
+            <if test="payPassword != null and payPassword.trim() != ''">
+                pay_password,
+            </if>
+            <if test="frozen != null">
+                frozen,
+            </if>
+            <if test="balance != null">
+                balance,
+            </if>
+            <if test="isType != null">
+                is_type,
+            </if>
+            <if test="nickName != null and nickName.trim() != ''">
+                nick_name,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="tencentSignature != null and tencentSignature.trim() != ''">
+                tencent_signature,
+            </if>
+            <if test="signature != null and signature.trim() != ''">
+                signature,
+            </if>
+            <if test="img != null and img.trim() != ''">
+                img,
+            </if>
+            <if test="smallImg != null and smallImg.trim() != ''">
+                small_img,
+            </if>
+            <if test="email != null and email.trim() != ''">
+                email,
+            </if>
+            <if test="regTime != null">
+                reg_time,
+            </if>
+            <if test="loginTime != null">
+                login_time,
+            </if>
+            <if test="lastTime != null">
+                last_time,
+            </if>
+            <if test="qrCode != null and qrCode.trim() != ''">
+                qr_code,
+            </if>
+            <if test="country != null and country.trim() != ''">
+                country,
+            </if>
+            <if test="countryId != null">
+                country_id,
+            </if>
+            <if test="address != null and address.trim() != ''">
+                address,
+            </if>
+            <if test="recommendId != null">
+                recommend_id,
+            </if>
+            <if test="uid != null and uid.trim() != ''">
+                uid,
+            </if>
+            <if test="openid != null and openid.trim() != ''">
+                openid,
+            </if>
+            <if test="token != null">
+                token,
+            </if>
+            <if test="editor != null">
+                editor,
+            </if>
+            <if test="editorTime != null">
+                editor_time,
+            </if>
+            <if test="del != null">
+                del,
+            </if>
+            <if test="charmValues != null">
+                charm_values,
+            </if>
+            <if test="attentionNum != null">
+                attention_num,
+            </if>
+            <if test="fensiNum != null">
+                fensi_num,
+            </if>
+            <if test="isAnchor != null">
+                is_anchor,
+            </if>
+            <if test="anchorNo != null and anchorNo.trim() != ''">
+                anchor_no,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="job != null and job.trim() != ''">
+                job,
+            </if>
+            <if test="stature != null">
+                stature,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="constellation != null and constellation.trim() != ''">
+                constellation,
+            </if>
+            <if test="longitude != null">
+                longitude,
+            </if>
+            <if test="latitude != null">
+                latitude,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != 0">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="levelId != null and levelId != 0">
+                #{levelId,jdbcType=INTEGER},
+            </if>
+            <if test="mobile != null and mobile.trim() != ''">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="isVip != null">
+                #{isVip,jdbcType=TINYINT},
+            </if>
+            <if test="userName != null and userName.trim() != ''">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="pwd != null and pwd.trim() != ''">
+                #{pwd,jdbcType=VARCHAR},
+            </if>
+            <if test="statues != null">
+                #{statues,jdbcType=TINYINT},
+            </if>
+            <if test="payPassword != null and payPassword.trim() != ''">
+                #{payPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="frozen != null">
+                #{frozen,jdbcType=BIT},
+            </if>
+            <if test="balance != null">
+                #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="isType != null">
+                #{isType,jdbcType=TINYINT},
+            </if>
+            <if test="nickName != null and nickName.trim() != ''">
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=TINYINT},
+            </if>
+            <if test="tencentSignature != null and tencentSignature.trim() != ''">
+                #{tencentSignature,jdbcType=VARCHAR},
+            </if>
+            <if test="signature != null and signature.trim() != ''">
+                #{signature,jdbcType=VARCHAR},
+            </if>
+            <if test="img != null and img.trim() != ''">
+                #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="smallImg != null and smallImg.trim() != ''">
+                #{smallImg,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null and email.trim() != ''">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="regTime != null">
+                #{regTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="loginTime != null">
+                #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastTime != null">
+                #{lastTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="qrCode != null and qrCode.trim() != ''">
+                #{qrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null and country.trim() != ''">
+                #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="countryId != null">
+                #{countryId,jdbcType=INTEGER},
+            </if>
+            <if test="address != null and address.trim() != ''">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="recommendId != null">
+                #{recommendId,jdbcType=INTEGER},
+            </if>
+            <if test="uid != null and uid.trim() != ''">
+                #{uid,jdbcType=VARCHAR},
+            </if>
+            <if test="openid != null and openid.trim() != ''">
+                #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="token != null">
+                #{token,jdbcType=VARCHAR},
+            </if>
+            <if test="editor != null">
+                #{editor,jdbcType=INTEGER},
+            </if>
+            <if test="editorTime != null">
+                #{editorTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="del != null">
+                #{del,jdbcType=TINYINT},
+            </if>
+            <if test="charmValues != null">
+                #{charmValues,jdbcType=INTEGER},
+            </if>
+            <if test="attentionNum != null">
+                #{attentionNum,jdbcType=INTEGER},
+            </if>
+            <if test="fensiNum != null">
+                #{fensiNum,jdbcType=INTEGER},
+            </if>
+            <if test="isAnchor != null">
+                #{isAnchor,jdbcType=TINYINT},
+            </if>
+            <if test="anchorNo != null and anchorNo.trim() != ''">
+                #{anchorNo,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=DATE},
+            </if>
+            <if test="job != null and job.trim() != ''">
+                #{job,jdbcType=VARCHAR},
+            </if>
+            <if test="stature != null">
+                #{stature,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                #{weight,jdbcType=VARCHAR},
+            </if>
+            <if test="constellation != null and constellation.trim() != ''">
+                #{constellation,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.user.entity.UserInfo">
+        update user_info
+        <set>
+            <if test="levelId != null and levelId.trim() != 0">
+                level_id = #{levelId,jdbcType=INTEGER},
+            </if>
+            <if test="mobile != null and mobile.trim() != ''">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="isVip != null">
+                is_vip = #{isVip,jdbcType=TINYINT},
+            </if>
+            <if test="userName != null and userName.trim() != ''">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="pwd != null and pwd.trim() != ''">
+                pwd = #{pwd,jdbcType=VARCHAR},
+            </if>
+            <if test="statues != null">
+                statues = #{statues,jdbcType=TINYINT},
+            </if>
+            <if test="payPassword != null and payPassword.trim() != ''">
+                pay_password = #{payPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="balance != null">
+                balance = #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="isType != null">
+                is_type = #{isType,jdbcType=TINYINT},
+            </if>
+            <if test="nickName != null and nickName.trim() != ''">
+                nick_name = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=TINYINT},
+            </if>
+            <if test="tencentSignature != null and tencentSignature.trim() != ''">
+                tencent_signature = #{tencentSignature,jdbcType=VARCHAR},
+            </if>
+            <if test="signature != null and signature.trim() != ''">
+                signature = #{signature,jdbcType=VARCHAR},
+            </if>
+            <if test="img != null and img.trim() != ''">
+                img = #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="smallImg != null and smallImg.trim() != ''">
+                small_img = #{smallImg,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null and email.trim() != ''">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="regTime != null">
+                reg_time = #{regTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastTime != null">
+                last_time = #{lastTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="qrCode != null and qrCode.trim() != ''">
+                qr_code = #{qrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null and country.trim() != ''">
+                country = #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="countryId != null">
+                country_id = #{countryId,jdbcType=INTEGER},
+            </if>
+            <if test="address != null and address.trim() != ''">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="recommendId != null">
+                recommend_id = #{recommendId,jdbcType=INTEGER},
+            </if>
+            <if test="uid != null and uid.trim() != ''">
+                uid = #{uid,jdbcType=VARCHAR},
+            </if>
+            <if test="openid != null and openid.trim() != ''">
+                openid = #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="token != null">
+                token = #{token,jdbcType=VARCHAR},
+            </if>
+            <if test="editor != null">
+                editor = #{editor,jdbcType=INTEGER},
+            </if>
+            <if test="editorTime != null">
+                editor_time = #{editorTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="del != null">
+                del = #{del,jdbcType=TINYINT},
+            </if>
+            <if test="charmValues != null">
+                charm_values = #{charmValues,jdbcType=INTEGER},
+            </if>
+            <if test="attentionNum != null">
+                attention_num = #{attentionNum,jdbcType=INTEGER},
+            </if>
+            <if test="fensiNum != null">
+                fensi_num = #{fensiNum,jdbcType=INTEGER},
+            </if>
+            <if test="isAnchor != null">
+                is_anchor = #{isAnchor,jdbcType=TINYINT},
+            </if>
+            <if test="anchorNo != null and anchorNo.trim() != ''">
+                anchor_no = #{anchorNo,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=DATE},
+            </if>
+            <if test="job != null and job.trim() != ''">
+                job = #{job,jdbcType=VARCHAR},
+            </if>
+            <if test="stature != null">
+                stature = #{stature,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                weight = #{weight,jdbcType=VARCHAR},
+            </if>
+            <if test="constellation != null and constellation.trim() != ''">
+                constellation = #{constellation,jdbcType=VARCHAR},
+            </if>
+            <if test="frozen != null">
+                frozen = #{frozen,jdbcType=TINYINT},
+            </if>
+            <if test="longitude != null">
+                longitude = #{longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                latitude = #{latitude,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+
+    <!--检查邮箱是否存在 -->
+    <select id="checkEmail" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select user_id from user_info where email = #{email,jdbcType=VARCHAR}
+  </select>
+    <!--检查电话号码是否存在 -->
+    <select id="checkMobile" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select user_id from user_info where mobile = #{mobile,jdbcType=VARCHAR}
+  </select>
+    <!--检查用户名是否存在 -->
+    <select id="checkUserName" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select user_id from user_info where user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+
+    <!--用户名查找用户 -->
+    <select id="findUserByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info where statues = 1 and del = 1 and user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+    <!--电话号码查找用户 -->
+    <select id="findUserByMobile" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info where statues = 1 and del = 1 and mobile = #{mobile,jdbcType=VARCHAR}
+    </select>
+    <!--邮箱查找用户 -->
+    <select id="findUserByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info where statues = 1 and del = 1 and email = #{email,jdbcType=VARCHAR}
+    </select>
+    <!--openid查找用户 -->
+    <select id="findUserByOpenid" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info where statues = 1 and del = 1 and openid = #{openid,jdbcType=VARCHAR}
+    </select>
+    <!--第三方uid查找用户 -->
+    <select id="findUserByUid" parameterType="com.faceshow.modules.user.entity.UserInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info where statues = 1 and del = 1 and uid = #{uid,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 手机修改密码-->
+    <update id="updatePwdByMobile" parameterType="com.faceshow.modules.user.entity.UserInfo">
+    update user_info set pwd = #{pwd,jdbcType=VARCHAR} where mobile = #{mobile,jdbcType=VARCHAR}
+  </update>
+    <!-- 邮箱修改密码-->
+    <update id="updatePwdByEmail" parameterType="com.faceshow.modules.user.entity.UserInfo">
+    update user_info set pwd = #{pwd,jdbcType=VARCHAR} where email = #{email,jdbcType=VARCHAR}
+  </update>
+    <!-- id修改密码-->
+    <update id="updatePwdByUserId" parameterType="com.faceshow.modules.user.entity.UserInfo">
+    update user_info set pwd = #{pwd,jdbcType=VARCHAR} where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+    <!-- id修改邮箱-->
+    <update id="updateEmailByUserId" parameterType="com.faceshow.modules.user.entity.UserInfo">
+    update user_info set email = #{email,jdbcType=VARCHAR} where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+    <!-- id修改手机号-->
+    <update id="updateMobileByUserId" parameterType="com.faceshow.modules.user.entity.UserInfo">
+    update user_info set mobile = #{mobile,jdbcType=VARCHAR} where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+    <!-- id修改支付密码-->
+    <update id="updatePayByUserId" parameterType="java.util.Map">
+    update user_info set   pay_password = #{payPassword,jdbcType=VARCHAR},frozen=1 where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+
+    <!-- APP的个人中心 需要返回头像 关注 魅力值 和粉丝-->
+    <select id="getInfoDetail" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+      SELECT
+          nick_name,
+          img,
+          small_img,
+          attention_num,
+          charm_values,
+          fensi_num
+      FROM
+          user_info
+      WHERE
+      user_id =#{userId}
+  </select>
+
+
+    <!-- APP端的粉丝页面 返回的数据 个人头像、昵称、个性签名-->
+    <select id="getFansDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+        a.user_id,
+        a.img,
+        a.small_img,
+        a.nick_name,
+        a.signature,
+        b.is_tutual*1 is_tutual,
+        b.black_list*1 black_list
+        FROM
+        user_info a,
+        (
+        SELECT
+        user_id,
+        is_tutual,
+        black_list,
+        create_time
+        FROM
+        user_attention
+        WHERE
+        account = #{userId}
+        ) b
+        WHERE
+        a.user_id = b.user_id
+        AND a.user_id IN (
+        SELECT
+        user_id
+        FROM
+        user_attention
+        WHERE
+        account = #{userId}
+        )
+        ORDER BY b.create_time
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <!--6.2.1.2粉丝页面分页-->
+    <select id="TotalFans" parameterType="java.util.HashMap" resultType="int">
+    select count(*)
+    FROM
+    user_info a,
+    (
+    SELECT
+    user_id,
+    is_tutual,
+    black_list,
+    create_time
+    FROM
+    user_attention
+    WHERE
+    account = #{userId}
+    ) b
+    WHERE
+    a.user_id = b.user_id
+    AND a.user_id IN (
+    SELECT
+    user_id
+    FROM
+    user_attention
+    WHERE
+    account = #{userId}
+    )
+  </select>
+
+    <!-- APP端传递用户ID 返回这个用户得到的所有的礼物 返回的字段有名字 图片 和价格-->
+    <select id="getGiftDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <!-- SELECT
+        a.gift_id,
+        a.gname,
+        a.price,
+        a.img,
+        b.create_time,
+        b.nick_name,
+        b.counts
+        FROM
+        gift_info a,
+        (
+            SELECT
+                user_name nick_name,
+                gift_id,
+                UNIX_TIMESTAMP(create_time) create_time,
+                count(1) AS counts
+            FROM
+                user_give_away_log
+            WHERE
+                account = #{userId}
+            GROUP BY
+                gift_id
+            ) b
+        WHERE
+        a.gift_id = b.gift_id
+        AND a.gift_id IN (
+                SELECT
+                    gift_id
+                FROM
+                    user_give_away_log
+                WHERE
+                    account = #{userId}
+        )-->
+        SELECT
+        a.gift_id,
+        b.gname,
+        b.price,
+        b.img,
+        a.user_id,
+        a.account,
+        count(1) AS counts
+        FROM
+        user_give_away_log a
+        LEFT JOIN gift_info b ON a.gift_id = b.gift_id
+        WHERE
+        a.account = #{userId}
+        GROUP BY
+        a.gift_id,
+        a.user_id
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <!-- -->
+    <select id="getGiftDetailByUserIdAndAccount" parameterType="java.util.Map" resultType="java.util.Map">
+    select user_name nick_name, UNIX_TIMESTAMP(create_time) create_time from user_give_away_log
+    where user_id = #{user_id} and gift_id = #{gift_id} and account = #{account} order by give_id desc limit 1
+  </select>
+    <!-- APP端传递用户ID 返回这个用户得到的所有的礼物 返回的字段有名字 图片 和价格-->
+    <select id="getGiftDetailTotal" parameterType="java.util.HashMap" resultType="int">
+    SELECT
+    count(*)
+    FROM
+    gift_info
+    WHERE
+    gift_id IN (SELECT
+    gift_id
+    FROM
+    user_give_away_log
+    WHERE account =#{userId})
+  </select>
+
+    <!-- APP端传递用户ID 返回这个用户赠送的所有的礼物 返回的字段有名字 图片 和价格-->
+    <select id="ZgetGiftDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+        a.gift_id,
+        a.gname,
+        a.price,
+        a.img,
+        b.create_time,
+        b.nick_name,
+        b.counts
+        FROM
+        gift_info a,
+        (
+        SELECT
+        user_name nick_name,
+        gift_id,
+        UNIX_TIMESTAMP(create_time) * 1000 create_time,
+        count(1) AS counts
+        FROM
+        user_give_away_log
+        WHERE
+        user_id = #{userId}
+        GROUP BY
+        gift_id
+        ) b
+        WHERE
+        a.gift_id = b.gift_id
+        AND a.gift_id IN (
+        SELECT
+        gift_id
+        FROM
+        user_give_away_log
+        WHERE
+        user_id = #{userId}
+        )
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <!-- APP端传递用户ID 返回这个用户赠送的所有的礼物 返回的字段有名字 图片 和价格-->
+    <select id="ZgetGiftDetailTotal" parameterType="java.util.HashMap" resultType="int">
+    SELECT
+    count(*)
+    FROM
+    gift_info
+    WHERE
+    gift_id IN (SELECT
+    gift_id
+    FROM
+    user_give_away_log
+    WHERE user_id =#{userId})
+  </select>
+    <!--查询自己拥有的礼物-->
+    <select id="myGift" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT gift_id, gname, price, img, 0 counts FROM gift_info ORDER BY price
+        <!--  SELECT
+            a.gift_id,
+            b.gname,
+            b.price,
+            b.img,
+            a.numbers counts
+        FROM
+            gift_user_info a
+        LEFT JOIN gift_info b ON a.gift_id = b.gift_id
+        WHERE
+            user_id = #{userId}
+        AND is_send = 0-->
+    </select>
+    <!--查询用户拥有的钻石数量 -->
+    <select id="findDiamondByUserId" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+        diamond
+        FROM
+        user_info_detail
+        WHERE
+        <if test="user_id != null and user_id.trim() != ''">
+            user_id=#{user_id}
+        </if>
+        <if test="userId != null and userId.trim() != ''">
+            user_id=#{userId}
+        </if>
+
+    </select>
+    <select id="hmyGift" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <!--  SELECT
+          a.gift_id,
+          b.numbers counts
+          FROM
+          gift_info a,
+          gift_user_info b
+          WHERE
+          b.gift_id = a.gift_id
+          AND b.user_id = #{userId}
+          AND b.is_send = 1-->
+        SELECT
+        a.gift_id,
+        b.numbers counts
+        FROM
+        gift_info a,
+        gift_user_info b
+        WHERE
+        b.is_send = 1
+        AND a.gift_id = b.gift_id
+        <if test="user_id != null and user_id != ''">
+            AND b.user_id = #{user_id}
+        </if>
+        <if test="userId != null and userId != ''">
+            AND b.user_id = #{userId}
+        </if>
+    </select>
+
+    <!-- APP端我的视频页面  传递用户ID  is_private是否是私密视频 0私有 1公开'-->
+    <select id="getMyVideo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+        a.video_id,
+        a.url videoUrl,
+        a.collection_num,
+        a.img,
+        b.mname
+        FROM
+        video_info a
+        LEFT JOIN music_info b ON a.music_id = b.music_id
+        WHERE
+        is_private = #{is_private}
+        AND a.user_id = #{userId}
+        AND a.statues != 0
+        ORDER BY
+        a.create_time DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="getMyVideoTotal" parameterType="java.util.HashMap" resultType="int">
+       select count(*)
+      FROM
+      video_info a
+      LEFT JOIN music_info b ON a.music_id = b.music_id
+      WHERE
+      is_private = #{is_private}
+      AND a.user_id = #{userId}
+      AND a.statues != 0
+    </select>
+
+    <!-- 我的视频页面星星 点击后调取这个接口-->
+    <insert id="InsertCollection" parameterType="java.util.HashMap">
+        <selectKey keyProperty="need_id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO video_collection_log (
+        video_id,
+        user_id,
+        create_time
+        )
+        VALUES
+        (#{video_id}, #{userId}, NOW())
+    </insert>
+    <!--我的视频页面星星 点击后调取这个接口 关注数+1-->
+    <update id="updateFollow" parameterType="java.util.HashMap">
+    UPDATE video_info SET collection_num = collection_num + 1 WHERE video_id = #{video_id}
+  </update>
+
+    <!--我的视频页面星星 点击后再次点击调取这个接口 关注数-1-->
+    <update id="updateCancel" parameterType="java.util.HashMap">
+    UPDATE video_info SET collection_num = collection_num - 1 WHERE video_id = #{video_id}
+  </update>
+    <!-- 我的视频页面 点去取消关注后 删除对应的日志记录表-->
+    <delete id="deleteCancel" parameterType="java.util.HashMap">
+    delete from video_collection_log where NEED_ID = #{NEED_ID}
+  </delete>
+
+    <!-- 首次进入发现搜索页面分页展示数据 -->
+    <select id="findUserByCriteria" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        a.user_id,
+        a.img,
+        a.nick_name,
+        a.charm_values,
+        a.signature
+        FROM
+        user_info a
+        where 1=1
+        <if test="search != null and search != ''">
+            and a.nick_name LIKE CONCAT(CONCAT('%', #{search}),'%')
+        </if>
+        LIMIT #{currPage}, #{pageSize}
+    </select>
+
+    <select id="selectGift" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+        a.numbers,
+        b.gname,
+        b.price,
+        b.img
+        FROM
+        video_gift_send a,
+        gift_info b
+        WHERE
+        a.gift_id = b.gift_id
+        AND a.video_id=#{video_id}
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
+      select count(1) FROM video_gift_send a, gift_info b WHERE a.gift_id = b.gift_id AND a.video_id=#{video_id}
+    </select>
+
+    <select id="GiftRanking" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+        SUM(price * numbers) total,
+        b.nick_name,
+        b.img,
+        b.small_img
+        FROM
+        video_gift_send a,
+        user_info b
+        WHERE
+        a.video_id = #{video_id}
+        AND a.user_id = b.user_id
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="GiftRankingTotal" parameterType="java.util.HashMap" resultType="int">
+      select count(1) FROM video_gift_send a, user_info b WHERE a.user_id = #{userId} AND a.user_id = b.user_id
+    </select>
+
+    <select id="getInfoMobile" parameterType="java.lang.Integer" resultType="java.lang.String">
+    SELECT mobile FROM user_info WHERE user_id =#{userId}
+  </select>
+
+    <select id="getInfoEmail" parameterType="java.lang.Integer" resultType="java.lang.String">
+    SELECT email FROM user_info WHERE user_id =#{userId}
+  </select>
+
+    <!-- 条件查询用户总数-->
+    <select id="findUserTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from user_info
+        <where>
+            <if test="search != null and search != ''">
+                nick_name = #{search}
+            </if>
+        </where>
+    </select>
+
+    <!--查询头像签名 和图片-->
+    <select id="findDetail" parameterType="int" resultType="java.util.Map">
+     SELECT nick_name, img, small_img, signature FROM user_info WHERE user_id = #{value}
+  </select>
+
+    <!--查询支付密码-->
+    <select id="selectPayPasword" parameterType="int" resultType="java.util.Map">
+    SELECT pay_password ,frozen*1 frozen FROM user_info WHERE user_id = #{userId}
+  </select>
+
+    <!-- 根据用户id修改腾讯签名, 经纬度-->
+    <update id="updateTenSignAndLongitudeAndLatitudeByUserId" parameterType="com.faceshow.modules.user.entity.UserInfo">
+        update user_info
+        <set>
+            <if test="tencentSignature != null and tencentSignature.trim() != ''">
+                tencent_signature = #{tencentSignature},
+            </if>
+            <if test="longitude != null and longitude.trim() != ''">
+                longitude = #{longitude},
+            </if>
+            <if test="latitude != null and latitude.trim() != ''">
+                latitude = #{latitude},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <!-- 查询附近的人列表-->
+    <select id="findAroundManList" parameterType="java.util.Map" resultType="com.faceshow.modules.user.vo.UserInfoAroundRowVo">
+        SELECT
+            a.user_id userId,
+            a.nick_name nickName,
+            a.img userImg,
+            a.signature,
+            <if test="type != null and type.trim() == 1">
+                (
+                    6371 * acos(
+                        cos(radians(#{latitude})) * cos(radians(a.latitude)) * cos(
+                          radians(#{longitude}) - radians(a.longitude)
+                        ) + sin(radians(#{latitude})) * sin(radians(a.latitude))
+                    )
+                ) `length`,
+                UNIX_TIMESTAMP(a.login_time) * 1000 loginTime,
+            </if>
+        getIsTutual (#{userId}, a.user_id) isTutual
+        FROM
+            user_info a
+        LEFT JOIN user_set b ON a.user_id = b.user_id
+        <where>
+            <if test="type != null and type.trim() == 1">
+                AND b.distance = 1
+                AND DATE_SUB(CURDATE(), INTERVAL 3 DAY) <![CDATA[   <=  ]]> a.login_time
+                ORDER BY ((UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(a.login_time)) / 60 + (`length` * 10)) ASC
+            </if>
+            <if test="type != null and type.trim() == 2">
+                <if test="nickName != null and nickName.trim() != ''">
+                    AND a.nick_name LIKE concat("%", #{nickName}, "%")
+                </if>
+                <if test="nowAddress != null and nowAddress.trim() != ''">
+                    AND d.now_address LIKE concat("%", #{nowAddress}, "%")
+                </if>
+                <if test="sex != null and sex.trim() != ''">
+                    AND a.sex = #{sex}
+                </if>
+                <if test="statAge != null and statAge.trim() != ''">
+                    AND UNIX_TIMESTAMP(a.birthday) <![CDATA[   >=  ]]> #{statAge}
+                </if>
+                <if test="endAge != null and endAge.trim() != ''">
+                    AND UNIX_TIMESTAMP(a.birthday) <![CDATA[   <=  ]]> #{endAge}
+                </if>
+                <if test="userIds != null">
+                    AND a.user_id IN
+                    <foreach item="userId" collection="array" separator="," open="(" close=")">
+                        #{userId}
+                    </foreach>
+                </if>
+                ORDER BY a.login_time DESC
+            </if>
+        </where>
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!-- 查询附近的人数量-->
+    <select id="findAroundManTotal" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(1) from user_info a left join user_set b on a.user_id = b.user_id
+        <where>
+            <if test="type != null and type.trim() == 1">
+                AND b.distance = 1
+                AND DATE_SUB(CURDATE(), INTERVAL 3 DAY) <![CDATA[   <=  ]]> a.login_time
+            </if>
+            <if test="type != null and type.trim() == 2">
+                <if test="nickName != null and nickName.trim() != ''">
+                    AND a.nick_name LIKE concat("%", #{nickName}, "%")
+                </if>
+                <if test="nowAddress != null and nowAddress.trim() != ''">
+                    AND d.now_address LIKE concat("%", #{nowAddress}, "%")
+                </if>
+                <if test="sex != null">
+                    AND a.sex = #{sex}
+                </if>
+                <if test="statAge != null">
+                    AND UNIX_TIMESTAMP(a.birthday) <![CDATA[   >=  ]]> #{statAge}
+                </if>
+                <if test="endAge != null">
+                    AND UNIX_TIMESTAMP(a.birthday) <![CDATA[   <=  ]]> #{endAge}
+                </if>
+                <if test="userIds != null">
+                    AND a.user_id IN
+                    <foreach item="userId" collection="array" separator="," open="(" close=")">
+                        #{userId}
+                    </foreach>
+                </if>
+            </if>
+        </where>
+  </select>
+    <!--查询是否有支付密码-->
+    <select id="selectPayPassword" parameterType="java.lang.Integer" resultType="String">
+    SELECT pay_password FROM user_info WHERE user_id=#{userId}
+  </select>
+    <!--修改冻结状态-->
+    <update id="updateFrozen">
+    UPDATE user_info SET frozen=#{frozen} WHERE user_id=#{userId}
+  </update>
+
+    <!-- 根据用户id查询用户昵称-->
+    <select id="getNickNameByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select nick_name from user_info where user_id = #{userId}
+  </select>
+
+    <!-- 根据用户id 修改用户名和密码-->
+    <update id="boundUserName" parameterType="java.util.Map">
+        update user_info
+        <set>
+            <if test="type != null and type == 1">
+                mobile = #{param},
+            </if>
+            <if test="type != null and type == 2">
+                email = #{param},
+            </if>
+            <if test="pwd != null and pwd.trim() != ''">
+                pwd = #{pwd},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+    <!--查找本国前三名的头像-->
+    <select id="selectThreeImg" resultType="java.util.Map" parameterType="java.util.Map">
+    SELECT
+        img
+    FROM
+        user_info
+    WHERE
+        country_id = #{countryId}
+    ORDER BY
+        charm_values DESC
+    LIMIT 3
+  </select>
+
+    <!-- 切换国家地区-->
+    <update id="toggleArea" parameterType="java.util.Map">
+    update user_info set country_id = #{countryId}, country = #{coding} where user_id = #{userId}
+  </update>
+
+    <!--修改用户昵称 -->
+    <update id="updateNickNameByUserId">
+    update user_info set nick_name = #{nickName} where user_id = #{userId}
+  </update>
+
+    <!--修改用户签名 -->
+    <update id="updateSignatureByUserId">
+    update user_info set signature = #{signature} where user_id = #{userId}
+  </update>
+
+    <!--修改用户头像 -->
+    <update id="updateImgByUserId" parameterType="java.util.Map">
+    update user_info set img = #{bigImgUrl}, small_img = #{smallImgUrl} where user_id = #{userId}
+  </update>
+
+    <!--修改用户生日 -->
+    <update id="updateBirthdayByUserId">
+    update user_info set birthday = #{birthday} where user_id = #{userId}
+  </update>
+
+
+    <!--修改极光推送的ID -->
+    <update id="updateRegistration_id" parameterType="java.util.Map">
+    update user_info set registration_id = #{registration_id} where user_id = #{userId}
+  </update>
+    <!--查找极光推送ID-->
+    <select id="selectRegistration_id" parameterType="int" resultType="String">
+    SELECT
+      registration_id
+    FROM
+        user_info
+ WHERE
+       user_id=#{userId}
+  </select>
+
+    <!--查詢用戶的名字-->
+    <select id="selectNick_name" parameterType="int" resultType="String">
+    SELECT
+    nick_name
+    FROM
+    user_info
+    WHERE
+    user_id=#{userId}
+  </select>
+    <!--插入非好友用户聊天记录表主键-->
+    <insert id="insertUser_chat" parameterType="java.util.Map">
+        INSERT INTO user_chat (
+        user_id,
+        account,
+        create_time
+        )
+        VALUES
+        (#{user_id}, #{account_id}, #{create_time})
+    </insert>
+    <!--非还有用户聊天记录表 -->
+    <select id="selectUser_Chat" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        user_chat_id
+    FROM
+        user_chat
+    WHERE (user_id=#{user_id} AND account=#{account_id}) OR (user_id = #{account_id} AND account = #{user_id})
+  </select>
+
+    <!--查询用户编辑资料需要的信息 -->
+    <select id="findEditorData" parameterType="java.lang.Integer" resultType="com.faceshow.modules.user.vo.UserInfoEditorDataRowVo">
+        SELECT
+            a.user_id userId,
+            a.img,
+            a.nick_name nickName,
+            a.sex,
+            UNIX_TIMESTAMP(a.birthday) * 1000 birthday,
+            a.signature,
+            b.now_address nowAddress,
+            c.career,
+            c.company,
+	        d.info_name industry,
+            a.stature,
+            a.weight
+        FROM
+            user_info a
+        LEFT JOIN user_info_detail b ON a.user_id = b.user_id
+        LEFT JOIN job_user c ON c.user_id = a.user_id
+        LEFT JOIN job_info d ON d.info_id = c.info_id
+        WHERE
+            a.user_id = #{userId}
+    </select>
+ <!-- 消息推送通知用户设置ID主键-->
+  <select id="SelectMessage_push_user_set" parameterType="java.lang.Integer" resultType="java.util.Map">
+    SELECT
+        user_id,
+        is_like*1 is_like,
+        is_fance*1 is_fance,
+        is_comment*1 is_comment,
+        is_music*1 is_music,
+        is_video*1 is_video,
+        is_gift*1 is_gift,
+        is_video_gift*1 is_video_gift,
+        is_gift_chat*1 is_gift_chat,
+        is_like_vide*1 is_like_vide,
+        is_anchor*1 is_anchor,
+        is_qa*1 is_qa,
+        is_reply_comment*1 is_reply_comment
+    FROM
+        message_push_user_set
+    WHERE
+        user_id =#{userId}
+
+  </select>
+  <!--  消息推送通知用户设置ID主键状态表-->
+  <insert id="insertMessage_push_user_set" parameterType="java.lang.Integer">
+    INSERT INTO message_push_user_set (user_id)
+    VALUES
+    (#{userId})
+  </insert>
+
+  <!--消息推送通知用户设置ID主键批量更新-->
+  <update id="updateMessage_push_user_set" parameterType="java.util.Map">
+    update
+    message_push_user_set
+    <set>
+      <if test="is_like!=null and is_like!=''">
+        is_like = #{is_like},
+      </if>
+      <if test="is_fance!=null and is_fance!=''">
+        is_fance = #{is_fance},
+      </if>
+      <if test="is_comment!=null and is_comment!=''">
+        is_comment = #{is_comment},
+      </if>
+      <if test="is_music!=null and is_music!=''">
+        is_music = #{is_music},
+      </if>
+      <if test="is_video!=null and is_video!=''">
+        is_video = #{is_video},
+      </if>
+      <if test="is_gift!=null and is_gift!=''">
+        is_gift = #{is_gift},
+      </if>
+      <if test="is_video_gift!=null and is_video_gift!=''">
+        is_video_gift = #{is_video_gift},
+      </if>
+      <if test="is_gift_chat!=null and is_gift_chat!=''">
+        is_gift_chat = #{is_gift_chat},
+      </if>
+      <if test="is_like_vide!=null and is_like_vide!=''">
+        is_like_vide = #{is_like_vide},
+      </if>
+      <if test="is_anchor!=null and is_anchor!=''">
+        is_anchor = #{is_anchor},
+      </if>
+      <if test="is_qa!=null and is_qa!=''">
+          is_qa = #{is_qa},
+      </if>
+      <if test="is_reply_comment!=null and is_reply_comment!=''">
+            is_reply_comment = #{is_reply_comment},
+      </if>
+    </set>
+    <where>
+      <if test="user_id!=null and user_id!=''">
+        and    user_id = #{user_id}
+      </if>
+        <if test="userId!=null and userId!=''">
+            and    user_id = #{userId}
+        </if>
+    </where>
+  </update>
+
+    <!-- 修改用户身高-->
+    <update id="updateStature">
+        update user_info set stature = #{stature} where user_id = #{userId}
+    </update>
+
+    <!-- 修改用户体重-->
+    <update id="updateWeight">
+        update user_info set weight = #{weight} where user_id = #{userId}
+    </update>
+
+    <!-- 修改用户性别-->
+    <update id="updateSexByUserId">
+        update user_info set sex = #{sex} where user_id = #{userId}
+    </update>
+
+    <!-- 查询用户性别-->
+    <select id="findSexByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select sex from user_info where user_id = #{userId}
+    </select>
+
+
+<!--消息推送摘要表 前半段 后半段-->
+    <select id="selectMessage_push_summary" parameterType="java.lang.Integer" resultType="com.faceshow.modules.user.vo.MessagePushSummary">
+    SELECT   before_content,after_content FROM message_push_info_type WHERE type_id=#{type_id}
+    </select>
+    <!--消息推送通知类型表-->
+    <select id="selectMessage_push_info_type" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT   type_id,tname FROM message_push_info_type
+    </select>
+    <!--消息推送通知表-->
+    <insert id="insertMessage_push_info" parameterType="java.util.Map"  >
+  INSERT INTO message_push_info (type_id,user_id,account_id,create_time,content)
+    VALUES
+    (#{typeId},#{userId},#{accountId},#{createTime},#{content})
+    </insert>
+
+
+    <!--主播推送专用SQL-->
+    <select id="selectIs_anchor" parameterType="java.lang.Integer" resultType="java.util.Map">
+             SELECT
+            a.user_id,
+            b.is_anchor*1 is_anchor
+        FROM
+            user_attention a,
+            message_push_user_set b
+        WHERE
+            a.account = #{userId}
+        AND b.user_id = a.user_id
+    </select>
+
+    <!-- 查询用户粉丝, 及推送接受设置状态, 视频发布推送专用-->
+    <select id="findVideoAttentionSet" parameterType="java.lang.Integer" resultType="com.faceshow.modules.user.vo.UserAttentionSetRowVo">
+        SELECT
+            a.account userId,
+            a.user_id accountId,
+            b.is_like_vide videoSet
+        FROM
+            user_attention a,
+            message_push_user_set b
+        WHERE
+            a.account = #{userId}
+        AND b.user_id = a.user_id
+    </select>
+
+    <!-- 批量保存站内信信息-->
+    <insert id="insertMessage_push_info_batch">
+        insert into message_push_info (type_id, user_id, account_id, create_time, content) values
+        <foreach collection="attentions" item="message" separator=",">
+            (#{type}, #{message.userId}, #{message.accountId}, #{createTime}, #{content})
+        </foreach>
+    </insert>
+
+
+    <!--根据ID查询魅力值-->
+    <select id="selectCharm_values" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT   charm_values FROM  user_info WHERE user_id=#{userId}
+    </select>
+
+    <update id="updateCharm_values" parameterType="java.lang.Integer">
+            UPDATE user_info
+    SET charm_values = charm_values + #{charm_values}
+    WHERE
+        user_id = #{userId}
+    </update>
+
+</mapper>

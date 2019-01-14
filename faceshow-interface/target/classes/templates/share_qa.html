@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <title>分享视频</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta content="email=no" name="format-detection"/>
+    <meta content="address=no" name="format-detection"/>
+    <meta name="applicable-device" content="mobile"/>
+    <!-- UC强制竖屏 -->
+    <meta name="screen-orientation" content="portrait"/>
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="Keywords" content=""/>
+    <meta name="Description" content=""/>
+    <link rel="stylesheet" href="/faceshow/css/common.css"/>
+    <link rel="stylesheet" href="/faceshow/css/faceshow.css"/>
+    <link rel="stylesheet" href="/faceshow/plugins/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/faceshow/css/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="/faceshow/css/willesPlay.css"/>
+    <script src="/faceshow/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/faceshow/js/willesPlay.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+<div class="loading_bg">
+    <div class="jiazai_div">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+    </div>
+
+</div>
+<div class="wrap_layout" style="position: relative;">
+    <div class="fc_header">
+        <div class="logo_wrap"><span class="fc_slogan">美颜椒友 疯狂卖萌</span></div>
+        <a href="javascript:;" class="download_app" onclick="openModal()">打开看看</a>
+    </div>
+    <div id="willesPlay">
+        <div class="turnoff">
+            <ul>
+                <li>
+                    <a onclick="openModal()" title="头像" class="touxiang"></a>
+                </li>
+                <li>
+                    <a onclick="openModal()" title="点赞" class=""><i class="iconfont">&#xe648;</i></a>
+                </li>
+                <li>
+                    <a onclick="openModal()" title="评论" class=""><i class="iconfont">&#xe60f;</i></a>
+                </li>
+                <li>
+                    <a onclick="openModal()" title="礼物" class=""><i class="iconfont">&#xe657;</i></a>
+                </li>
+            </ul>
+        </div>
+        <div class="playContent">
+            <div id="test">
+                <video width="100%" height="100%" th:poster="${video.videoImg}" webkit-playsinline="true"
+                       playsinline="true" x-webkit-airplay="true" x5-video-player-type="h5"
+                       x5-video-player-fullscreen="true" preload="auto" style="object-fit: fill;"
+                       x5-video-orientation="portraint">
+                    <source th:src="${video.videoUrl}" type="video/mp4"></source>
+                    Current browsers do not support direct video playback！
+                </video>
+            </div>
+            <div class="background_wrap clearfix">
+                <div class="video_title">
+                    <span class="nickname" th:text="${video.userNickName}"></span>
+                    <span class="topic" th:text="${video.topicName}"></span>
+                    <p class="article_p" th:text="${video.videoIntroduction}"></p>
+                    <div id="gongao">
+                        <div id="scroll_div" class="scroll_div">
+                            <div id="scroll_begin"></div>
+                            <div id="scroll_end"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="playTip glyphicon glyphicon-play" id="kaiguan"></div>
+        </div>
+
+    </div>
+
+
+    <!--more-->
+    <div class="video_wrap clearfix">
+        <div class="header">
+            <span class="title" th:text="${msg}"></span>
+        </div>
+        <ul class="video_list clearfix" id="more_video">
+            <li th:each="video : ${list}">
+                <a href="#">
+                    <img th:src="${video.img}"/>
+                </a>
+                <span class="play_btn"></span>
+                <div class="more_detail">
+                    <span class="name" th:text="${video.nick_name}"></span>
+                    <span class="num" th:text="${video.playNum}"></span>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="fc_header bott_header">
+        <div class="logo_wrap"><span class="fc_slogan">美颜椒友 疯狂卖萌</span></div>
+        <a href="javascript:;" class="download_app" onclick="openModal()">立即加入</a>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="/faceshow/js/faceshow.js"></script>
+<script type="text/javascript">ScrollImgLeft();</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".video_list li").click(function () {
+            // 转调到下载页面
+            openModal();
+        });
+    });
+</script>
+
+</html>

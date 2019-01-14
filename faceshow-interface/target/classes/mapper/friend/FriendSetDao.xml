@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.friend.dao.FriendSetDao" >
+  <resultMap id="BaseResultMap" type="java.util.Map" >
+    <id column="set_id" property="setId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="account_id" property="accountId" jdbcType="INTEGER" />
+    <result column="is_show" property="isShow" jdbcType="TINYINT" />
+    <result column="is_notice" property="isNotice" jdbcType="TINYINT" />
+    <result column="stealth" property="stealth" jdbcType="TINYINT" />
+    <result column="lVl" property="lvl" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      set_id, user_id, account_id, is_show, is_notice, stealth, lVl
+  </sql>
+
+  <!-- 向好友设置页面添加数据-->
+  <insert id="save" parameterType="java.util.Map">
+    insert into friend_set
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="setId != null" >
+        set_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="accountId != null" >
+        account_id,
+      </if>
+      <if test="isShow != null" >
+        is_show,
+      </if>
+      <if test="isNotice != null" >
+        is_notice,
+      </if>
+      <if test="stealth != null" >
+        stealth,
+      </if>
+      <if test="lvl != null" >
+        lVl,
+      </if>
+      <if test="setTime != null" >
+        set_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="setId != null" >
+        #{setId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=TINYINT},
+      </if>
+      <if test="isNotice != null" >
+        #{isNotice,jdbcType=TINYINT},
+      </if>
+      <if test="stealth != null" >
+        #{stealth,jdbcType=TINYINT},
+      </if>
+      <if test="lvl != null" >
+        #{lvl,jdbcType=TINYINT},
+      </if>
+      <if test="setTime != null" >
+        #{setTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <!-- 修改好友设置内容-->
+  <update id="update" parameterType="com.faceshow.modules.friend.entity.FriendSet" >
+    update friend_set
+    <set >
+      <if test="isShow != null" >
+        is_show = #{isShow,jdbcType=TINYINT},
+      </if>
+      <if test="isNotice != null" >
+        is_notice = #{isNotice,jdbcType=TINYINT},
+      </if>
+      <if test="stealth != null" >
+        stealth = #{stealth,jdbcType=TINYINT},
+      </if>
+      <if test="lvl != null" >
+        lVl = #{lvl,jdbcType=TINYINT},
+      </if>
+      <if test="setTime != null" >
+        set_time = #{setTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where set_id = #{setId,jdbcType=INTEGER}
+  </update>
+
+  <!-- 根据主用户和被设置用户查询设置详情-->
+  <select id="selectByUserIdAndAccountId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from friend_set where user_id = #{userId,jdbcType=INTEGER} and account_id = #{accountId,jdbcType=INTEGER}
+  </select>
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.sys.dao.SysCountryDao">
+
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.sys.entity.SysCountry" >
+    <id column="country_id" property="countryId" jdbcType="INTEGER" />
+    <result column="cname" property="cname" jdbcType="VARCHAR" />
+    <result column="coding" property="coding" jdbcType="VARCHAR" />
+    <result column="country_num" property="countryNum" jdbcType="INTEGER" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!--查询国家-->
+  <select id="selectCountry" resultType="java.util.Map" >
+    SELECT country_id, cname, coding, logo, `language`, country_num FROM sys_country
+  </select>
+  
+  <!-- 根据国家唯一标识查询国家信息-->
+  <select id="findCountryByCoding" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select country_id, cname, coding, country_num, logo, memo from sys_country where coding = #{coding}
+  </select>
+
+  <!-- 根据国家唯一标识查询国家信息id-->
+  <select id="findCountryIdByCoding" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select country_id from sys_country where coding = #{coding}
+  </select>
+
+  <!-- 根据国家id查询国家信息-->
+  <select id="findCountryById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select country_id, cname, coding, country_num, logo, memo from sys_country where country_id = #{id}
+  </select>
+
+  <!-- 查询所有语言-->
+  <select id="findLanguageAll" resultType="java.lang.String">
+    select `language` from sys_country group by `language`
+  </select>
+  
+</mapper>

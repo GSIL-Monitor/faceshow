@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.PersonalHomeDao">
+
+
+  <!-- 6.2.1.10个人主页页面 -->
+  <select id="findPersonalHome" parameterType="java.util.Map" resultType="com.faceshow.modules.user.entity.PersonalHome">
+   <!--    SELECT
+      CASE 	WHEN  a.constellation IS NULL THEN '无' END constellation,
+      a.img,
+      a.nick_name,
+      a.user_name,
+      a.charm_values,
+      a.attention_num,
+      a.fensi_num,
+      a.signature,
+      a.sex * 1 sex,
+      a.birthday,
+      a.stature,
+      a.weight,
+      a.job,
+      CASE 	WHEN	c.cname IS NULL THEN '无' END cname,
+      CASE 	WHEN	SUM(b.numbers)  IS NULL THEN 0 END total
+      FROM
+      user_info a
+      LEFT JOIN user_give_away_log b ON a.user_id = b.account
+      LEFT JOIN sys_country c ON c.country_id = a.country_id
+      WHERE
+      a.user_id = #{userId}
+      AND a.statues = 1-->
+      SELECT
+      a.constellation,
+      a.img,
+      a.nick_name,
+      a.user_name,
+      a.charm_values,
+      a.attention_num,
+      a.fensi_num,
+      a.signature,
+      a.sex * 1 sex,
+      a.birthday,
+      a.stature,
+      a.weight,
+      a.job,
+      c.cname,
+      SUM(b.numbers) total
+      FROM
+      user_info a
+      LEFT JOIN user_give_away_log b ON a.user_id = b.account
+      LEFT JOIN sys_country c ON c.country_id = a.country_id
+      WHERE
+      a.user_id = #{userId}
+      AND a.statues = 1
+  </select>
+  <!--获取前三名的贡献榜-->
+  <select id="findContributionImg" parameterType="java.util.Map" resultType="java.util.Map">
+       SELECT
+          b.user_id,
+          b.img gongxianImg
+      FROM
+          user_give_away_log a,
+          user_info b
+      WHERE
+          a.user_id = b.user_id
+      GROUP BY
+          (numbers * price) DESC
+      LIMIT 3
+  </select>
+  <!--是个主页的视频 还需要分页-->
+    <select id="findVideoImg" parameterType="java.util.Map" resultType="java.util.Map">
+      SELECT
+        url videoUrl,
+        img videoimg
+      FROM
+          video_info
+      WHERE
+          statues = 1
+      AND is_private = 1
+      AND user_id=#{userId}
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="findVideoImgF" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        url videoUrl,
+        img videoimg
+        FROM
+        video_info
+        WHERE
+        statues = 1
+        AND is_private = 1
+        AND user_id=#{userId}
+        limit 4
+    </select>
+    <select id="findVideoImgTotal" parameterType="java.util.Map" resultType="int">
+      select count(*)
+      FROM
+      video_info
+      WHERE
+      statues = 1
+      AND is_private = 1
+      AND user_id=#{userId}
+    </select>
+  <!--是个主页的朋友圈 还需要分页-->
+    <select id="findfriendImg" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        a.file_url friendUrl
+        FROM
+        friend_ring_file a
+        LEFT JOIN friend_ring b ON b.friend_id =a.friend_id
+        WHERE
+        b.user_id=#{userId}
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <!--是个主页的朋友圈 还需要分页-->
+    <select id="findfriendImgF" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+	a.file_url friendUrl
+FROM
+	friend_ring_file a,
+	friend_ring b
+WHERE
+	b.user_id = #{userId}
+AND b.friend_id = a.friend_id
+AND b.is_check = 1
+AND shield = 0
+LIMIT 4
+    </select>
+    <!--屏蔽了谁-->
+    <select id="findfriendImgFScreen" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        c.file_small_url friendUrl
+        FROM
+        friend_ring_look_set a,
+        friend_ring_file c
+        WHERE
+        a.friend_id IN (SELECT
+        friend_id
+        FROM
+        friend_ring
+        WHERE
+        shield = 1
+        AND user_id = #{userId})
+        AND a.friend_id = c.friend_id
+        AND a.user_id &lt;&gt; #{account}
+        LIMIT 4
+    </select>
+    <!--指定谁可以看-->
+    <select id="findfriendImgFAppoint" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        c.file_small_url friendUrl
+        FROM
+        friend_ring_look_set a,
+        friend_ring_file c
+        WHERE
+        a.friend_id IN (SELECT
+        friend_id
+        FROM
+        friend_ring
+        WHERE
+        shield = 2
+        AND user_id = #{userId})
+        AND a.friend_id = c.friend_id
+        AND a.user_id = #{account}
+        LIMIT 4
+    </select>
+  <select id="findfriendImgTotal" parameterType="java.util.Map" resultType="int">
+    select count(*)
+    FROM
+    friend_ring_file a
+    LEFT JOIN friend_ring b ON b.friend_id =a.friend_id
+    WHERE
+    b.user_id=#{userId}
+  </select>
+    <!--用户标签-->
+   <select id="userTags" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        b.tags
+    FROM
+        hobby_user_info a,
+        hobby_info b
+    WHERE
+        a.hobby_id = b.hobby_id
+    AND a.user_id=#{userId}
+   </select>
+    <!--加入的群-->
+    <select id="selectGroup" parameterType="java.util.Map" resultType="java.util.Map">
+     <!-- SELECT
+            a.is_role*1 is_role,
+            b.IM_ID,
+            b.group_name,
+            b.activity,
+            b.img,
+            b.introduction
+        FROM
+            user_belong_group a,
+            newsletter_group b
+        WHERE
+            a.newsletter_id = b.newsletter_id
+        AND a.user_id = #{userId}
+        ORDER BY
+            a.create_time DESC-->
+
+
+        SELECT
+        a.is_role * 1 is_role,
+        b.IM_ID,
+        b.group_name,
+        b.activity,
+        b.img,
+        b.introduction,
+        c.counts
+        FROM
+        user_belong_group a,
+        newsletter_group b,
+        (
+            SELECT
+            newsletter_id,
+            count(1) AS counts
+            FROM
+            user_belong_group
+            WHERE
+            newsletter_id IN (
+            SELECT
+            newsletter_id
+            FROM
+            user_belong_group
+            WHERE
+            user_id = #{userId}
+        )
+            GROUP BY
+            newsletter_id
+            ) c
+        WHERE
+        a.newsletter_id = b.newsletter_id
+        AND a.newsletter_id = c.newsletter_id
+        AND a.user_id = #{userId}
+        ORDER BY
+        a.create_time DESC
+    </select>
+
+    <select id="OrAttention" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        is_tutual*1 is_tutual
+        FROM
+            user_attention
+        WHERE
+            user_id = #{account}
+        AND account = #{userId}
+    </select>
+    <select id="BOrAttention" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        is_tutual*1 is_tutual
+        FROM
+        user_attention
+        WHERE
+        user_id = #{userId}
+        AND account = #{account}
+    </select>
+
+</mapper>

@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.UserInfoDetailDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.user.entity.UserInfoDetail" >
+    <id column="detail_id" property="detailId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="diamond" property="diamond" jdbcType="INTEGER" />
+    <result column="F" property="f" jdbcType="INTEGER" />
+    <result column="live_income" property="liveIncome" jdbcType="INTEGER" />
+    <result column="video_income" property="videoIncome" jdbcType="INTEGER" />
+    <result column="matching_income" property="matchingIncome" jdbcType="INTEGER" />
+    <result column="editor_time" property="editorTime" jdbcType="TIMESTAMP" />
+    <result column="editor" property="editor" jdbcType="INTEGER" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="is_tags" property="isTags" jdbcType="TINYINT" />
+    <result column="anchor_time" property="anchorTime" jdbcType="INTEGER" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="citizenship" property="citizenship" jdbcType="VARCHAR" />
+    <result column="now_address" property="nowAddress" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    detail_id, user_id, user_name, diamond, F, live_income, video_income, matching_income,
+      editor_time, editor, memo, is_tags, anchor_time, language, citizenship, now_address
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List"/> from user_info_detail where detail_id = #{detailId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_info_detail
+    where detail_id = #{detailId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.user.entity.UserInfoDetail" useGeneratedKeys="true" keyProperty="detailId">
+    insert into user_info_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="detailId != null" >
+        detail_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="diamond != null" >
+        diamond,
+      </if>
+      <if test="f != null" >
+        F,
+      </if>
+      <if test="liveIncome != null" >
+        live_income,
+      </if>
+      <if test="videoIncome != null" >
+        video_income,
+      </if>
+      <if test="matchingIncome != null" >
+        matching_income,
+      </if>
+      <if test="editorTime != null" >
+        editor_time,
+      </if>
+      <if test="editor != null" >
+        editor,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="isTags != null" >
+        is_tags,
+      </if>
+      <if test="anchorTime != null" >
+        anchor_time,
+      </if>
+      <if test="language != null" >
+        language,
+      </if>
+      <if test="citizenship != null" >
+        citizenship,
+      </if>
+      <if test="nowAddress != null" >
+        now_address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="detailId != null" >
+        #{detailId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="diamond != null" >
+        #{diamond,jdbcType=INTEGER},
+      </if>
+      <if test="f != null" >
+        #{f,jdbcType=INTEGER},
+      </if>
+      <if test="liveIncome != null" >
+        #{liveIncome,jdbcType=INTEGER},
+      </if>
+      <if test="videoIncome != null" >
+        #{videoIncome,jdbcType=INTEGER},
+      </if>
+      <if test="matchingIncome != null" >
+        #{matchingIncome,jdbcType=INTEGER},
+      </if>
+      <if test="editorTime != null" >
+        #{editorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null" >
+        #{editor,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="isTags != null" >
+        #{isTags,jdbcType=TINYINT},
+      </if>
+      <if test="anchorTime != null" >
+        #{anchorTime,jdbcType=INTEGER},
+      </if>
+      <if test="language != null" >
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="citizenship != null" >
+        #{citizenship,jdbcType=VARCHAR},
+      </if>
+      <if test="nowAddress != null" >
+        #{nowAddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.user.entity.UserInfoDetail" >
+    update user_info_detail
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="diamond != null" >
+        diamond = #{diamond,jdbcType=INTEGER},
+      </if>
+      <if test="f != null" >
+        F = #{f,jdbcType=INTEGER},
+      </if>
+      <if test="liveIncome != null" >
+        live_income = #{liveIncome,jdbcType=INTEGER},
+      </if>
+      <if test="videoIncome != null" >
+        video_income = #{videoIncome,jdbcType=INTEGER},
+      </if>
+      <if test="matchingIncome != null" >
+        matching_income = #{matchingIncome,jdbcType=INTEGER},
+      </if>
+      <if test="editorTime != null" >
+        editor_time = #{editorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null" >
+        editor = #{editor,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="isTags != null" >
+        is_tags = #{isTags,jdbcType=TINYINT},
+      </if>
+      <if test="anchorTime != null" >
+        anchor_time = #{anchorTime,jdbcType=INTEGER},
+      </if>
+      <if test="language != null" >
+        language = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="citizenship != null" >
+        citizenship = #{citizenship,jdbcType=VARCHAR},
+      </if>
+      <if test="nowAddress != null" >
+        now_address = #{nowAddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where detail_id = #{detailId,jdbcType=INTEGER}
+  </update>
+
+  <!--查询用户拥有的钻石数量 -->
+  <select id="findDiamondByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select diamond from user_info_detail where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+
+  <!-- 根据用户id查询详情-->
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from user_info_detail where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+
+  <!-- 根据用户id修改用户钱的数量-->
+  <update id="updateDiamondByUserId" parameterType="java.lang.Integer">
+    update user_info_detail set diamond = diamond + #{diamond} where user_id = #{userId}
+  </update>
+  <!-- 根据用户id修改用户F币-->
+  <update id="updateDescDiamondByUserId" parameterType="java.util.Map">
+    update user_info_detail set F = F - #{F} where user_id = #{userId}
+  </update>
+
+ <!--我的钱包 页面-->
+  <select id="selectWallet" parameterType="java.lang.Integer" resultType="java.util.Map">
+   SELECT  diamond,F,live_income,video_income,matching_income FROM user_info_detail WHERE user_id=#{userId}
+  </select>
+
+  <!--充值页面-->
+  <select id="selectRecharge_norm"  resultType="java.util.Map">
+     SELECT
+        price_China,
+        price_America,
+        number,
+        sign
+    FROM
+        recharge_norm
+  </select>
+
+
+  <!--提现页面-->
+  <select id="selectWithdraw_norm"  resultType="java.util.Map">
+    SELECT
+    withdraw_id,
+    price_China,
+    price_America,
+    F
+    FROM
+    withdraw_norm
+  </select>
+
+  <!--提现页面查找F币多少-->
+  <select id="selectWithdraw_normById" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+    price_China,
+    price_America,
+    F
+    FROM
+    withdraw_norm
+    WHERE withdraw_id=#{withdraw_id}
+  </select>
+  <!--查询银行列表-->
+  <select id="selectBank" resultType="java.util.Map">
+    SELECT  bank_id,bank_name,logo FROM sys_bank
+  </select>
+
+
+  <insert id="insertWithdrawApplication" parameterType="java.util.Map" >
+    insert into withdraw_application
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="user_id!= null and user_id != ''">
+        user_id,
+      </if>
+
+      <!-- 处理userId 和 user_id 字段-->
+      <if test="userId!= null and userId != ''">
+        user_id,
+      </if>
+
+
+      <if test="create_time!= null">
+        create_time,
+      </if>
+      <if test="money!= null and money != ''">
+        money,
+      </if>
+      <if test="statues!= null and statues != ''">
+        statues,
+      </if>
+      <if test="pay_type!= null and pay_type != ''">
+        pay_type,
+      </if>
+      <if test="account!= null and account != ''">
+        account,
+      </if>
+      <if test="payee!= null and payee != ''">
+        payee,
+      </if>
+      <if test="bank_id!= null and bank_id != ''">
+        bank_id,
+      </if>
+      <if test="banck_address!= null and banck_address != ''">
+        banck_address,
+      </if>
+      <if test="transfer!= null and transfer != ''">
+        transfer,
+      </if>
+      <if test="is_check!= null and is_check != ''">
+        is_check,
+      </if>
+      <if test="check_man!= null and check_man != ''">
+        check_man,
+      </if>
+      <if test="check_time!= null">
+        check_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="user_id!= null and user_id != ''">
+        #{user_id},
+      </if>
+      <!-- 处理userId 和 user_id 字段-->
+      <if test="userId!= null and userId != ''">
+        #{userId},
+      </if>
+      <if test="create_time!= null">
+        #{create_time},
+      </if>
+      <if test="money!= null and money != ''">
+        #{ money},
+      </if>
+      <if test="statues!= null and statues != ''">
+        #{statues},
+      </if>
+      <if test="pay_type!= null and pay_type != ''">
+        #{pay_type},
+      </if>
+      <if test="account!= null and account != ''">
+        #{account},
+      </if>
+      <if test="payee!= null and payee != ''">
+        #{payee},
+      </if>
+      <if test="bank_id!= null and bank_id != ''">
+        #{bank_id},
+      </if>
+      <if test="banck_address!= null and banck_address != ''">
+        #{banck_address},
+      </if>
+      <if test="transfer!= null and transfer != ''">
+        #{ transfer},
+      </if>
+      <if test="is_check!= null and is_check != ''">
+        #{ is_check},
+      </if>
+      <if test="check_man!= null and check_man != ''">
+        #{ check_man},
+      </if>
+      <if test="check_time!= null">
+        #{ check_time},
+      </if>
+    </trim>
+  </insert>
+  <!--用户赠送礼品日志表-->
+  <select id="selectUser_give_away_log" parameterType="java.util.Map" resultType="com.faceshow.modules.user.entity.UserDetail">
+   SELECT
+    a.user_id,
+    a.user_name,
+    a.account,
+    a.account_user_name,
+    a.is_type,
+    a.price,
+    a.types,
+    DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%m:%s') create_time,
+    b.gname,
+    c.statues payState,
+    d.statues applyState
+    FROM
+    user_give_away_log a
+    LEFT JOIN gift_info b ON b.gift_id = a.gift_id
+    LEFT JOIN recharge_log c ON c.log_id = a.ITEM_ID
+    LEFT JOIN withdraw_application d ON d.aid =a.ITEM_ID
+WHERE
+	a.user_id = #{userId}
+AND a.create_time >( select date_sub(date_sub(date_format(now(),'%y-%m-%d'),interval extract(
+   day from now())-1 day),interval 0 month) time)
+UNION
+SELECT
+	a.user_id,
+	a.user_name,
+	a.account,
+	a.account_user_name,
+	a.is_type,
+	a.price,
+	a.types,
+    DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%m:%s') create_time,
+	b.gname,
+	c.statues payState,
+    d.statues applyState
+FROM
+	user_give_away_log a
+LEFT JOIN gift_info b ON b.gift_id = a.gift_id
+ LEFT JOIN recharge_log c ON c.log_id = a.ITEM_ID
+   LEFT JOIN withdraw_application d ON d.aid =a.ITEM_ID
+WHERE
+	a.account = #{userId}
+AND a.create_time >( select date_sub(date_sub(date_format(now(),'%y-%m-%d'),interval extract(
+   day from now())-1 day),interval 0 month) time)
+  </select>
+
+
+  <!--用户赠送礼品日志表传递时间的月份-->
+  <select id="selectTimeUser_give_away_log" parameterType="java.util.Map" resultType="com.faceshow.modules.user.entity.UserDetail">
+    SELECT
+    a.user_id,
+     a.user_name,
+    a.account,
+    a.account_user_name,
+    a.is_type,
+    a.price,
+    a.types,
+    DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%m:%s') create_time,
+    b.gname,
+    c.statues payState,
+    d.statues applyState
+    FROM
+    user_give_away_log a
+    LEFT JOIN gift_info b ON b.gift_id = a.gift_id
+    LEFT JOIN recharge_log c ON c.log_id = a.ITEM_ID
+    LEFT JOIN withdraw_application d ON d.aid =a.ITEM_ID
+    WHERE
+    a.user_id =#{userId}
+    AND a.create_time &gt;#{time}
+    AND a.create_time  	&lt;  (SELECT  DATE_ADD(#{time},INTERVAL 1 MONTH ))
+    UNION
+    SELECT
+    a.user_id,
+     a.user_name,
+    a.account,
+    a.account_user_name,
+    a.is_type,
+    a.price,
+    a.types,
+    DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%m:%s') create_time,
+    b.gname,
+    c.statues payState,
+    d.statues applyState
+    FROM
+    user_give_away_log a
+    LEFT JOIN gift_info b ON b.gift_id = a.gift_id
+    LEFT JOIN recharge_log c ON c.log_id = a.ITEM_ID
+    LEFT JOIN withdraw_application d ON d.aid =a.ITEM_ID
+    WHERE
+    a.account =#{userId}
+    AND a.create_time &gt;#{time}
+    AND a.create_time  	&lt; (SELECT  DATE_ADD(#{time},INTERVAL 1 MONTH ))
+  </select>
+
+
+
+
+
+
+
+<!--本月支出-->
+  <select id="selectPayPrice" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+SUM(a.price) payPrice
+FROM
+	user_give_away_log a
+LEFT JOIN gift_info b ON b.gift_id = a.gift_id
+WHERE
+	a.user_id = #{userId}
+    <if test="time!= null and time != ''">
+      AND a.create_time &gt;#{time}
+      AND a.create_time  	&lt; (SELECT  DATE_ADD(#{time},INTERVAL 1 MONTH ))
+    </if>
+    <if test="time== null and time == ''">
+      AND a.create_time >( select date_sub(date_sub(date_format(now(),'%y-%m-%d'),interval extract(
+      day from now())-1 day),interval 0 month) time)
+    </if>
+  </select>
+  <!--本月收入-->
+  <select id="selectIncome" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+    SUM(a.price) income
+    FROM
+        user_give_away_log a
+    LEFT JOIN gift_info b ON b.gift_id = a.gift_id
+    WHERE
+        a.account = #{userId}
+    <if test="time!= null and time != ''">
+      AND a.create_time &gt;#{time}
+      AND a.create_time  	&lt; (SELECT  DATE_ADD(#{time},INTERVAL 1 MONTH ))
+    </if>
+    <if test="time== null and time == ''">
+      AND a.create_time >( select date_sub(date_sub(date_format(now(),'%y-%m-%d'),interval extract(
+      day from now())-1 day),interval 0 month) time)
+    </if>
+  </select>
+<!--查询当前年月-->
+  <select id="selectYearMonth"  resultType="String">
+  SELECT
+	DATE_FORMAT(NOW(),'%Y年%m月')
+  </select>
+
+
+  <!--历史账单的记录  1 短视频 2 直播 3 一对一 4 聊天 5个人中心送礼物, 6 问答 7PK 8充值 9体现',  这个是充值和提现-->
+  <select id="consumeConditionDetail" parameterType="java.util.Map"  resultType="com.faceshow.modules.user.entity.UserDetail">
+    SELECT
+        a.user_id,
+        a.user_name,
+        a.account,
+        a.account_user_name,
+        a.is_type,
+        a.price,
+        a.types,
+        DATE_FORMAT(a.create_time,'%Y-%d-%m %H:%m:%s') create_time,
+        b.gname,
+        c.statues payState,
+        d.statues applyState
+    FROM
+        user_give_away_log a
+    LEFT JOIN gift_info b ON b.gift_id = a.gift_id
+    LEFT JOIN recharge_log c ON c.log_id = a.ITEM_ID
+    LEFT JOIN withdraw_application d ON d.aid =a.ITEM_ID
+    WHERE
+        a.user_id =#{userId}
+    AND a.create_time &gt;#{time}
+    AND a.create_time  	&lt; (SELECT  DATE_ADD(#{time},INTERVAL 1 MONTH ))
+    <if test="type== 8">
+      AND is_type=8
+    </if>
+    <if test="type== 9">
+      AND is_type=9
+    </if>
+    ORDER BY create_time DESC
+  </select>
+
+
+  <!--历史账单的记录  1 短视频 2 直播 3 一对一 4 聊天 5个人中心送礼物, 6 问答 7PK 8充值 9体现',   1 短视频 2 直播 3 一对一  -->
+  <select id="conditionDetail" parameterType="java.util.Map"  resultType="com.faceshow.modules.user.entity.UserDetail">
+    SELECT * FROM (SELECT
+    a.user_id,
+    a.user_name,
+    a.account,
+    a.account_user_name,
+    a.is_type,
+    a.price,
+    a.types,
+    DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%m:%s') create_time,
+    b.gname
+    FROM
+    user_give_away_log a
+    LEFT JOIN gift_info b ON b.gift_id = a.gift_id
+    WHERE
+    a.user_id =#{userId}
+    AND a.create_time &gt;#{time}
+    AND a.create_time  	&lt; (SELECT  DATE_ADD(#{time},INTERVAL 1 MONTH ))
+    <if test="type== 1">
+      AND is_type=1
+    </if>
+    <if test="type== 2">
+      AND is_type=2
+    </if>
+    <if test="type== 3">
+      AND is_type=3
+    </if>
+    UNION
+    SELECT
+    a.user_id,
+    a.user_name,
+    a.account,
+    a.account_user_name,
+    a.is_type,
+    a.price,
+    a.types,
+    DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%m:%s') create_time,
+    b.gname
+    FROM
+    user_give_away_log a
+    LEFT JOIN gift_info b ON b.gift_id = a.gift_id
+    WHERE
+    a.account =#{userId}
+    AND a.create_time &gt;#{time}
+    AND a.create_time  	&lt; (SELECT  DATE_ADD(#{time},INTERVAL 1 MONTH ))
+    <if test="type== 1">
+      AND is_type=1
+    </if>
+    <if test="type== 2">
+      AND is_type=2
+    </if>
+    <if test="type== 3">
+      AND is_type=3
+    </if>)a  GROUP BY create_time DESC
+
+
+
+  </select>
+
+
+  <!--历史账单的记录  1 短视频 2 直播 3 一对一 4 聊天 5个人中心送礼物, 6 问答 7PK 8充值 9体现',    4送 5收 -->
+  <select id="giftConditionDetail" parameterType="java.util.Map"  resultType="com.faceshow.modules.user.entity.UserDetail">
+    SELECT
+    a.user_id,
+    a.user_name,
+    a.account,
+    a.account_user_name,
+    a.is_type,
+    a.price,
+    a.types,
+    DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%m:%s') create_time,
+    b.gname
+    FROM
+    user_give_away_log a
+    LEFT JOIN gift_info b ON b.gift_id = a.gift_id
+    WHERE
+    is_type &lt;&gt;8
+    AND is_type &lt;&gt;9
+    AND a.create_time &gt;#{time}
+    AND a.create_time  	&lt; (SELECT  DATE_ADD(#{time},INTERVAL 1 MONTH ))
+    <if test="type==4 ">
+      AND a.user_id =#{userId}
+    </if>
+    <if test="type==5 ">
+      AND a.account =#{userId}
+    </if>
+    GROUP BY create_time DESC
+  </select>
+
+  <!-- 修改用户的现居住地址-->
+  <update id="updateNowAdress">
+    update user_info_detail set now_address = #{country} where user_id = #{userId}
+  </update>
+
+
+  <!--F转换钻石的模板表-->
+  <select id="selectTemplate" resultType="java.util.Map">
+  SELECT Transformation_diamond_id withdraw_id, diamond price_China, diamond price_America,F FROM f_transformation_diamond
+  </select>
+
+
+  <!--根据主键查找-->
+  <select id="selectTemplateById" resultType="java.util.Map">
+    SELECT Transformation_diamond_id, diamond,F FROM f_transformation_diamond
+    <where>
+      <if test="Transformation_diamond_id!= null and Transformation_diamond_id != ''">
+        and    Transformation_diamond_id=#{Transformation_diamond_id}
+      </if>
+      <if test="withdrawId!= null and withdrawId != ''">
+        and    Transformation_diamond_id=#{withdrawId}
+      </if>
+    </where>
+
+  </select>
+</mapper>

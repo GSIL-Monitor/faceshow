@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <title>音乐播放</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta content="email=no" name="format-detection"/>
+    <meta content="address=no" name="format-detection"/>
+    <meta name="applicable-device" content="mobile"/>
+    <!-- UC强制竖屏 -->
+    <meta name="screen-orientation" content="portrait"/>
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="Keywords" content=""/>
+    <meta name="Description" content=""/>
+    <link rel="stylesheet" href="/faceshow/css/common.css"/>
+    <script src="/faceshow/js/jquery-2.1.0.js"></script>
+
+</head>
+<style>
+    html, body {
+        overflow: hidden;
+        scroll: none;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    body {
+        background: #21232b;
+    }
+
+    .wrap_layout {
+        max-width: 720px;
+        margin: 0 auto;
+        height: 100%;
+    }
+
+    .name {
+        font-size: 20px;
+        font-weight: 100;
+        text-align: center;
+        color: #000;
+        font-weight: bold;
+    }
+
+    .img {
+        position: relative;
+        margin: 0 auto;
+        width: 80%;
+        height: auto;
+        overflow: hidden;
+        margin-top: 30px;
+        padding-bottom: 80%;
+    }
+
+    .img img {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        border-radius: 50%;
+        border: 3px solid #C0C0C0;
+        box-sizing: border-box;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(red), color-stop(orange), to(yellow));
+        background-image: -webkit-linear-gradient(top, red, orange, yellow);
+        background-image: -o-linear-gradient(top, red, orange, yellow);
+        background-image: linear-gradient(to bottom, red, orange, yellow);
+    }
+
+    .rainbow {
+        animation: 6s rainbow infinite linear;
+    }
+
+    @-webkit-keyframes rainbow {
+        0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg)
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg)
+        }
+    }
+
+    @keyframes rainbow {
+        0% {
+            transform: rotate(0deg)
+        }
+        100% {
+            transform: rotate(360deg)
+        }
+    }
+
+    .time {
+        width: 80%;
+        text-align: center;
+        height: 30px;
+        overflow: hidden;
+        line-height: 30px;
+        font-size: 14px;
+        color: #000;
+        margin: 8px auto 5px;;
+    }
+
+    .now_time {
+        text-align: center;
+    }
+
+    /*.all_time{float:right;}*/
+    .gc_show {
+        width: 90%;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        font-size: 14px;
+        margin-top: 30px;
+        color: #fff;
+        margin: 30px auto 0;
+    }
+
+    .time_progress {
+        width: 100%;
+        height: 4px;
+    }
+
+    .progress {
+        width: 80%;
+        height: 4px;
+        background: #000;
+        position: relative;
+        margin: 0 auto;
+    }
+
+    .bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px;
+        background: #fe2e57;
+        display: block;
+    }
+
+    .btn {
+        width: 12px;
+        height: 12px;
+        background: #fff;
+        border-radius: 50%;
+        position: absolute;
+        position: absolute;
+        top: -4px;
+    }
+
+    .contros {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .button {
+        text-align: center;
+        margin: 0 auto;
+        background: -webkit-linear-gradient(top, #fe2e57, #f41d6a);
+        background: -webkit-linear-gradient(top, #fe2e57, #f41d6a);
+        background: -o-linear-gradient(top, #fe2e57, #f41d6a);
+        background: linear-gradient(top, #fe2e57, #f41d6a);
+        display: block;
+        margin-top: 40px;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 24px;
+        line-height: 24px;
+        padding: 5px 10px
+    }
+
+    .blur {
+        height: 100%;
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        -webkit-filter: blur(100px); /* Chrome, Opera */
+        -moz-filter: blur(100px);
+        -ms-filter: blur(100px);
+        filter: blur(100px);
+    }
+</style>
+<body>
+<div class="wrap_layout">
+    <!--音乐-->
+    <audio th:src="${music.url}" id="my_audio"></audio>
+
+    <!--cd播放机-->
+    <div class="img">
+        <img th:src="${music.img}"/>
+    </div>
+    <img src="/faceshow/img/bg3836.jpg" class="blur"/>
+    <!--歌词显示-->
+    <div class="gc_show" th:text="${music.mname}"></div>
+    <!--时间-->
+    <div class="time">
+        <!--当前时间-->
+        <span class="now_time" id="now_time">00:00</span>
+    </div>
+    <!--暂停或播放-->
+    <div class="contros">
+        <button class="button" onClick="playPause()">暂停/播放</button>
+    </div>
+</div>
+<script>
+    var my_audio = document.getElementById("my_audio");
+
+
+    var p_all = $(".progress").width();
+
+    //暂停或播放
+    function playPause() {
+        if (my_audio.paused) {
+            my_audio.play();
+            $(".img img").addClass("rainbow");
+        }
+        else {
+            my_audio.pause();
+            $(".img img").removeClass("rainbow");
+        }
+    }
+
+    //
+    my_audio.onplay = function () {
+        $(".img img").addClass("rainbow");
+    }
+    my_audio.onpause = function () {
+        $(".img img").removeClass("rainbow");
+    }
+    //audio播放的时候实时获取当前播放时间
+    my_audio.ontimeupdate = function () {
+        //获取当前播放时间
+        var time = timeFormat(my_audio.currentTime);
+        console.log(time);
+        document.getElementById("now_time").innerHTML = time;
+        //当前的长度
+        now_long = my_audio.currentTime / my_audio.duration * p_all;
+        $(".bar").css({width: now_long});
+        var btn_l = now_long - 10 + 'px';
+        $(".btn").css({left: btn_l});
+        //
+        addListenTouch()
+
+    };
+    //页面一旦加入就获取audio的总时间
+    my_audio.onprogress = function () {
+        var videoDuration = my_audio.duration;
+        console.log(videoDuration)
+        console.log(typeof videoDuration)
+    };
+
+    // Time format converter - 00:00//时间格式转换器- 00:00
+    //<![CDATA[
+    var timeFormat = function (seconds) {
+        var m = Math.floor(seconds / 60) < 10 ? "0" + Math.floor(seconds / 60) : Math.floor(seconds / 60);
+        var s = Math.floor(seconds - (m * 60)) < 10 ? "0" + Math.floor(seconds - (m * 60)) : Math.floor(seconds - (m * 60));
+        return m + ":" + s;
+    };
+    //]]>
+</script>
+</body>
+</html>

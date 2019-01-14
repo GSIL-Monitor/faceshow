@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.emotion.dao.EmotionInfoDao" >
+
+  <!--redis缓存-->
+  <cache type="com.faceshow.common.RedisCache.MybatisRedisCache"/>
+
+  <!-- 根据用户id查询用户的交友状态标签-->
+  <select id="findAll" parameterType="java.lang.Integer" resultType="com.faceshow.modules.makeFriend.vo.MakeFriendIntentionSelectRowVo">
+    SELECT a.tags_id tagId, a.tname, b.user_id have FROM emotion_info_tags a
+    LEFT JOIN emotion_info b ON a.tags_id = b.tags_id and b.user_id = #{userId}
+  </select>
+
+  <!-- 根据用户id查询用户拥有的标签-->
+  <select id="findByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select b.tname from emotion_info a, emotion_info_tags b where a.tags_id = b.tags_id and a.user_id = #{userId}
+  </select>
+
+  <!-- 根据用户id删除用户拥有标签-->
+  <delete id="deleteByUserId" parameterType="java.lang.Integer">
+    delete from emotion_info where user_id = #{userId}
+  </delete>
+
+  <!-- 添加用户有用标签-->
+  <insert id="saveTagByUserId">
+    insert into emotion_info (tags_id, user_id, create_time) values (#{tagId}, #{userId}, #{date})
+  </insert>
+
+</mapper>

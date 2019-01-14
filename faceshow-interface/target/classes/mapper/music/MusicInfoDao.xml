@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.music.dao.MusicInfoDao" >
+    <resultMap id="BaseResultMap" type="com.faceshow.modules.music.entity.MusicInfo" >
+        <id column="music_id" property="musicId" jdbcType="INTEGER" />
+        <result column="type_id" property="typeId" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+        <result column="mname" property="mname" jdbcType="VARCHAR" />
+        <result column="img" property="img" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="country" property="country" jdbcType="VARCHAR" />
+        <result column="numbers" property="numbers" jdbcType="INTEGER" />
+        <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        music_id, type_id, user_id, url, mname, img, create_time, country, numbers, introduce
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select <include refid="Base_Column_List" /> from music_info where music_id = #{musicId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from music_info
+        where music_id = #{musicId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertSelective" parameterType="com.faceshow.modules.music.entity.MusicInfo" useGeneratedKeys="true" keyProperty="musicId">
+        insert into music_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="musicId != null" >
+                music_id,
+            </if>
+            <if test="typeId != null" >
+                type_id,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="url != null" >
+                url,
+            </if>
+            <if test="mname != null" >
+                mname,
+            </if>
+            <if test="img != null" >
+                img,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="country != null" >
+                country,
+            </if>
+            <if test="numbers != null" >
+                numbers,
+            </if>
+            <if test="introduce != null" >
+                introduce,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="musicId != null" >
+                #{musicId,jdbcType=INTEGER},
+            </if>
+            <if test="typeId != null" >
+                #{typeId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="url != null" >
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="mname != null" >
+                #{mname,jdbcType=VARCHAR},
+            </if>
+            <if test="img != null" >
+                #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="country != null" >
+                #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="numbers != null" >
+                #{numbers,jdbcType=INTEGER},
+            </if>
+            <if test="introduce != null" >
+                #{introduce,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.music.entity.MusicInfo" >
+        update music_info
+        <set>
+            <if test="typeId != null" >
+                type_id = #{typeId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="url != null" >
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="mname != null" >
+                mname = #{mname,jdbcType=VARCHAR},
+            </if>
+            <if test="img != null" >
+                img = #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="country != null" >
+                country = #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="numbers != null" >
+                numbers = #{numbers,jdbcType=INTEGER},
+            </if>
+            <if test="introduce != null" >
+                introduce = #{introduce,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where music_id = #{musicId,jdbcType=INTEGER}
+    </update>
+
+  <!--进入发现页面查询音乐-->
+  <select id="findMusicByCriteria" parameterType="java.util.Map" resultType="java.util.Map">
+      SELECT
+      music_id,
+      type_id,
+      url,
+      mname,
+      img,
+      numbers,
+      introduce
+      FROM
+      music_info
+    <where>
+      <if test="search != null and search != ''">
+       AND  mname LIKE CONCAT(CONCAT('%',  #{search}),'%')
+      </if>
+    </where>
+    ORDER BY
+      numbers DESC
+    LIMIT #{currPage}, #{pageSize}
+  </select>
+
+  <!-- 进入音乐详情页面, 查询音乐详情和用户详情 -->
+  <select id="findUserAndMumicByMusicId" parameterType="java.lang.Integer" resultType="java.util.Map">
+    SELECT
+        um.music_id musicId,
+        um.img,
+        um.mname,
+        um.url,
+        um.introduce,
+        u.user_id userId,
+        u.nick_name nickName
+    FROM
+        music_info um LEFT JOIN user_info u ON um.user_id = u.user_id
+    WHERE
+        um.music_id = #{musicId}
+  </select>
+
+  <!--查询得分最高的视频 -->
+  <select id="findHightScoreVideo" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        uv.video_id videoId,
+        (
+            (
+                SELECT
+                    count(1)
+                FROM
+                    video_collection_log ul
+                WHERE
+                    ul.video_id = uv.video_id
+            ) + (uv.collection_num) + (
+                SELECT
+                    count(1)
+                FROM
+                    video_play_log vl
+                WHERE
+                    vl.video_id = uv.video_id
+            )
+        ) count,
+        uv.img,
+        uv.url
+    FROM
+        video_info uv
+    WHERE
+        uv.music_id = #{musicId}
+    AND uv.statues = 1
+    AND uv.is_private = 1
+    <if test="type == 3">
+        AND uv.country = #{country}
+    </if>
+    <if test="type == 1">
+        ORDER BY uv.create_time DESC
+        LIMIT #{currPage}, #{pageSize}
+    </if>
+    <if test="type != 1">
+        ORDER BY count DESC
+        LIMIT 0, 20
+    </if>
+  </select>
+
+    <!--查询视频的总数-->
+    <select id="findHightScoreVideoTotalCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT
+            count(1)
+        FROM
+            video_info uv
+        WHERE
+            uv.music_id = #{musicId}
+        AND uv.statues = 1
+        AND uv.is_private = 1
+    </select>
+
+    <!-- 查询音乐总数-->
+    <select id="findMusicTotalCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(1) from music_info
+        <where>
+            <if test="search != null and search != ''">
+                mname = #{search}
+            </if>
+
+        </where>
+    </select>
+
+    <!-- 根据音乐类型, 条件查询音乐列表-->
+    <select id="queryList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select music_id, url, mname, img, introduce from music_info
+        <where>
+            type_id = #{typeId}
+            <if test="search != null and search.trim() != ''">
+                and mname like concat("%", #{search}, "%")
+            </if>
+        </where>
+        order by numbers desc limit #{offset}, #{limit}
+    </select>
+
+    <!-- 根据音乐类型, 查询音乐数量-->
+    <select id="queryTotal" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from music_info
+        <where>
+            type_id = #{typeId}
+            <if test="search != null and search.trim() != ''">
+                and mname like concat("%", #{search}, "%")
+            </if>
+        </where>
+    </select>
+<!--直播的时候音乐的下载-->
+    <select id="backGroundMusic" parameterType="java.util.Map"  resultType="java.util.Map">
+    SELECT
+        url,
+        mname,
+        img
+    FROM
+        music_info
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="backGroundMusicTotal"   resultType="int">
+        select count(*)
+        FROM
+        music_info
+    </select>
+
+    <!--发现页面的推荐-->
+    <select id="recommendMusic" parameterType="java.util.Map"  resultType="java.util.Map">
+        SELECT
+        music_id,
+        type_id,
+        url,
+        mname,
+        img,
+        numbers,
+        introduce,
+        singer
+        FROM
+        music_info
+        ORDER BY numbers DESC
+        LIMIT 10
+    </select>
+    
+    <!-- 根据音乐url查询音乐信息-->
+    <select id="findMusicByUrl" parameterType="java.lang.String" resultType="java.util.Map">
+        select url, mname, img from music_info where url = #{url}
+    </select>
+</mapper>

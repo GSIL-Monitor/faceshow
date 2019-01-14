@@ -1,0 +1,297 @@
+@charset "utf-8";
+* {
+    margin: 0;
+    padding: 0
+}
+
+/* 禁用iPhone中Safari的字号自动调整 */
+html {
+    font-size: 14px;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    /* 解决IOS默认滑动很卡的情况 */
+    -webkit-overflow-scrolling: touch;
+}
+
+video::-webkit-media-controls {
+    display: none !important;
+}
+
+body {
+    scroll: no;
+    color: #000;
+    font-size: 14px;
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #21232b;
+}
+
+body, p, b, dl, dd, table, td, th, form, div, ul, li, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, input, textarea, form {
+    font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    font-size: 100%;
+}
+
+ul, li {
+    list-style: none;
+    font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+.clear {
+    clear: both;
+}
+
+/*清除浮动*/
+.clearfix {
+    display: inline-table;
+    zoom: 1;
+    _height: 1%;
+    display: block
+}
+
+.clearfix::before,
+.clearfix::after {
+    content: "";
+    height: 0;
+    line-height: 0;
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+em, i {
+    font-style: normal;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+input, button, textarea, a, select {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: 0px;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+/*公共样式 begin*/
+.scale:after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    border-bottom: 1px solid #ddd;
+    -webkit-transform: scaleY(.5);
+    -webkit-transform-origin: 0 0;
+    -moz-transform: scaleY(.5);
+    -moz-transform-origin: 0 0;
+    transform: scaleY(.5);
+    transform-origin: 0 0;
+}
+
+input::-ms-input-placeholder {
+    text-align: center;
+}
+
+input::-webkit-input-placeholder {
+    text-align: center;
+}
+
+/* 禁止缩放表单 */
+input[type="submit"], input[type="reset"], input[type="button"], input {
+    resize: none;
+    border: none;
+}
+
+/*清除移动端默认的表单样式*/
+input {
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* 取消链接高亮  */
+body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, dt, dd, a, img, button, form, table, th, tr, td, tbody, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* 设置HTML5元素为块 */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+/* 图片自适应 */
+img {
+    width: 100%;
+    height: auto;
+    width: auto \9; /* ie8 */
+    display: block;
+    -ms-interpolation-mode: bicubic; /*为了照顾ie图片缩放失真*/
+}
+
+/* 移动端点击a链接出现蓝色背景问题解决 */
+a:link, a:active, a:visited, a:hover { /*background: none;*/
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.w50 {
+    width: 50%;
+}
+
+.w25 {
+    width: 25%;
+}
+
+.w20 {
+    width: 20%;
+}
+
+.w33 {
+    width: 33.333333%;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.db {
+    display: block !important;
+}
+
+.dn {
+    display: none;
+}
+
+/*单行溢出*/
+.one-txt-cut {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/*多行溢出 手机端使用*/
+.txt-cut {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box; /* -webkit-line-clamp: 2; */
+    -webkit-box-orient: vertical;
+}
+
+/*加载等待*/
+.loading_bg {
+    background: #fff;
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+}
+
+.jiazai_div {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+}
+
+.jiazai_div i {
+    float: left;
+    display: block;
+    width: 4px;
+    height: 40px;
+    margin: 0 2px;
+    background: #c90067;
+    -webkit-animation: load 1.2s infinite;
+    animation: load 1.2s infinite;
+    -webkit-transform: scaleY(0.4);
+    -ms-transform: scaleY(0.4);
+    transform: scaleY(0.4);
+}
+
+.jiazai_div i:nth-child(2) {
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.2s;
+}
+
+.jiazai_div i:nth-child(3) {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.3s;
+}
+
+.jiazai_div i:nth-child(4) {
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.4s;
+}
+
+.jiazai_div i:nth-child(5) {
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.5s;
+}
+
+@-webkit-keyframes load {
+
+    0%, 40%, 100% {
+        -webkit-transform: scaleY(0.4);
+        transform: scaleY(0.4);
+    }
+    20% {
+        -webkit-transform: scaleY(1);
+        transform: scaleY(1);
+    }
+}
+
+@keyframes load {
+    0%, 40%, 100% {
+        -webkit-transform: scaleY(0.4);
+        transform: scaleY(0.4);
+    }
+    20% {
+        -webkit-transform: scaleY(1);
+        transform: scaleY(1);
+    }
+}
+
+.loading {
+    height: 100%;
+    width: 100%;
+}

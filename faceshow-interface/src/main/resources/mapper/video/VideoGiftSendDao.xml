@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.video.dao.VideoGiftSendDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.video.entity.VideoGiftSend" >
+    <id column="send_id" property="sendId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="video_id" property="videoId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="gift_id" property="giftId" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="numbers" property="numbers" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      send_id, user_id, video_id, create_time, gift_id, price, numbers
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    send_id,user_id,video_id,create_time,gift_id,price,numbers
+    from video_gift_send
+    where send_id = #{sendId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from video_gift_send
+    where send_id = #{sendId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="java.util.Map" >
+    insert into video_gift_send
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sendId != null" >
+        send_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="videoId != null" >
+        video_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="giftId != null" >
+        gift_id,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="numbers != null" >
+        numbers,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sendId != null" >
+        #{sendId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="videoId != null" >
+        #{videoId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="giftId != null" >
+        #{giftId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="numbers != null" >
+        #{numbers,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.video.entity.VideoGiftSend" >
+    update video_gift_send
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="videoId != null" >
+        video_id = #{videoId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="giftId != null" >
+        gift_id = #{giftId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="numbers != null" >
+        numbers = #{numbers,jdbcType=INTEGER},
+      </if>
+    </set>
+    where send_id = #{sendId,jdbcType=INTEGER}
+  </update>
+
+  <!-- 查询短视频收到的礼物排行列表-->
+  <select id="haveGiftRankList" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        b.user_id,
+        b.nick_name,
+        b.img,
+        dd.price totalPrice
+    FROM
+        (
+            SELECT
+                user_id,
+                sum(numbers * price) price
+            FROM
+                video_gift_send
+            WHERE
+                video_id = #{videoId}
+            GROUP BY
+                user_id
+        ) dd
+    LEFT JOIN user_info b ON dd.user_id = b.user_id
+    ORDER BY
+        totalPrice DESC
+    LIMIT #{offset}, #{limit}
+  </select>
+
+  <!-- 查询短视频收到的礼物排行榜数量-->
+  <select id="haveGiftRankTotal" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT count(1) FROM ( SELECT count(1) FROM video_gift_send WHERE video_id = #{videoId} GROUP BY user_id) f
+  </select>
+
+</mapper>

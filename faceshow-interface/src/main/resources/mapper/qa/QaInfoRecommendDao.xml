@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.qa.dao.QaInfoRecommendDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.qa.entity.QaInfoRecommend" >
+    <id column="re_id" property="reId" jdbcType="INTEGER" />
+    <result column="theme" property="theme" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="INTEGER" />
+    <result column="editor_time" property="editorTime" jdbcType="TIMESTAMP" />
+    <result column="editor" property="editor" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      re_id, theme, create_time, creator, editor_time, editor
+  </sql>
+
+  <!-- 查询推荐问题列表-->
+  <select id="queryList" parameterType="java.util.Map" resultType="java.lang.String">
+    select theme from qa_info_recommend order by editor_time desc, re_id desc limit #{offset}, #{limit}
+  </select>
+
+  <!-- 查询推荐问题数量-->
+  <select id="queryTotal" resultType="java.lang.Integer">
+    select count(1) from qa_info_recommend
+  </select>
+  
+</mapper>

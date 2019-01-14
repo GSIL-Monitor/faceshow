@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>下载APP</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta content="email=no" name="format-detection"/>
+    <meta content="address=no" name="format-detection"/>
+    <meta name="applicable-device" content="mobile"/>
+    <!-- UC强制竖屏 -->
+    <meta name="screen-orientation" content="portrait"/>
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="Keywords" content=""/>
+    <meta name="Description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="/faceshow/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/faceshow/css/faceshow.css"/>
+</head>
+<body>
+<div class="wrap_layout">
+    <div class="down_app">
+        <div class="facecast_logo">
+            <img src="/faceshow/img/logo.png"/>
+        </div>
+        <a href="#" id="openApp" class="download_app position_bott">Click to download Facecast</a>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    document.getElementById('openApp').onclick = function (e) {
+
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+            window.location.href = "FaceShowApp://";//ios app
+            window.setTimeout(function () {
+                window.location.href = "https://itunes.apple.com/cn/app/id477927812";
+            }, 2000)
+        }
+
+        if (navigator.userAgent.match(/android/i)) {
+            window.location.href = "myscheme://com.guochao.faceshow";//android app
+            window.setTimeout(function () {
+                window.location.href = "https://****.apk";//android
+            }, 2000)
+        }
+    };
+</script>
+</html>

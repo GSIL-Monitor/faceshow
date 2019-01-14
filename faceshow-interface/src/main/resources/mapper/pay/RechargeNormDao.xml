@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.pay.dao.RechargeNormDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.pay.entity.RechargeNorm" >
+    <id column="recharge_id" property="rechargeId" jdbcType="INTEGER" />
+    <result column="price_China" property="priceChina" jdbcType="DECIMAL" />
+    <result column="price_America" property="priceAmerica" jdbcType="DECIMAL" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="creator" property="creator" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="editor" property="editor" jdbcType="INTEGER" />
+    <result column="editor_time" property="editorTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      recharge_id, price_China, price_America, sign, number, creator, create_time, editor,
+      editor_time
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    recharge_id,price_China,price_America,sign,number,creator,create_time,editor,editor_time
+    from recharge_norm
+    where recharge_id = #{rechargeId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimarySign" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    recharge_id,price_China,price_America,sign,number,creator,create_time,editor,editor_time
+    from recharge_norm
+    where sign = #{sign}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from recharge_norm
+    where recharge_id = #{rechargeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.pay.entity.RechargeNorm" >
+    insert into recharge_norm (recharge_id, price_China, price_America,
+    sign, number, creator,
+    create_time, editor, editor_time
+    )
+    values (#{rechargeId,jdbcType=INTEGER}, #{priceChina,jdbcType=DECIMAL}, #{priceAmerica,jdbcType=DECIMAL},
+    #{sign,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, #{creator,jdbcType=INTEGER},
+    #{createTime,jdbcType=TIMESTAMP}, #{editor,jdbcType=INTEGER}, #{editorTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.pay.entity.RechargeNorm" >
+    insert into recharge_norm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rechargeId != null" >
+        recharge_id,
+      </if>
+      <if test="priceChina != null" >
+        price_China,
+      </if>
+      <if test="priceAmerica != null" >
+        price_America,
+      </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="editor != null" >
+        editor,
+      </if>
+      <if test="editorTime != null" >
+        editor_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rechargeId != null" >
+        #{rechargeId,jdbcType=INTEGER},
+      </if>
+      <if test="priceChina != null" >
+        #{priceChina,jdbcType=DECIMAL},
+      </if>
+      <if test="priceAmerica != null" >
+        #{priceAmerica,jdbcType=DECIMAL},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null" >
+        #{editor,jdbcType=INTEGER},
+      </if>
+      <if test="editorTime != null" >
+        #{editorTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.pay.entity.RechargeNorm" >
+    update recharge_norm
+    <set >
+      <if test="priceChina != null" >
+        price_China = #{priceChina,jdbcType=DECIMAL},
+      </if>
+      <if test="priceAmerica != null" >
+        price_America = #{priceAmerica,jdbcType=DECIMAL},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null" >
+        editor = #{editor,jdbcType=INTEGER},
+      </if>
+      <if test="editorTime != null" >
+        editor_time = #{editorTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where recharge_id = #{rechargeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.pay.entity.RechargeNorm" >
+    update recharge_norm
+    set price_China = #{priceChina,jdbcType=DECIMAL},
+      price_America = #{priceAmerica,jdbcType=DECIMAL},
+      sign = #{sign,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      creator = #{creator,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      editor = #{editor,jdbcType=INTEGER},
+      editor_time = #{editorTime,jdbcType=TIMESTAMP}
+    where recharge_id = #{rechargeId,jdbcType=INTEGER}
+  </update>
+</mapper>

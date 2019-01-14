@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.gift.dao.GiftInfoDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.gift.entity.GiftInfo" >
+    <id column="gift_id" property="giftId" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="gname" property="gname" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="TINYINT" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    gift_id, type_id, gname, price, img, creator, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    gift_id,type_id,gname,price,img,creator,create_time
+    from gift_info
+    where gift_id = #{giftId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from gift_info
+    where gift_id = #{giftId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.gift.entity.GiftInfo" >
+    insert into gift_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="giftId != null" >
+        gift_id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="gname != null" >
+        gname,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="giftId != null" >
+        #{giftId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="gname != null" >
+        #{gname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=TINYINT},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.gift.entity.GiftInfo" >
+    update gift_info
+    <set >
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="gname != null" >
+        gname = #{gname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=TINYINT},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where gift_id = #{giftId,jdbcType=INTEGER}
+  </update>
+
+  <!--根据当前用户查询所有礼物及当前用户拥有礼物数量 -->
+  <select id="findGiftByUserId" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        gi.gift_id giftId,
+        gi.gname giftName,
+        gi.img giftImg,
+        gi.price giftPrice,
+        gu.user_id userId,
+        gu.numbers giftNumber
+    FROM
+        gift_info gi
+    LEFT JOIN gift_user_info gu ON gi.gift_id = gu.gift_id and user_id = #{userId}
+
+    ORDER BY
+        gu.numbers DESC
+    LIMIT #{currPage}, #{pageSize}
+  </select>
+
+  <!-- 获取总信息数-->
+    <select id="findGiftTotalCountByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+      SELECT count(*) FROM gift_info
+    </select>
+    <!--赠送礼物-->
+    <select id="userGiftTO" parameterType="java.util.Map" resultType="java.util.Map">
+     SELECT
+        user_id,
+        img,
+        nick_name
+    FROM
+        user_info
+    WHERE user_id=#{zuserId}
+    </select>
+  <!--得到所有礼物 分页 加缓存-->
+    <select id="GiftAll" parameterType="java.util.Map" resultType="java.util.Map">
+      SELECT
+          gift_id,
+          gname,
+          price,
+          img
+      FROM
+          gift_info
+      <if test="offset != null and limit != null">
+        limit #{offset}, #{limit}
+      </if>
+    </select>
+  <select id="GiftAllTotal" parameterType="java.util.Map" resultType="int">
+     select count(*)
+    FROM
+    gift_info
+  </select>
+  <!--看看用户的钱是否够用-->
+  <select id="userBalance"  parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        user_id,
+        diamond,
+        user_name
+    FROM
+        user_info_detail
+    WHERE
+        user_id =#{user_id}
+  </select>
+      <!--用户聊天赠送礼品日志表-->
+    <insert id="save_gift_log" parameterType="java.util.Map">
+    <selectKey keyProperty="ITEM_ID" resultType="int" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into
+    newsletter_gift_log
+    (gift_id,
+    user_id,
+    user_name,
+    account_id,
+    account,
+    create_time,
+    numbers,
+    price
+    ) values (
+      #{gift_id},
+      #{user_id},
+      #{user_name},
+      #{account_id},
+      #{account},
+      #{create_time},
+      #{numbers},
+      #{price}
+    )
+  </insert>
+  <!--更新钻石的数量-->
+  <update id="updateMoney" parameterType="java.util.Map">
+      UPDATE
+      user_info_detail
+     SET
+			diamond = #{diamond},
+			editor_time = #{editor_time}
+		WHERE
+		user_id = #{user_id}
+    </update>
+
+  <!--用户赠送礼品日志表-->
+  <insert id="insertGiveAwayLog" parameterType="java.util.Map" >
+    insert into user_give_away_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gift_id!= null and gift_id!=''">
+        gift_id,
+      </if>
+      <if test="user_id!= null and user_id!=''">
+        user_id,
+      </if>
+      <if test="user_name!= null and user_name!=''">
+        user_name,
+      </if>
+      <if test="create_time!= null">
+        create_time,
+      </if>
+      <if test="account_id!= null and account_id!=''">
+        account,
+      </if>
+      <if test="account!= null and account!=''">
+        account_user_name,
+      </if>
+      <if test="type!= null and type!=''">
+        is_type,
+      </if>
+      <if test="numbers!= null and numbers!=''">
+        numbers,
+      </if>
+      <if test="price!= null and price!=''">
+        price,
+      </if>
+      <if test="ITEM_ID!= null and ITEM_ID!=''">
+        ITEM_ID,
+      </if>
+      <if test="remark!= null and remark!=''">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gift_id!= null and gift_id!=''">
+        #{gift_id},
+      </if>
+      <if test="user_id!= null and user_id!=''">
+        #{user_id},
+      </if>
+      <if test="user_name!= null and user_name!=''">
+        #{user_name},
+      </if>
+      <if test="create_time!= null">
+        #{create_time},
+      </if>
+      <if test="account_id!= null and account_id!=''">
+        #{account_id},
+      </if>
+      <if test="account!= null and account!=''">
+        #{account},
+      </if>
+      <if test="type!= null and type!=''">
+        #{type},
+      </if>
+      <if test="numbers!= null and numbers!=''">
+        #{numbers},
+      </if>
+      <if test="price!= null and price!=''">
+        #{price},
+      </if>
+      <if test="ITEM_ID!= null and ITEM_ID!=''">
+        #{ITEM_ID},
+      </if>
+      <if test="remark!= null and remark!=''">
+        #{remark},
+      </if>
+    </trim>
+  </insert>
+  <!--送我礼物所有人的排行榜 带分页-->
+  <select id="giftRankingList" resultType="java.util.Map" parameterType="java.util.Map">
+    SELECT
+    *
+    FROM(
+    SELECT
+    COUNT(a.user_id) sum,
+    a.numbers*a.price totalPrice,
+    a.user_id,
+    b.img,
+    b.nick_name
+    FROM
+    user_give_away_log a ,
+    user_info b
+    WHERE
+    account =#{userId}
+    AND b.user_id= a.user_id
+    GROUP BY user_id DESC
+    ) c
+    ORDER BY totalPrice DESC
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+
+  <select id="giftRankingListTotal" resultType="int" parameterType="java.util.Map">
+    SELECT
+	COUNT(*)
+FROM
+	(
+		SELECT
+			COUNT(a.user_id) sum,
+			a.numbers * a.price totalPrice,
+			a.user_id,
+			b.img,
+			b.nick_name
+		FROM
+			user_give_away_log a,
+			user_info b
+		WHERE
+			account = 1
+		AND b.user_id = a.user_id
+		GROUP BY
+			user_id DESC
+	) c
+
+  </select>
+  <!--我收到的所有礼物-->
+    <select id="findGiftDetail" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        a.gift_id,
+        COUNT(a.user_id) numbers,
+        b.gname,
+        b.price,
+        b.img
+    FROM
+        user_give_away_log a,
+        gift_info b
+    WHERE
+        account = #{userId}
+    AND a.gift_id = b.gift_id
+    GROUP BY
+        a.user_id
+      <if test="offset != null and limit != null">
+        limit #{offset}, #{limit}
+      </if>
+    </select>
+    <select id="findGiftDetailTotal" parameterType="java.util.Map" resultType="int">
+    SELECT
+        COUNT(*)
+    FROM
+        user_give_away_log a,
+        gift_info b
+    WHERE
+        account = #{userId}
+    AND a.gift_id = b.gift_id
+    </select>
+
+  <!-- 视频赠送礼物表-->
+  <insert id="insertvideo_gift_send" parameterType="java.util.Map" >
+    <selectKey keyProperty="video_id" resultType="int" order="AFTER">
+     SELECT LAST_INSERT_ID()
+   </selectKey>
+   insert into video_gift_send
+   <trim prefix="(" suffix=")" suffixOverrides="," >
+     <if test="user_id!= null and user_id!=''">
+       user_id,
+     </if>
+     <if test="video_id!= null and video_id!=''">
+       video_id,
+     </if>
+     <if test="create_time!= null">
+       create_time,
+     </if>
+     <if test="gift_id!= null and gift_id!=''">
+       gift_id,
+     </if>
+     <if test="price!= null and price!=''">
+       price,
+     </if>
+     <if test="numbers!= null and numbers!=''">
+       numbers,
+     </if>
+   </trim>
+   <trim prefix="values (" suffix=")" suffixOverrides="," >
+     <if test="user_id!= null and user_id!=''">
+       #{user_id},
+     </if>
+     <if test="video_id!= null and video_id!=''">
+       #{video_id},
+     </if>
+     <if test="create_time!= null">
+       #{create_time},
+     </if>
+     <if test="gift_id!= null and gift_id!=''">
+       #{gift_id},
+     </if>
+     <if test="price!= null and price!=''">
+       #{price},
+     </if>
+     <if test="numbers!= null and numbers!=''">
+       #{numbers},
+     </if>
+   </trim>
+ </insert>
+
+ <!-- 用户直播礼品赠送表-->
+  <insert id="inserlive_gift_send" parameterType="java.util.Map" >
+     insert into live_gift_send
+     <trim prefix="(" suffix=")" suffixOverrides="," >
+       <if test="live_id!= null and live_id!=''">
+         live_id,
+       </if>
+       <if test="user_id!= null and user_id!=''">
+         user_id,
+       </if>
+       <if test="create_time!= null">
+         create_time,
+       </if>
+       <if test="gift_id!= null and gift_id!=''">
+         gift_id,
+       </if>
+       <if test="price!= null and price!=''">
+         price,
+       </if>
+       <if test="numbers!= null and numbers!=''">
+         numbers,
+       </if>
+     </trim>
+     <trim prefix="values (" suffix=")" suffixOverrides="," >
+       <if test="live_id!= null and live_id!=''">
+         #{live_id},
+       </if>
+       <if test="user_id!= null and user_id!=''">
+         #{user_id},
+       </if>
+       <if test="create_time!= null">
+         #{create_time},
+       </if>
+       <if test="gift_id!= null and gift_id!=''">
+         #{gift_id},
+       </if>
+       <if test="price!= null and price!=''">
+         #{price},
+       </if>
+       <if test="numbers!= null and numbers!=''">
+         #{numbers},
+       </if>
+     </trim>
+   </insert>
+   <!--本场直播的礼物排行-->
+  <select id="liveRankingList" parameterType="java.util.Map" resultType="java.util.Map">
+      SELECT
+    nick_name,
+    img,
+    totalPrice
+FROM
+	(
+        SELECT
+        b.nick_name,
+        b.img,
+        a.create_time,
+        SUM(a.numbers * a.price) totalPrice
+        FROM
+        user_give_away_log a,
+        user_info b
+			WHERE a.user_id = b.user_id
+              <if test="live_id!= null and live_id != ''">
+                AND ITEM_ID = #{live_id}
+              </if>
+		GROUP BY
+			a.user_id
+	) c
+    GROUP BY
+    totalPrice DESC,
+    create_time DESC
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+  <select id="liveRankingListTotal" parameterType="java.util.Map" resultType="int">
+    SELECT
+    COUNT(*)
+    FROM
+    (
+    SELECT
+    b.nick_name
+    FROM
+    user_give_away_log a,
+    user_info b
+    WHERE
+    a.user_id = b.user_id
+    <if test="live_id!= null and live_id != ''">
+      AND ITEM_ID = #{live_id}
+    </if>
+    GROUP BY
+    a.user_id
+    ) c
+  </select>
+  <!--7天贡献榜-->
+  <select id="liveRankingListWeek" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+    *
+    FROM
+    (
+    SELECT
+    b.nick_name,
+    b.img,
+    SUM(a.numbers * a.price) totalPrice
+    FROM
+    user_give_away_log a,
+    user_info b
+    WHERE
+    account = #{userId}
+    AND a.is_type = 2
+    AND a.user_id = b.user_id
+    AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(create_time)
+    GROUP BY
+    a.user_id
+    ) c
+    GROUP BY
+    totalPrice DESC
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+  <select id="liveRankingListWeekTotal" parameterType="java.util.Map" resultType="int">
+    SELECT
+    count(*)
+    FROM
+    user_give_away_log a,
+    user_info b
+    WHERE
+   account = #{userId}
+    AND a.is_type = 2
+    AND a.user_id = b.user_id
+    AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(create_time)
+  </select>
+  <!--用户拥有礼品表 -->
+  <insert id="insertGiftUserInfo" parameterType="java.util.Map">
+    insert into gift_user_info (gift_id, user_id, numbers)
+    values (#{gift_id}, #{account_id}, #{numbers})
+  </insert>
+  <!--查詢这个人是否有这个礼物不可赠送的礼物-->
+  <select id="giftHaving" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        info_id
+    FROM
+        gift_user_info
+    WHERE
+        gift_id = #{gift_id}
+    AND user_id = #{account_id}
+    AND is_send = 0
+  </select>
+  <!--查詢这个人是否有这个礼物 可以赠送的礼物-->
+  <select id="YgiftHaving" parameterType="java.util.Map" resultType="java.util.Map">
+   <!-- SELECT
+    info_id,
+    numbers
+    FROM
+    gift_user_info
+    WHERE
+    gift_id = #{gift_id}
+    AND user_id = #{user_id}
+    AND is_send = 1 -->
+    SELECT
+    info_id,
+    numbers
+    FROM
+    gift_user_info
+    WHERE
+    is_send = 1
+    AND user_id = #{user_id}
+    <if test="gift_id!= null and gift_id!=''">
+      AND gift_id=#{gift_id}
+    </if>
+    <if test="red_gift_id!= null and red_gift_id!=''">
+      AND gift_id=#{red_gift_id}
+    </if>
+    <if test="yellow_gift_id!= null and yellow_gift_id!=''">
+      AND gift_id=#{yellow_gift_id}
+    </if>
+  </select>
+  <!--更新这个礼物的数量-->
+  <update id="updateNumber" parameterType="java.util.Map" >
+  UPDATE gift_user_info
+  SET numbers = numbers + #{numbers}
+  WHERE
+      info_id = #{info_id}
+  </update>
+  <!--更新这个礼物的数量-->
+  <update id="DupdateNumber" parameterType="java.util.Map" >
+    UPDATE gift_user_info
+    SET numbers = numbers - #{numbers}
+    WHERE
+    info_id = #{info_id}
+  </update>
+<!--查询这个人还有多少钱-->
+  <select id="selectBalance" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+    diamond balance
+FROM
+    user_info_detail
+<where>
+  <if test="userId!= null and userId!=''">
+  AND user_id=#{userId}
+  </if>
+  <if test="user_id!= null and user_id!=''">
+    AND user_id=#{user_id}
+  </if>
+</where>
+  </select>
+<!--查看1V1剩余时间-->
+  <select id="endTime" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+	UNIX_TIMESTAMP(end_time) - UNIX_TIMESTAMP(NOW()) end_time
+FROM
+	live_matching_finish
+WHERE finish_id=#{finish_id}
+  </select>
+
+
+  <!--PK表赠送礼物  根据礼物ID和对应的user_id  红队-->
+  <update id="addRed_gift_price"  parameterType="java.util.Map" >
+    UPDATE live_challenge
+    SET red_gift_price = red_gift_price + #{price}
+    WHERE
+        red_gift_id = #{red_gift_id}
+    OR red_team = #{account_id}
+  </update>
+  <!--PK表赠送礼物  根据礼物ID和对应的user_id  黄队-->
+  <update id="addYellow_gift_price"  parameterType="java.util.Map" >
+      UPDATE live_challenge
+  SET yellow_gift_price = yellow_gift_price + #{price}
+  WHERE
+      yellow_gift_id = #{yellow_gift_id}
+  OR yellow_team = #{account_id}
+  </update>
+
+  <select id="giftPrice" parameterType="java.util.Map" resultType="java.util.Map">
+  SELECT gname,price FROM gift_info
+  <where>
+    <if test="gift_id!= null and gift_id!=''">
+      AND gift_id=#{gift_id}
+    </if>
+    <if test="red_gift_id!= null and red_gift_id!=''">
+      AND gift_id=#{red_gift_id}
+    </if>
+    <if test="yellow_gift_id!= null and yellow_gift_id!=''">
+      AND gift_id=#{yellow_gift_id}
+    </if>
+  </where>
+  </select>
+<!--查看某个直播或者1V1赠送的礼物-->
+  <select id="haveGift" parameterType="java.util.Map"  resultType="java.util.Map">
+      SELECT
+          sum(a.numbers) numbers,
+          sum(a.numbers) counts,
+          b.gift_id,
+          b.gname,
+          b.price,
+          b.img
+      FROM
+          user_give_away_log a,
+          gift_info b
+      WHERE
+          a.is_type = #{is_type}
+      AND a.ITEM_ID = #{ITEM_ID}
+      AND a.gift_id = b.gift_id
+      GROUP BY
+          b.gift_id
+      ORDER BY
+          price
+  </select>
+<!--查询PK时候的礼物价值和礼物ID-->
+  <select id="selectPkRedPrice" parameterType="int" resultType="java.util.Map">
+   SELECT
+	live_challenge_id,
+(UNIX_TIMESTAMP(date_add(creat_time, interval challenge_time second)) - UNIX_TIMESTAMP(NOW()))  challenge_time,
+	red_team,
+	red_gift_id,
+	red_gift_price,
+	b.nick_name,
+	b.img,
+	c.img giftImg
+FROM
+	live_challenge a,
+	user_info b,
+	gift_info c
+WHERE
+	live_challenge_id = #{live_challenge_id}
+AND a.red_team = b.user_id
+AND a.red_gift_id=c.gift_id
+  </select>
+  <!--查询PK时候的黄队礼物价值和礼物ID-->
+  <select id="selectPkYellowPrice" parameterType="int" resultType="java.util.Map">
+    SELECT
+    challenge_time,
+	live_challenge_id,
+	yellow_team,
+	yellow_gift_id,
+	yellow_gift_price,
+	b.nick_name,
+	b.img,
+	c.img giftImg
+FROM
+	live_challenge a,
+	user_info b,
+	gift_info c
+WHERE
+	live_challenge_id = #{live_challenge_id}
+AND a.yellow_team = b.user_id
+AND a.yellow_gift_id=c.gift_id
+  </select>
+
+ </mapper>

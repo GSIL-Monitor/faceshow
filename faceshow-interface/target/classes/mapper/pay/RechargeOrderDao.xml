@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.pay.dao.RechargeOrderDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.pay.entity.RechargeOrder" >
+    <id column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="recharge_id" property="rechargeId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="statues" property="statues" jdbcType="BIT" />
+    <result column="pay_type" property="payType" jdbcType="BIT" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      order_id, type_id, recharge_id, user_id, price, statues, pay_type, order_no, create_time
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    order_id,type_id,recharge_id,user_id,price,statues,pay_type,order_no,create_time
+    from recharge_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from recharge_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.pay.entity.RechargeOrder" >
+    insert into recharge_order (order_id, type_id, recharge_id, 
+      user_id, price, statues, 
+      pay_type, order_no, create_time
+      )
+    values (#{orderId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{rechargeId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{statues,jdbcType=BIT}, 
+      #{payType,jdbcType=BIT}, #{orderNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.pay.entity.RechargeOrder"  useGeneratedKeys="true" keyProperty="orderId">
+    insert into recharge_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="rechargeId != null" >
+        recharge_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="statues != null" >
+        statues,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeId != null" >
+        #{rechargeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="statues != null" >
+        #{statues,jdbcType=BIT},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=BIT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.pay.entity.RechargeOrder" >
+    update recharge_order
+    <set >
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeId != null" >
+        recharge_id = #{rechargeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="statues != null" >
+        statues = #{statues,jdbcType=BIT},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=BIT},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.pay.entity.RechargeOrder" >
+    update recharge_order
+    set type_id = #{typeId,jdbcType=INTEGER},
+      recharge_id = #{rechargeId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      statues = #{statues,jdbcType=BIT},
+      pay_type = #{payType,jdbcType=BIT},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    order_id,type_id,recharge_id,user_id,price,statues,pay_type,order_no,create_time
+    from recharge_order
+    where order_no = #{orderNo}
+  </select>
+
+</mapper>

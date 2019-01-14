@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.makeFriend.dao.MakeFriendIntentionDao" >
+
+  <!--redis缓存-->
+  <cache type="com.faceshow.common.RedisCache.MybatisRedisCache"/>
+
+  <!-- 查询所有标签, 并判定当前用户是否已经拥有该标签-->
+  <select id="findAll" parameterType="java.lang.Integer" resultType="com.faceshow.modules.makeFriend.vo.MakeFriendIntentionSelectRowVo">
+    SELECT a.tag_id tagId, a.tname, b.user_id have FROM make_friend_intention_tag a
+    LEFT JOIN make_friend_intention b ON a.tag_id = b.tag_id and b.user_id = #{userId}
+  </select>
+
+  <!-- 根据用户id查询用户拥有的标签-->
+  <select id="findByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select b.tname from make_friend_intention a, make_friend_intention_tag b where a.tag_id = b.tag_id and a.user_id = #{userId}
+  </select>
+
+  <!-- 根据用户id删除用户拥有标签-->
+  <delete id="deleteByUserId" parameterType="java.lang.Integer">
+    delete from make_friend_intention where user_id = #{userId}
+  </delete>
+
+  <!-- 批量添加用户有用标签-->
+  <insert id="saveTagByUserId">
+    insert into make_friend_intention (tag_id, user_id, create_time) values
+    <foreach item="tagId" collection="ids" separator=",">
+      (#{tagId}, #{userId}, #{date})
+    </foreach>
+  </insert>
+
+  <!-- 根据交友标签id查询用户id -->
+  <select id="findUserIdByFriendId" resultType="java.lang.Integer">
+    select a.user_id from make_friend_intention a left join make_friend_intention_tag b on a.tag_id = b.tag_id where b.tag_id in
+    <foreach item="tagId" collection="array" separator="," open="(" close=")">
+      #{tagId}
+    </foreach>
+    group by a.user_id
+  </select>
+  
+</mapper>

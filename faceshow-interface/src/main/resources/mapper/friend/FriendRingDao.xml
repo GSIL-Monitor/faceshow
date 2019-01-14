@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.friend.dao.FriendRingDao">
+    <resultMap id="BaseResultMap" type="com.faceshow.modules.friend.entity.FriendRing">
+        <id column="friend_id" property="friendId" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="is_public" property="isPublic" jdbcType="TINYINT" />
+        <result column="img" property="img" jdbcType="VARCHAR" />
+        <result column="like_num" property="likeNum" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="is_check" property="isCheck" jdbcType="TINYINT" />
+        <result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+        <result column="check_man" property="checkMan" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="TINYINT" />
+        <result column="sync" property="sync" jdbcType="TINYINT" />
+        <result column="video_id" property="videoId" jdbcType="INTEGER" />
+        <result column="shield" property="shield" jdbcType="TINYINT" />
+        <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+        <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        friend_id, user_id, content, address, is_public, img, like_num, create_time, is_check,
+        check_time, check_man, type, sync, video_id, shield, longitude, latitude
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from friend_ring
+        where friend_id = #{friendId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from friend_ring
+        where friend_id = #{friendId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertSelective" parameterType="com.faceshow.modules.friend.entity.FriendRing" useGeneratedKeys="true" keyProperty="friendId">
+        insert into friend_ring
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="friendId != null" >
+                friend_id,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+            <if test="address != null" >
+                address,
+            </if>
+            <if test="isPublic != null" >
+                is_public,
+            </if>
+            <if test="img != null" >
+                img,
+            </if>
+            <if test="likeNum != null" >
+                like_num,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="isCheck != null" >
+                is_check,
+            </if>
+            <if test="checkTime != null" >
+                check_time,
+            </if>
+            <if test="checkMan != null" >
+                check_man,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+            <if test="sync != null" >
+                sync,
+            </if>
+            <if test="videoId != null" >
+                video_id,
+            </if>
+            <if test="shield != null" >
+                shield,
+            </if>
+            <if test="longitude != null" >
+                longitude,
+            </if>
+            <if test="latitude != null" >
+                latitude,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="friendId != null" >
+                #{friendId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="content != null" >
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="isPublic != null" >
+                #{isPublic,jdbcType=TINYINT},
+            </if>
+            <if test="img != null" >
+                #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="likeNum != null" >
+                #{likeNum,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isCheck != null" >
+                #{isCheck,jdbcType=TINYINT},
+            </if>
+            <if test="checkTime != null" >
+                #{checkTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="checkMan != null" >
+                #{checkMan,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="sync != null" >
+                #{sync,jdbcType=TINYINT},
+            </if>
+            <if test="videoId != null" >
+                #{videoId,jdbcType=INTEGER},
+            </if>
+            <if test="shield != null" >
+                #{shield,jdbcType=TINYINT},
+            </if>
+            <if test="longitude != null" >
+                #{longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null" >
+                #{latitude,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.friend.entity.FriendRing">
+        update friend_ring
+        <set >
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="isPublic != null" >
+                is_public = #{isPublic,jdbcType=TINYINT},
+            </if>
+            <if test="img != null" >
+                img = #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="likeNum != null" >
+                like_num = #{likeNum,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isCheck != null" >
+                is_check = #{isCheck,jdbcType=TINYINT},
+            </if>
+            <if test="checkTime != null" >
+                check_time = #{checkTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="checkMan != null" >
+                check_man = #{checkMan,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                type = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="sync != null" >
+                sync = #{sync,jdbcType=TINYINT},
+            </if>
+            <if test="videoId != null" >
+                video_id = #{videoId,jdbcType=INTEGER},
+            </if>
+            <if test="shield != null" >
+                shield = #{shield,jdbcType=TINYINT},
+            </if>
+            <if test="longitude != null" >
+                longitude = #{longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null" >
+                latitude = #{latitude,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where friend_id = #{friendId,jdbcType=INTEGER}
+    </update>
+
+  <!--分页查询当前用户朋友圈内容 -->
+  <select id="findFriendRing" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        f.friend_id friendId,
+        f.user_id userId,
+        f.content,
+        UNIX_TIMESTAMP(f.create_time) * 1000 createTime,
+        f.address,
+        f.is_public isPublic,
+        f.like_num likeNum,
+        f.img userImg,
+        f.type,
+        f.shield,
+        f.video_id videoId,
+        f.nick_name nickName
+    FROM
+        (
+            SELECT
+                fr.friend_id,
+                fr.user_id,
+                fr.content,
+                fr.create_time,
+                fr.address,
+                fr.is_public,
+                fr.like_num,
+                fr.type,
+                fr.shield,
+                fr.video_id,
+                ui.img,
+                ui.nick_name
+            FROM
+                friend_ring fr
+            LEFT JOIN user_info ui ON fr.user_id = ui.user_id
+            WHERE
+                fr.user_id = #{userId}
+            UNION
+                SELECT
+                    fr.friend_id,
+                    fr.user_id,
+                    fr.content,
+                    fr.create_time,
+                    fr.address,
+                    fr.is_public,
+                    fr.like_num,
+                    fr.type,
+                    fr.shield,
+                    fr.video_id,
+                    ui.img,
+                    ui.nick_name
+                FROM
+                    friend_ring fr
+                LEFT JOIN user_info ui ON fr.user_id = ui.user_id
+                WHERE
+                    <!-- 判断是好友关系, 只有是好友关系才会出现在朋友圈动态列表中-->
+                    EXISTS (SELECT ua.account FROM user_attention ua WHERE fr.user_id = ua.account AND ua.user_id = #{userId} AND is_tutual = 1)
+                AND
+                    CASE fr.shield
+                    WHEN 1 THEN
+                        <!-- 判断此动态没有将当前用户屏蔽 -->
+                        (SELECT fs.user_id FROM friend_ring_look_set fs WHERE fs.friend_id = fr.friend_id AND user_id = #{userId}) IS NULL
+                    WHEN 2 THEN
+                        <!-- 判断当前用户在此动态可观看列表中 -->
+                        (SELECT fs.user_id FROM friend_ring_look_set fs WHERE fs.friend_id = fr.friend_id AND user_id = #{userId}) IS NOT NULL
+                    ELSE 1 = 1 END
+        ) f
+    ORDER BY
+        f.create_time DESC
+    LIMIT #{currPage}, #{pageSize}
+  </select>
+
+    <!--获得朋友圈总消息数量 -->
+    <select id="findFriendRingTotalCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT
+	      COUNT(1)
+        FROM
+            (
+                SELECT
+                    fr.friend_id
+                FROM
+                    friend_ring fr
+                WHERE
+                    fr.user_id = #{userId}
+                UNION
+                    SELECT
+                        fr.friend_id
+                    FROM
+                        friend_ring fr
+                    WHERE
+                        <!-- 判断是好友关系, 只有是好友关系才会出现在朋友圈动态列表中-->
+                        EXISTS (SELECT ua.account FROM user_attention ua WHERE fr.user_id = ua.account AND ua.user_id = #{userId} AND is_tutual = 1)
+                    AND CASE fr.shield
+                    WHEN 1 THEN
+                        <!-- 判断此动态没有将当前用户屏蔽 -->
+                        (SELECT fs.user_id FROM friend_ring_look_set fs WHERE fs.friend_id = fr.friend_id AND user_id = #{userId}) IS NULL
+                    WHEN 2 THEN
+                        <!-- 判断当前用户在此动态可观看列表中 -->
+                        (SELECT fs.user_id FROM friend_ring_look_set fs WHERE fs.friend_id = fr.friend_id AND user_id = #{userId}) IS NOT NULL
+                    ELSE 1 = 1 END
+            ) f
+    </select>
+
+  <!--查询朋友圈内容详情 -->
+  <select id="findFriendRingByFriengId" parameterType="java.lang.Integer" resultType="java.util.Map">
+    SELECT
+        fr.friend_id friendId,
+        fr.user_id userId,
+        fr.content,
+        fr.shield,
+        UNIX_TIMESTAMP(fr.create_time) * 1000 createTime,
+        fr.address,
+        fr.is_public isPublic,
+        fr.like_num likeNum,
+        ui.img userImg,
+        ui.nick_name nickName
+    FROM
+        friend_ring fr
+    LEFT JOIN user_info ui ON fr.user_id = ui.user_id
+    WHERE
+        fr.friend_id = #{friendId}
+    AND fr.is_check = 1
+  </select>
+
+    <!--修改点赞数量 -->
+    <update id="updateLikeNum" parameterType="com.faceshow.common.utils.NumUtils">
+        update friend_ring set like_num = like_num + #{num} where friend_id = #{id}
+    </update>
+    <!--根据主键查询userId-->
+    <select id="selectUserIdByFriendId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT
+            user_id
+        FROM
+            friend_ring
+        WHERE
+            friend_id = #{friend_id}
+    </select>
+
+    <!-- 根据朋友圈id查询视频id-->
+    <select id="findVideoIdByFriendId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select video_id from friend_ring where friend_id = #{friendId}
+    </select>
+
+    <!-- 根据视频id查询朋友圈id-->
+    <select id="findFriendIdByVideoId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select friend_id from friend_ring where video_id = #{videoId}
+    </select>
+
+    <!-- 当前用户查询指定用户的朋友圈动态列表-->
+    <select id="findFriendRingByUserIdAndAccountId" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+            fr.friend_id friendId,
+            fr.user_id userId,
+            ui.img userImg,
+            ui.nick_name nickName,
+            fr.content,
+            fr.address,
+            fr.shield,
+            fr.video_id videoId,
+            fr.is_public isPublic,
+            fr.like_num likeNum,
+            fr.create_time createTime,
+            fr.type
+        from
+            friend_ring fr
+        left join user_info ui on ui.user_id = fr.user_id
+        where fr.user_id = #{account} and
+        case fr.shield
+        when 1 then
+        <!--判断当前用户是否在屏蔽列表中 -->
+        (select fs.user_id from friend_ring_look_set fs where fs.friend_id = fr.friend_id and user_id = #{userId}) is null
+        when 2 then
+        <!--判断当前用户是否在允许列表中 -->
+        (select fs.user_id from friend_ring_look_set fs where fs.friend_id = fr.friend_id and user_id = #{userId}) is not null
+        when 3 then
+        <!-- 判断当前用户是否是该用户的好友-->
+        1 = (select count(1) from user_attention ua where ua.user_id = #{userId} and ua.account = #{account} and is_tutual = 1)
+        else 1=1 end and fr.is_check = 1
+        order by fr.friend_id desc
+        <if test="limit != null and offset != null">
+            limit #{offset}, #{limit}
+        </if>
+        <if test="limit == null or offset == null">
+            limit 0, 10
+        </if>
+    </select>
+
+    <!-- 当前用户查询指定用户的朋友圈动态数量-->
+    <select id="findFriendRingTotalByUserIdAndAccountId" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from friend_ring fr
+        where fr.user_id = #{account} and
+        case fr.shield
+        when 1 then
+        <!--判断当前用户是否在屏蔽列表中 -->
+        (select fs.user_id from friend_ring_look_set fs where fs.friend_id = fr.friend_id and user_id = #{userId}) is null
+        when 2 then
+        <!--判断当前用户是否在允许列表中 -->
+        (select fs.user_id from friend_ring_look_set fs where fs.friend_id = fr.friend_id and user_id = #{userId}) is not null
+        when 3 then
+        <!-- 判断当前用户是否是该用户的好友-->
+        1 = (select count(1) from user_attention ua where ua.user_id = #{userId} and ua.account = #{account} and is_tutual = 1)
+        else 1=1 end and fr.is_check = 1
+    </select>
+
+    <!-- 查询自己发布的朋友圈动态-->
+    <select id="findOneselfFriendRing" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+            fr.friend_id friendId,
+            fr.user_id userId,
+            ui.img userImg,
+            ui.nick_name nickName,
+            fr.content,
+            fr.address,
+            fr.shield,
+            fr.video_id videoId,
+            fr.is_public isPublic,
+            fr.like_num likeNum,
+            fr.create_time createTime,
+            fr.type
+        FROM
+            friend_ring fr
+        LEFT JOIN user_info ui ON ui.user_id = fr.user_id
+        WHERE
+            fr.user_id = #{userId}
+        ORDER BY fr.friend_id DESC
+        <if test="offset != null and limit != null">
+            LIMIT #{offset}, #{limit}
+        </if>
+        <if test="offset == null or limit == null">
+            LIMIT 0, 10
+        </if>
+    </select>
+
+    <!-- 查询自己发布的朋友圈动态数量-->
+    <select id="findOneselfFriendRingTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM friend_ring fr WHERE fr.user_id = #{userId}
+    </select>
+
+    <!-- 查询附近发布的动态列表, 三天内, 100公里内-->
+    <select id="findNearbyFriendRingList" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+            fr.friend_id friendId,
+            fr.user_id userId,
+            ui.img userImg,
+            ui.nick_name nickName,
+            fr.content,
+            fr.address,
+            fr.shield,
+            fr.video_id videoId,
+            fr.is_public isPublic,
+            fr.like_num likeNum,
+            UNIX_TIMESTAMP(fr.create_time) * 1000 createTime,
+            fr.type,
+            (
+                6371 * acos(
+                    cos(radians(#{latitude})) * cos(radians(fr.latitude)) * cos(
+                        radians(#{longitude}) - radians(fr.longitude)
+                    ) + sin(radians(#{latitude})) * sin(radians(fr.latitude))
+                )
+            ) `length`
+        FROM
+            friend_ring fr
+        LEFT JOIN user_info ui ON ui.user_id = fr.user_id
+        WHERE
+            fr.shield = 0 and DATE_SUB(CURDATE(), INTERVAL 3 DAY) <![CDATA[   <=  ]]> fr.create_time and fr.type = 1
+       <!-- ORDER BY `length` ASC-->
+        ORDER BY ((UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(fr.create_time)) / 60 + (`length` * 10)) ASC
+        LIMIT #{offset},#{limit}
+    </select>
+
+    <!-- 查询附近发布的动态数量, 三天内, 100公里内-->
+    <select id="findNearbyFriendRingTotal" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+            count(1)
+        FROM
+            friend_ring fr
+        LEFT JOIN user_info ui ON ui.user_id = fr.user_id
+        WHERE
+            fr.shield = 0 and DATE_SUB(CURDATE(), INTERVAL 3 DAY) <![CDATA[   <=  ]]> fr.create_time and fr.type = 1
+    </select>
+
+    <!-- 点赞数量+1-->
+    <update id="addFriendLike" parameterType="java.lang.Integer">
+        update friend_ring set like_num = like_num + 1 where friend_id = #{friendId}
+    </update>
+
+    <!-- 点赞数量-1-->
+    <update id="delFriendLike" parameterType="java.lang.Integer">
+        update friend_ring set like_num = like_num - 1 where friend_id = #{friendId}
+    </update>
+
+    <!--根据用户id查询四张用户朋友圈图片, 附近的人做展示使用 -->
+    <select id="findImgByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT
+            b.file_small_url
+        FROM
+            friend_ring a,
+            friend_ring_file b
+        WHERE
+            a.user_id = #{userId}
+        AND a.friend_id = b.friend_id
+        AND a.is_check = 1
+        AND a.type = 1
+        AND a.shield = 0
+        AND b.type = 1
+        ORDER BY
+            a.create_time DESC
+        LIMIT 4
+    </select>
+
+</mapper>

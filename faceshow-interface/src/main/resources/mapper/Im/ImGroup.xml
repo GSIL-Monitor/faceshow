@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.IM.dao.ImGroupDao">
+
+    <!-- 新增创建群的API-->
+    <insert id="insertSelective" parameterType="java.util.HashMap" >
+        <selectKey keyProperty="newsletter_id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into newsletter_group
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="type_id!=null and type_id!=''">
+                type_id,
+            </if>
+            <if test="IM_ID!=null and IM_ID!=''">
+                IM_ID,
+            </if>
+            <if test="group_name!=null and group_name!=''">
+                group_name,
+            </if>
+            <if test="activity!=null and activity!=''">
+                activity,
+            </if>
+            <if test="user_id!=null and user_id!=''">
+                user_id,
+            </if>
+            <if test="editor!=null and editor!=''">
+                editor,
+            </if>
+            <if test="img!=null and img!=''">
+                img,
+            </if>
+            <if test="introduction!=null and introduction!=''">
+                introduction,
+            </if>
+            <if test="cements!=null and cements!=''">
+                cements,
+            </if>
+            <if test="editor_time!=null">
+                editor_time,
+            </if>
+            <if test="create_time!=null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="type_id!=null and type_id!=''">
+               #{type_id},
+            </if>
+            <if test="IM_ID!=null and IM_ID!=''">
+                #{IM_ID},
+            </if>
+            <if test="group_name!=null and group_name!=''">
+               #{group_name},
+            </if>
+            <if test="activity!=null and activity!=''">
+                #{activity},
+            </if>
+            <if test="user_id!=null and user_id!=''">
+                #{user_id},
+            </if>
+            <if test="editor!=null and editor!=''">
+               #{editor},
+            </if>
+            <if test="img!=null and img!=''">
+                #{img},
+            </if>
+            <if test="introduction!=null and introduction!=''">
+                 #{introduction},
+            </if>
+            <if test="cements!=null and cements!=''">
+                #{cements},
+            </if>
+            <if test="editor_time!=null">
+                #{editor_time},
+            </if>
+            <if test="create_time!=null">
+                 #{create_time},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 新增用户所属分组表 -->
+    <insert id="insertGroup" parameterType="java.util.HashMap" >
+        insert into user_belong_group
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="newsletter_id!=null and newsletter_id!=''">
+                newsletter_id,
+            </if>
+            <if test="user_id!=null and user_id!=''">
+                user_id,
+            </if>
+            <if test="is_role!=null and is_role!=''">
+                is_role,
+            </if>
+            <if test="create_time!=null ">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="newsletter_id!=null and newsletter_id!=''">
+                #{newsletter_id},
+            </if>
+            <if test="user_id!=null and user_id!=''">
+                #{user_id},
+            </if>
+            <if test="is_role!=null and is_role!=''">
+                #{is_role},
+            </if>
+            <if test="create_time!=null">
+                #{create_time},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 删除   用户所属分组表-->
+    <delete id="deleteGroupMember" parameterType="java.util.HashMap">
+    <!--    delete from
+       user_belong_group
+       where
+       newsletter_id = #{newsletter_id}
+       AND user_id=#{user_id}-->
+        delete from
+        user_belong_group
+        <where>
+            <if test="newsletter_id!=null and newsletter_id!=''">
+              AND  newsletter_id = #{newsletter_id}
+            </if>
+            <if test="user_id!=null and user_id!=''">
+              AND  user_id = #{user_id}
+            </if>
+        </where>
+   </delete>
+
+    <!-- 解散群-->
+    <delete id="destroyGroup" parameterType="java.util.HashMap">
+        delete from
+        newsletter_group
+        <where>
+            <if test="GroupId!=null and GroupId!=''">
+                AND  IM_ID = #{GroupId}
+            </if>
+        </where>
+    </delete>
+
+
+   <!-- 修改 -->
+    <update id="updateSelective" parameterType="java.util.HashMap">
+        update newsletter_group
+        <set>
+            <if test="type_id!=null and type_id!=''">
+                type_id = #{type_id},
+            </if>
+            <if test="group_name!=null and group_name!=''">
+                group_name = #{group_name},
+            </if>
+            <if test="activity!=null and activity!=''">
+                activity = #{activity},
+            </if>
+            <if test="user_id!=null and user_id!=''">
+                user_id = #{user_id},
+            </if>
+            <if test="editor!=null and editor!=''">
+                editor = #{editor},
+            </if>
+            <if test="img!=null and img!=''">
+                img = #{img},
+            </if>
+            <if test="introduction!=null and introduction!=''">
+                introduction = #{introduction},
+            </if>
+            <if test="cements!=null and cements!=''">
+                cements = #{cements},
+            </if>
+            <if test="editor_time!=null">
+                editor_time = #{editor_time},
+            </if>
+            <if test="editor_time!=null and cements!=''">
+                ShutUpAllMember = #{ShutUpAllMember},
+            </if>
+        </set>
+        where IM_ID = #{IM_ID}
+    </update>
+
+    <!-- 通过名字获取数据 -->
+    <select id="findByName" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+               type_id
+        from
+               newsletter_group_type
+        where
+               type_name = #{type_name}
+    </select>
+
+    <!-- 通过IM_ID获取业务主键-->
+    <select id="findById" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+        newsletter_id
+        from
+        newsletter_group
+        where
+        IM_ID = #{GroupId}
+    </select>
+
+
+    <!-- 选择性的修改用户所属分组表 -->
+    <update id="modifyGroupMemberInfo" parameterType="java.util.HashMap">
+        update user_belong_group
+        <set>
+            <if test="user_id!=null and user_id!=''">
+                user_id = #{user_id},
+            </if>
+            <if test="is_role!=null and is_role!=''">
+                is_role = #{is_role},
+            </if>
+        </set>
+        <where>
+            <if test="newsletter_id!=null and newsletter_id!=''">
+             AND   newsletter_id = #{newsletter_id}
+            </if>
+            <if test="user_id!=null and user_id!=''">
+             AND  user_id = #{user_id}
+            </if>
+        </where>
+    </update>
+    <!--查询群的最大ID-->
+  <select id="selectMax" resultType="int">
+    SELECT
+        MAX(CAST(IM_ID AS SIGNED INTEGER)) IM_ID
+    FROM
+        newsletter_group
+  </select>
+
+    <!-- 查询所有群类型-->
+    <select id="findGroupTypeAll" resultType="java.util.HashMap">
+        SELECT
+            type_id typeId,
+            type_name typeName,
+            type_img typeImg
+        FROM
+            newsletter_group_type
+        ORDER BY
+            heat_re DESC
+        <if test="limit!=null and limit!=''">
+            LIMIT 10
+        </if>
+
+    </select>
+    <!-- 用户加入了那个群-->
+   <select id="selectAllGroup" parameterType="int" resultType="java.util.HashMap">
+        SELECT
+            IM_ID,
+            introduction,
+            group_name,
+            img
+        FROM
+            newsletter_group
+        WHERE
+            newsletter_id IN (
+                SELECT
+                    newsletter_id
+                FROM
+                    user_belong_group
+                WHERE
+                    user_id = #{user_id}
+            )
+   </select>
+    <!--用户创建了那个群-->
+    <select id="selectAllGroupAdd" parameterType="int" resultType="java.util.HashMap">
+        SELECT
+            IM_ID,
+            introduction,
+            group_name,
+            img
+        FROM
+            newsletter_group
+        WHERE
+            user_id = #{user_id}
+    </select>
+    <!--80后 90后标签分页查询-->
+      <select id="findType" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            IM_ID,
+            group_name,
+            introduction,
+            img
+        FROM
+            newsletter_group
+        WHERE
+        type_id =#{type_id}
+        ORDER BY
+            activity
+          <if test="offset != null and limit != null">
+              limit #{offset}, #{limit}
+          </if>
+      </select>
+    <!--80后 90后标签分页查询-->
+    <select id="findTypeTotal" parameterType="java.util.HashMap" resultType="int">
+        select count(*)
+        FROM
+        newsletter_group
+        WHERE
+        type_id =#{type_id}
+    </select>
+    <!--群里面有哪些人-->
+    <select id="belongGroup" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+     SELECT
+        a.user_id,
+        a.is_role*1 is_role,
+        b.nick_name,
+        b.img,
+        b.signature intro
+    FROM
+        user_belong_group a,
+        user_info b
+    WHERE
+        a.newsletter_id = (
+            SELECT
+                newsletter_id
+            FROM
+                newsletter_group
+            WHERE
+                IM_ID = #{IM_ID}
+        )
+        AND a.user_id =b.user_id
+    </select>
+    <select id="GroupType" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            type_id,
+            type_name
+        FROM
+            newsletter_group_type
+        WHERE
+            type_id = (SELECT
+            type_id
+        FROM
+            newsletter_group
+        WHERE
+            IM_ID = #{IM_ID})
+    </select>
+    <!--查询黑名单列表-->
+    <select id="findBlacklist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            account
+        FROM
+            back_list
+        <where>
+            <if test="userId!= null and userId != ''">
+                AND user_id =#{userId}
+            </if>
+            <if test="user_id!= null and user_id != ''">
+                AND user_id =#{user_id}
+            </if>
+        </where>
+    </select>
+    <!--用户是否属于这个组-->
+    <select id="WhetherBelong" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            group_id
+        FROM
+            user_belong_group
+        WHERE 1=1
+        <if test="userId!= null and userId != ''">
+            AND user_id =#{userId}
+        </if>
+        <if test="user_id!= null and user_id != ''">
+            AND user_id =#{user_id}
+        </if>
+        AND newsletter_id = #{newsletter_id}
+    </select>
+    <!--查看这个人在群里面是什么身份-->
+    <select id="isRole" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            is_role*1 is_role
+        FROM
+            user_belong_group
+        WHERE
+            newsletter_id = (
+                SELECT
+                    newsletter_id
+                FROM
+                    newsletter_group
+                WHERE
+                    IM_ID = #{IM_ID}
+            )
+        AND user_id=#{userId}
+    </select>
+    <!--推出群 IM的回掉-->
+    <delete id="delGroup" parameterType="java.util.HashMap">
+     DELETE
+    FROM
+        user_belong_group
+    WHERE
+        newsletter_id = (SELECT newsletter_id FROM  newsletter_group WHERE IM_ID=#{IM_ID})
+    AND user_id = #{user_id}
+    </delete>
+    <!--查询昵称和图片-->
+     <select id="selectImg" parameterType="String" resultType="java.util.Map">
+    SELECT
+        nick_name,
+        img,
+        signature
+    FROM
+        user_info
+    WHERE
+        user_id = #{userId}
+     </select>
+    <!--互动聊天室的禁言表-->
+    <insert id="insetInfo_ban" parameterType="java.util.Map" >
+        INSERT INTO live_info_ban
+        (IM_ID,user_id,times)VALUES(#{GroupId},#{user_id},DATE_ADD( now() , interval #{ShutUpTime} second))
+    </insert>
+    <!--安全管理表 這個群不能发什么信息 可以发什么信息-->
+    <select id="securityManagement"  resultType="java.util.Map">
+        SELECT  administrate_id,names
+        FROM live_administrate
+    </select>
+    <!--设置群安全管理-->
+    <insert id="setUp" parameterType="java.util.Map">
+  INSERT INTO live_info_administrate (IM_ID,administrate_id)VALUES (#{IM_ID},#{administrate_id})
+    </insert>
+    <!--發現推荐，按照活跃度排行-->
+    <select id="selectGroupOrderByActivity" resultType="java.util.Map">
+        SELECT
+        newsletter_id,
+        IM_ID,
+        type_id,
+        group_name,
+        img,
+        activity,
+        introduction
+        FROM
+        newsletter_group
+        WHERE 1=1
+        <if test="typeId != null and typeId != ''">
+            and  type_id=#{typeId}
+        </if>
+        <if test="type_id != null and type_id != ''">
+            and  type_id=#{type_id}
+        </if>
+        ORDER BY
+        activity desc
+        LIMIT 10
+    </select>
+    <!--取消禁言-->
+    <delete id="delBan" parameterType="java.util.Map">
+        delete FROM live_info_ban WHERE IM_ID=#{GroupId} AND user_id=#{user_id}
+    </delete>
+</mapper>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.BackListDao">
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.user.entity.BackList">
+    <id column="black_id" jdbcType="INTEGER" property="blackId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="account" jdbcType="INTEGER" property="account" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <if test="fields == null">
+      black_id, user_id, account, create_time
+    </if>
+    <if test="fields != null">
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    black_id,user_id,account,create_time
+    from back_list
+    where black_id = #{blackId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from back_list
+    where black_id = #{blackId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.user.entity.BackList">
+    insert into back_list (black_id, user_id, account,
+    create_time)
+    values (#{blackId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{account,jdbcType=INTEGER},
+    #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.user.entity.BackList">
+    insert into back_list
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blackId != null">
+        black_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blackId != null">
+        #{blackId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.user.entity.BackList">
+    update back_list
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where black_id = #{blackId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.user.entity.BackList">
+    update back_list
+    set user_id = #{userId,jdbcType=INTEGER},
+    account = #{account,jdbcType=INTEGER},
+    create_time = #{createTime,jdbcType=TIMESTAMP}
+    where black_id = #{blackId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByUseridAccount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(black_id)
+    from back_list
+    where user_id = #{userId,jdbcType=INTEGER} and account = #{account,jdbcType=INTEGER} limit 1;
+  </select>
+
+  <delete id="deleteByUserid" parameterType="java.util.Map">
+    delete from back_list
+    where user_id = #{userId,jdbcType=INTEGER} and account = #{account,jdbcType=INTEGER}
+  </delete>
+
+  <select id="selectByUserid" parameterType="java.util.Map" resultType="java.util.Map">
+    select a.black_id,a.user_id,a.account,b.img,b.nick_name
+    from back_list as a,user_info as b
+    where a.user_id = #{userId,jdbcType=INTEGER} and a.user_id=b.user_id limit #{begin,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByBackUseridNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(black_id) from back_list
+    where user_id = #{userId,jdbcType=INTEGER};
+  </select>
+</mapper>

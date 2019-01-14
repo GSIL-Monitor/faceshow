@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta content="email=no" name="format-detection"/>
+    <meta content="address=no" name="format-detection"/>
+    <meta name="applicable-device" content="mobile"/>
+    <!-- UC强制竖屏 -->
+    <meta name="screen-orientation" content="portrait"/>
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="Keywords" content=""/>
+    <meta name="Description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="/faceshow/css/common.css"/>
+    <link rel="stylesheet" href="/faceshow/css/faceshow.css"/>
+    <script type="text/javascript" src="/faceshow/js/jquery-2.1.0.js"></script>
+
+</head>
+<body>
+<div class="wrap_layout">
+    <div class="padding_layer">
+        <div class="reset_head">
+            <img class="logo_pic" src="/faceshow/img/850a.jpg"/>
+        </div>
+        <div class="reset_out">
+            <input name="" id="pas" th:value="${email}" type="text" readonly="readonly"/>
+        </div>
+        <div class="reset_out">
+            <h1 style="color:red; font-size: x-large;" align="center" th:text="${msg}"></h1>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/faceshow/js/faceshow.js"></script>
+</html>

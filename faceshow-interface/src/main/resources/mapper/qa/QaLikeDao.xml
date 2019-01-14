@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.qa.dao.QaLikeDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.qa.entity.QaLike" >
+    <id column="like_id" property="likeId" jdbcType="INTEGER" />
+    <result column="info_id" property="infoId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      like_id, info_id, user_id, create_time
+  </sql>
+
+  <!-- 保存点赞记录-->
+  <insert id="save" parameterType="com.faceshow.modules.qa.entity.QaLike" >
+    insert into qa_like (info_id, user_id, create_time) values 
+    (#{infoId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <!-- 根据用户id和问答id删除点赞记录-->
+  <delete id="deleteByUserIdAndInfoId" parameterType="java.lang.Integer">
+    delete from qa_like where user_id = #{userId} and info_id = #{infoId}
+  </delete>
+
+  <!-- 根据问答id和用户id判断是否点赞-->
+  <select id="findByInfoIdAndUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1) from qa_like where user_id = #{userId} and info_id = #{infoId}
+  </select>
+</mapper>

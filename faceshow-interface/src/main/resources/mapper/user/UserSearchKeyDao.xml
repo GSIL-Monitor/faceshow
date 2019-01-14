@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.UserSearchKeyDao">
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.user.entity.UserSearchKey">
+    <id column="key_id" jdbcType="INTEGER" property="keyId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="key_value" jdbcType="VARCHAR" property="keyValue" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="search_type" jdbcType="TINYINT" property="searchType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+      key_id, user_id, key_value, create_time, search_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    key_id,user_id,key_value,create_time,search_type
+    from search_key
+    where key_id = #{keyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from search_key
+    where key_id = #{keyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.user.entity.UserSearchKey">
+    insert into search_key (key_id, user_id, key_value,
+      create_time, search_type)
+    values (#{keyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{keyValue,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{searchType,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.user.entity.UserSearchKey">
+    insert into search_key
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="keyId != null">
+        key_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="keyValue != null">
+        key_value,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="searchType != null">
+        search_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="keyId != null">
+        #{keyId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="keyValue != null">
+        #{keyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="searchType != null">
+        #{searchType,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.user.entity.UserSearchKey">
+    update search_key
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="keyValue != null">
+        key_value = #{keyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="searchType != null">
+        search_type = #{searchType,jdbcType=TINYINT},
+      </if>
+    </set>
+    where key_id = #{keyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.user.entity.UserSearchKey">
+    update search_key
+    set user_id = #{userId,jdbcType=INTEGER},
+      key_value = #{keyValue,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      search_type = #{searchType,jdbcType=TINYINT}
+    where key_id = #{keyId,jdbcType=INTEGER}
+  </update>
+
+  <!--排行榜, 查询用户获赞数 -->
+  <select id="findRanklist" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        (
+            SELECT
+                count(ul.video_id)
+            FROM
+                video_collection_log ul
+            WHERE
+                ul.video_id = uv.video_id
+            AND DATE_SUB(CURDATE(), INTERVAL 15 DAY) <![CDATA[   <=  ]]> ul.create_time
+        ) count,
+        ui.user_id userId,
+        ui.img,
+        ui.nick_name nickName
+    FROM
+        video_info uv,
+        user_info ui
+    <where>
+      <if test="country != null and country != ''">
+        ui.country = #{country}
+      </if>
+    </where>
+    GROUP BY
+        uv.user_id
+    ORDER BY
+        count
+    LIMIT #{currPage}, #{pageSize}
+  </select>
+
+
+</mapper>

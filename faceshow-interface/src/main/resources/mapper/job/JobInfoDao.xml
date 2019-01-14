@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.job.dao.JobInfoDao">
+
+    <!--redis缓存-->
+    <cache type="com.faceshow.common.RedisCache.MybatisRedisCache"/>
+
+    <!-- 查询行业菜单-->
+    <select id="findJobInfoList" resultMap="findJobInfoListMap">
+        SELECT
+            a.info_id,
+            a.info_name,
+            b.info_id childrenId,
+            b.info_name childrenName
+        FROM
+            job_info a
+        LEFT JOIN job_info b ON b.parent_id = a.info_id
+        WHERE
+	        a.parent_id = #{parendId}
+    </select>
+
+    <resultMap id="findJobInfoListMap" type="com.faceshow.modules.job.vo.JobInfoSelectRowVo">
+        <id column="info_id" property="infoId"/>
+        <result column="info_name" property="infoName"/>
+        <collection property="children" ofType="com.faceshow.modules.job.vo.JobInfoSelectRowVo">
+            <id column="childrenId" property="infoId"/>
+            <result column="childrenName" property="infoName"/>
+        </collection>
+    </resultMap>
+
+</mapper>

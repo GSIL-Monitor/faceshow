@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>修改邮箱密码</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta content="email=no" name="format-detection"/>
+    <meta content="address=no" name="format-detection"/>
+    <meta name="applicable-device" content="mobile"/>
+    <!-- UC强制竖屏 -->
+    <meta name="screen-orientation" content="portrait"/>
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="Keywords" content=""/>
+    <meta name="Description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="/faceshow/css/common.css"/>
+    <link rel="stylesheet" href="/faceshow/css/faceshow.css"/>
+    <script type="text/javascript" src="/faceshow/js/jquery-2.1.0.js"></script>
+
+</head>
+<body>
+<div class="wrap_layout">
+    <div class="padding_layer">
+        <div class="reset_head">
+            <img class="logo_pic" src="/faceshow/img/850a.jpg"/>
+        </div>
+        <div class="reset_out">
+            <input name="" id="pas" type="text" th:value="${email}" readonly="readonly"/>
+        </div>
+        <div class="reset_out">
+            <input name="" id="pas1" maxlength="18" value="" placeholder="NEW Password" type="password"/>
+        </div>
+        <p id="p_pas1"></p>
+        <div class="reset_out">
+            <input name="" id="pas2" maxlength="18" value="" placeholder="Retype Password" type="password"/>
+        </div>
+        <p id="p_pas2"></p>
+        <div class="btn">
+            <input class="" type="button" name="" id="btn_submit" value="OK"/>
+            <input name="" id="token" type="text" th:value="${token}" style="display: none"/>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/faceshow/js/faceshow.js"></script>
+<!--<script type="text/javascript">
+
+
+</script>
+
+<script>
+    //<![CDATA[
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+
+        $("#pas").val(getQueryString("email"));
+        $("#token").val(getQueryString("token"));
+    //]]>
+</script>-->
+</html>

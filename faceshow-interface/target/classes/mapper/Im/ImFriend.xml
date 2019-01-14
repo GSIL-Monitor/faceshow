@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.IM.dao.ImFriendDao">
+    <!-- 用户关注 -->
+    <insert id="insertAttention" parameterType="java.util.HashMap" >
+        insert into user_attention
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="user_id!=null and user_id!=''">
+                user_id,
+            </if>
+            <if test="account!=null and account!=''">
+                account,
+            </if>
+            <if test="create_time!=null">
+                create_time,
+            </if>
+            <if test="black_list!=null and black_list!=''">
+                black_list,
+            </if>
+            <if test="shield_circle!=null and shield_circle!=''">
+                shield_circle,
+            </if>
+            <if test="is_tutual!=null and is_tutual!=''">
+                is_tutual,
+            </if>
+            <if test="distance!=null and distance!=''">
+                distance,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="user_id!=null and user_id!=''">
+                #{user_id},
+            </if>
+            <if test="account!=null and account!=''">
+                #{account},
+            </if>
+            <if test="create_time!=null">
+                #{create_time},
+            </if>
+            <if test="black_list!=null and black_list!=''">
+                #{black_list},
+            </if>
+            <if test="shield_circle!=null and shield_circle!=''">
+                #{shield_circle},
+            </if>
+            <if test="is_tutual!=null and is_tutual!=''">
+                #{is_tutual},
+            </if>
+            <if test="distance!=null and distance!=''">
+                #{distance},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 通过ID获取数据 -->
+    <select id="findById" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+        attention_id,
+        is_tutual*1 is_tutual
+        from
+       user_attention
+        <where>
+            <if test="attention_id!=null and attention_id!=''">
+               AND attention_id=#{attention_id}
+            </if>
+            <if test="account!=null and account!=''"><!--没有写反 业务需要-->
+                AND user_id=#{account}
+            </if>
+            <if test="user_id!=null and user_id!=''">
+                AND account=#{user_id}
+            </if>
+        </where>
+    </select>
+
+    <!-- 看看是否是相互关注 -->
+    <select id="findByAllId" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+        attention_id,
+        is_tutual*1 is_tutual
+        from
+        user_attention
+        WHERE
+        account=#{account}
+        <if test="user_id!=null and user_id!=''">
+            AND    user_id=#{user_id}
+        </if>
+        <if test="userId!=null and userId!=''">
+            AND    user_id=#{userId}
+        </if>
+    </select>
+
+
+    <!--批量更新用户关注表-->
+    <update id="editAttention" parameterType="java.util.HashMap">
+        UPDATE user_attention
+        <set>
+            <if test="create_time!=null">
+                create_time=#{create_time},
+            </if>
+            <if test="black_list!=null and black_list!=''">
+                black_list=#{black_list},
+            </if>
+
+            <if test="shield_circle!=null and shield_circle!=''">
+                shield_circle=#{shield_circle},
+            </if>
+            <if test="is_tutual!=null and is_tutual!=''">
+                is_tutual=#{is_tutual},
+            </if>
+            <if test="distance!=null and distance!=''">
+                distance=#{distance},
+            </if>
+        </set>
+        <where>
+            <if test="attention_id!=null and attention_id!=''">
+              AND attention_id = #{attention_id}
+            </if>
+            <if test="account!=null and account!=''"><!--业务需要没有写反-->
+              AND user_id=#{account}
+            </if>
+            <if test="user_id!=null and user_id!=''">
+              AND account=#{user_id}
+            </if>
+        </where>
+    </update>
+
+    <!-- 删除用户关注-->
+    <delete id="deleteSingle" parameterType="java.util.HashMap">
+        delete from
+        user_attention
+        where
+        user_id = #{user_id}
+        AND account=#{account}
+    </delete>
+
+    <!--批量更新会员表-->
+    <update id="editUser_info" parameterType="java.util.HashMap">
+        UPDATE user_info
+        <set>
+            <if test="nick_name!=null and nick_name!=''">
+                nick_name=#{nick_name},
+            </if>
+            <if test="sex!=null and sex!=''">
+                sex=#{sex},
+            </if>
+            <if test="signature!=null and signature!=''">
+                signature=#{signature},
+            </if>
+            <if test="img!=null and img!=''">
+                img=#{img},
+            </if>
+        </set>
+        <where>
+            <if test="user_id!=null and user_id!=''">
+                AND user_id=#{user_id}
+            </if>
+        </where>
+    </update>
+    <!--添加关注后 个人表的关注数量加一 -->
+    <update id="AddAttention" parameterType="java.util.HashMap" >
+    UPDATE user_info
+    SET attention_num = attention_num + 1
+    WHERE
+    user_id=#{user_id}
+    </update>
+    <!--有粉丝了   则个人表的粉丝加一 -->
+    <update id="AddFensi" parameterType="java.util.HashMap" >
+        UPDATE user_info
+        SET fensi_num = fensi_num + 1
+        WHERE
+        user_id=#{account}
+    </update>
+
+    <!--添加关注后 个人表的关注数量减一 -->
+    <update id="reduceAttention" parameterType="java.util.HashMap" >
+        UPDATE user_info
+        SET attention_num = attention_num - 1
+        WHERE
+        user_id=#{user_id}
+    </update>
+    <!--有粉丝了   则个人表的粉丝减一 -->
+    <update id="reduceFensi" parameterType="java.util.HashMap" >
+        UPDATE user_info
+        SET fensi_num = fensi_num - 1
+        WHERE
+        user_id=#{account}
+    </update>
+ <!--查看我的好友-->
+    <select id="myFriends" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        a.user_id,
+        b.img,
+        b.sex * 1 sex,
+        b.nick_name,
+        b.signature
+        FROM
+        user_attention a,
+        user_info b
+        WHERE
+        a.account = #{userId}
+        AND a.is_tutual = 1
+        AND a.user_id = b.user_id
+        <if test="search!= null and search != ''">
+        AND  b.nick_name LIKE concat('%' ,#{search}, '%')
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.sys.dao.SysTopicDao">
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.sys.entity.SysTopic">
+    <id column="topic_id" jdbcType="INTEGER" property="topicId" />
+    <result column="tname" jdbcType="VARCHAR" property="tname" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    topic_id, tname, user_id, create_time, introduction
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    topic_id,tname,user_id,create_time,introduction
+    from sys_topic
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_topic
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.sys.entity.SysTopic">
+    insert into sys_topic (topic_id, tname, user_id,
+    create_time, introduction)
+    values (#{topicId,jdbcType=INTEGER}, #{tname,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},
+    #{createTime,jdbcType=TIMESTAMP}, #{introduction,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.sys.entity.SysTopic">
+    insert into sys_topic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="topicId != null">
+        topic_id,
+      </if>
+      <if test="tname != null">
+        tname,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="topicId != null">
+        #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="tname != null">
+        #{tname,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.sys.entity.SysTopic">
+    update sys_topic
+    <set>
+      <if test="tname != null">
+        tname = #{tname,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.sys.entity.SysTopic">
+    update sys_topic
+    set tname = #{tname,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      introduction = #{introduction,jdbcType=VARCHAR}
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </update>
+
+  <!-- 进入发现查询搜索页面 -->
+  <select id="findTopicByCriteria" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+      st.topic_id topicId,
+      st.tname,
+      st.img,
+      (
+          SELECT
+              count(ut.topic_id)
+          FROM
+              user_topic_join ut
+          WHERE
+              ut.topic_id = st.topic_id
+      ) joinNum
+  FROM
+      sys_topic st
+  <where>
+    <if test="search != null and search != ''">
+      st.tname = #{search}
+    </if>
+  </where>
+  ORDER BY
+      joinNum DESC
+  LIMIT #{currPage}, #{pageSize}
+  </select>
+</mapper>

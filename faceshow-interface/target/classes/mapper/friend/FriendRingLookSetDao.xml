@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.friend.dao.FriendRingLookSetDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.friend.entity.FriendRingLookSet" >
+    <id column="set_id" property="setId" jdbcType="INTEGER" />
+    <result column="friend_id" property="friendId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <!-- 批量添加信息-->
+  <insert id="saveBatch" parameterType="com.faceshow.modules.friend.entity.FriendRingLookSet">
+    insert into friend_ring_look_set (friend_id, user_id, nick_name) values
+    <foreach collection="list" separator="," item="friendRingSet">
+      (#{friendRingSet.friendId}, #{friendRingSet.userId}, #{friendRingSet.nickName})
+    </foreach>
+  </insert>
+
+  <!-- 查询朋友圈@好友信息-->
+  <select id="findByFriendId" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select concat("@", b.nick_name, "#", a.user_id) from friend_ring_look_set a left join user_info b on a.user_id = b.user_id where friend_id = #{friendId}
+  </select>
+
+  <!-- 根据朋友圈id删除指定用户-->
+  <delete id="deleteByFriendId" parameterType="java.lang.Integer">
+    delete from friend_ring_look_set where friend_id = #{friendId}
+  </delete>
+
+</mapper>

@@ -1,0 +1,91 @@
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0,maximum-scale=1.0">
+		<meta name="renderer" content="webkit">
+		<script src="js/jquery-2.1.0.js"></script>
+		<script src="js/common.js"></script>
+		<title>商家帮</title>
+		<style>
+			*{
+				margin:0;
+				padding:0;
+				color:#333;
+				font-size:14px;
+				line-height: 25px;
+				font-family:Microsoft YaHei;
+			}
+			li{
+				list-style:none;
+			}
+			#content{
+				width:100%;
+				height:100%;
+				background:#f4f4f4;
+			}
+			.part{
+				width:90%;
+				margin-left:5%;
+				padding-top:50px;
+			}
+			ul li{
+				padding:15px 0;
+				border-bottom:1px solid #333;
+			}
+			.best{
+				padding-top:20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="content">
+			<div class="part">
+				<p>尊敬的顾客，您好！</p>
+				<ul>
+					<li>
+						<p>您有任何问题可以随时咨询我们</p>
+						<p>我们的联系方式：</p>
+					</li>
+					<li>
+						<p>客服电话：<span class="tel"></span></p>
+						<p>客服时间：<span class="teltime"></span></p>
+					</li>
+					<li>
+						<p>客服QQ：<span class="qq"></span></p>
+						<p>客服时间：<span class="qqtime"></span></p>
+					</li>
+				</ul>
+				<p class="best">祝您生活愉快！</p>
+			</div>
+		</div>
+	</body>
+	<script>
+		var url=getRootPath()+"/api/first/contactServicer";
+
+
+		$.ajax({
+		    type: "post",
+		    url: url,//请求后台方法
+		    dataType:"json",
+		    data:{
+		    	title:"联系客服"
+		    },
+		    success: function (data){
+		       // console.log(data);
+		    	if(data.code==200){
+		    		var timeArr = data.result.comments.split(",");
+		    	//	alert(timeArr[0]);
+		    		console.log(timeArr);
+		    		$(".tel").text(timeArr[0]);//联系客服
+		    		$(".teltime").text(timeArr[1]);//客服时间
+		    		$(".qq").text(timeArr[2]);//客服QQ
+		    		$(".qqtime").text(timeArr[3]);//客服时间
+		    	}
+		        
+		    }
+		}) 
+
+		
+	</script>
+</html>

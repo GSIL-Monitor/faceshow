@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.music.dao.MusicTypeDao" >
+
+  <!--redis缓存-->
+  <cache type="com.faceshow.common.RedisCache.MybatisRedisCache"/>
+
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.music.entity.MusicType" >
+    <id column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="type_img" property="typeImg" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="INTEGER" />
+    <result column="editor_time" property="editorTime" jdbcType="TIMESTAMP" />
+    <result column="editor" property="editor" jdbcType="INTEGER" />
+  </resultMap>
+
+  <!-- 条件查询所有音乐类型-->
+  <select id="queryList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select type_id, type_name, type_img from music_type
+    <where>
+      <if test="search!= null and search.trim() != ''">
+        type_name like concat("%", #{search}, "%")
+      </if>
+    </where>
+  </select>
+
+
+</mapper>

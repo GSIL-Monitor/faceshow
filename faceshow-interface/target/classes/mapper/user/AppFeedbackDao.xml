@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.AppFeedbackDao">
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.user.entity.AppFeedback">
+    <id column="feedblack_id" jdbcType="INTEGER" property="feedblackId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_process" jdbcType="BIT" property="isProcess" />
+    <result column="process_time" jdbcType="TIMESTAMP" property="processTime" />
+    <result column="process_man" jdbcType="INTEGER" property="processMan" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <if test="fields == null">
+      feedblack_id, user_id, content, create_time, is_process, process_time, process_man
+    </if>
+    <if test="fields != null">
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    feedblack_id,user_id,content,create_time,is_process,process_time,process_man
+    from app_feedback
+    where feedblack_id = #{feedblackId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from app_feedback
+    where feedblack_id = #{feedblackId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.user.entity.AppFeedback">
+    insert into app_feedback (feedblack_id, user_id, content, 
+      create_time, is_process, process_time, 
+      process_man)
+    values (#{feedblackId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{isProcess,jdbcType=BIT}, #{processTime,jdbcType=TIMESTAMP}, 
+      #{processMan,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.user.entity.AppFeedback">
+    insert into app_feedback
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="feedblackId != null">
+        feedblack_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isProcess != null">
+        is_process,
+      </if>
+      <if test="processTime != null">
+        process_time,
+      </if>
+      <if test="processMan != null">
+        process_man,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="feedblackId != null">
+        #{feedblackId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isProcess != null">
+        #{isProcess,jdbcType=BIT},
+      </if>
+      <if test="processTime != null">
+        #{processTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processMan != null">
+        #{processMan,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.user.entity.AppFeedback">
+    update app_feedback
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isProcess != null">
+        is_process = #{isProcess,jdbcType=BIT},
+      </if>
+      <if test="processTime != null">
+        process_time = #{processTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processMan != null">
+        process_man = #{processMan,jdbcType=INTEGER},
+      </if>
+    </set>
+    where feedblack_id = #{feedblackId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.user.entity.AppFeedback">
+    update app_feedback
+    set user_id = #{userId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_process = #{isProcess,jdbcType=BIT},
+      process_time = #{processTime,jdbcType=TIMESTAMP},
+      process_man = #{processMan,jdbcType=INTEGER}
+    where feedblack_id = #{feedblackId,jdbcType=INTEGER}
+  </update>
+</mapper>

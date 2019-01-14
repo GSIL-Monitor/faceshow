@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+		<title>关注</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<meta content="telephone=no" name="format-detection"/>
+		<meta content="email=no" name="format-detection"/>
+		<meta content="address=no" name="format-detection"/>
+		<meta name="applicable-device" content="mobile"/>
+		<!-- UC强制竖屏 -->
+		<meta name="screen-orientation" content="portrait"/>
+		<!-- QQ强制竖屏 -->
+		<meta name="x5-orientation" content="portrait"/>
+		<meta name="Keywords" content=""/>
+		<meta name="Description" content=""/>
+		<link rel="stylesheet" href="/faceshow/css/common.css" />
+		<link rel="stylesheet" href="/faceshow/css/faceshow.css" />
+		<script src="/faceshow/js/jquery-2.1.0.js"></script>
+		<script type="text/javascript" src="/faceshow/js/faceshow.js" ></script>
+	</head>
+
+	<body>
+		<div class="wrap_layout">
+			<div class="bg_color">
+				<!--打开浏览器下载层-->
+			<div id="down_mask" style="display: none;">
+				<p>请点击右上角<img src="/faceshow/img/shenglue.png" /> 选择在浏览器打开，然后下载我们的App
+				</p>
+				<img src="/faceshow/img/downapp_jt.png" />
+			</div>
+				<div class="follow_wrap clearfix">
+					<div class="fl txt">
+				        <p th:text="${attentionNum}"></p>
+				        <p>attention</p>
+				    </div>
+				    <div class="fl center_img">
+				       <img th:src="${img}"/>
+				    </div>
+				    <div class="fr txt">
+				        <p th:text="${fensiNum}"></p>
+				        <p>Fans</p>
+				    </div>
+				    <div class="follow_des">
+				    	<p th:text="${nickName}"></p>
+				    	<p th:text="${signature}"></p>
+				    </div>
+				    <div class="btn_a"><a href="javascript:;" class="follow_app" id="openApp" onclick="openModal()">+attention</a></div>
+				</div>
+				
+				<div class="foot_logo">
+					<img src="/faceshow/img/newLogo.png" />
+				</div>
+			</div>
+			
+		</div>
+
+	</body>
+	
+</html>

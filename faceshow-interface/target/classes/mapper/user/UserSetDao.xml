@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.UserSetDao">
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.user.entity.UserSet">
+    <id column="set_id" property="setId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="distance" property="distance" jdbcType="TINYINT" />
+    <result column="nearby" property="nearby" jdbcType="TINYINT" />
+    <result column="friends_" property="friends" jdbcType="TINYINT" />
+    <result column="close_distance" property="closeDistance" jdbcType="TINYINT" />
+    <result column="is_address_book" property="isAddressBook" jdbcType="TINYINT" />
+    <result column="basic_info" property="basicInfo" jdbcType="TINYINT" />
+    <result column="interest" property="interest" jdbcType="TINYINT" />
+    <result column="career" property="career" jdbcType="TINYINT" />
+    <result column="emotion" property="emotion" jdbcType="TINYINT" />
+    <result column="make_friend" property="makeFriend" jdbcType="TINYINT" />
+    <result column="language" property="language" jdbcType="TINYINT" />
+    <result column="set_time" property="setTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+      set_id, user_id, distance, nearby, friends_, close_distance, is_address_book, basic_info,
+      interest, career, emotion, make_friend, language, set_time
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from user_set where set_id = #{setId,jdbcType=INTEGER}
+  </select>
+
+  <insert id="insertSelective" parameterType="com.faceshow.modules.user.entity.UserSet" useGeneratedKeys="true" keyProperty="setId">
+    insert into user_set
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="setId != null" >
+        set_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="distance != null" >
+        distance,
+      </if>
+      <if test="nearby != null" >
+        nearby,
+      </if>
+      <if test="friends != null" >
+        friends_,
+      </if>
+      <if test="closeDistance != null" >
+        close_distance,
+      </if>
+      <if test="isAddressBook != null" >
+        is_address_book,
+      </if>
+      <if test="basicInfo != null" >
+        basic_info,
+      </if>
+      <if test="interest != null" >
+        interest,
+      </if>
+      <if test="career != null" >
+        career,
+      </if>
+      <if test="emotion != null" >
+        emotion,
+      </if>
+      <if test="makeFriend != null" >
+        make_friend,
+      </if>
+      <if test="language != null" >
+        language,
+      </if>
+      <if test="setTime != null" >
+        set_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="setId != null" >
+        #{setId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="distance != null" >
+        #{distance,jdbcType=TINYINT},
+      </if>
+      <if test="nearby != null" >
+        #{nearby,jdbcType=TINYINT},
+      </if>
+      <if test="friends != null" >
+        #{friends,jdbcType=TINYINT},
+      </if>
+      <if test="closeDistance != null" >
+        #{closeDistance,jdbcType=TINYINT},
+      </if>
+      <if test="isAddressBook != null" >
+        #{isAddressBook,jdbcType=TINYINT},
+      </if>
+      <if test="basicInfo != null" >
+        #{basicInfo,jdbcType=TINYINT},
+      </if>
+      <if test="interest != null" >
+        #{interest,jdbcType=TINYINT},
+      </if>
+      <if test="career != null" >
+        #{career,jdbcType=TINYINT},
+      </if>
+      <if test="emotion != null" >
+        #{emotion,jdbcType=TINYINT},
+      </if>
+      <if test="makeFriend != null" >
+        #{makeFriend,jdbcType=TINYINT},
+      </if>
+      <if test="language != null" >
+        #{language,jdbcType=TINYINT},
+      </if>
+      <if test="setTime != null" >
+        #{setTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByUserId" parameterType="com.faceshow.modules.user.entity.UserSet">
+    update user_set
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="distance != null" >
+        distance = #{distance,jdbcType=TINYINT},
+      </if>
+      <if test="nearby != null" >
+        nearby = #{nearby,jdbcType=TINYINT},
+      </if>
+      <if test="friends != null" >
+        friends_ = #{friends,jdbcType=TINYINT},
+      </if>
+      <if test="closeDistance != null" >
+        close_distance = #{closeDistance,jdbcType=TINYINT},
+      </if>
+      <if test="isAddressBook != null" >
+        is_address_book = #{isAddressBook,jdbcType=TINYINT},
+      </if>
+      <if test="basicInfo != null" >
+        basic_info = #{basicInfo,jdbcType=TINYINT},
+      </if>
+      <if test="interest != null" >
+        interest = #{interest,jdbcType=TINYINT},
+      </if>
+      <if test="career != null" >
+        career = #{career,jdbcType=TINYINT},
+      </if>
+      <if test="emotion != null" >
+        emotion = #{emotion,jdbcType=TINYINT},
+      </if>
+      <if test="makeFriend != null" >
+        make_friend = #{makeFriend,jdbcType=TINYINT},
+      </if>
+      <if test="language != null" >
+        language = #{language,jdbcType=TINYINT},
+      </if>
+      <if test="setTime != null" >
+        set_time = #{setTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByDistance" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from user_set where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+
+</mapper>

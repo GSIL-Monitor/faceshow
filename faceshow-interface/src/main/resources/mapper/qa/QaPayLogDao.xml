@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.qa.dao.QaPayLogDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.qa.entity.QaPayLog" >
+    <id column="log_id" property="logId" jdbcType="INTEGER" />
+    <result column="info_id" property="infoId" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="account_id" property="accountId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="pay_type" property="payType" jdbcType="TINYINT" />
+  </resultMap>
+  <insert id="save" parameterType="com.faceshow.modules.qa.entity.QaPayLog" >
+    insert into qa_pay_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        log_id,
+      </if>
+      <if test="infoId != null" >
+        info_id,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="accountId != null" >
+        account_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="infoId != null" >
+        #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+
+  <!--存问答支付日志, 前三名支付日志 -->
+  <insert id="saveTopThreePayLog" parameterType="java.util.Map">
+    insert into qa_pay_log (info_id, price, account_id, user_id, create_time, pay_type) values
+    (#{infoId}, #{price.price}, #{accountId[0].userId}, #{userId}, #{createTime}, #{payType}),
+    (#{infoId}, #{price.twoPrice}, #{accountId[1].userId}, #{userId}, #{createTime}, #{payType}),
+    (#{infoId}, #{price.threePrice}, #{accountId[2].userId}, #{userId}, #{createTime}, #{payType})
+  </insert>
+
+  <!--存问答支付日志, 前三名支付日志 -->
+  <insert id="saveTopTwoPayLog" parameterType="java.util.Map">
+    insert into qa_pay_log (info_id, price, account_id, user_id, create_time, pay_type) values
+    (#{infoId}, #{price.price}, #{accountId[0].userId}, #{userId}, #{createTime}, #{payType}),
+    (#{infoId}, #{price.twoPrice}, #{accountId[1].userId}, #{userId}, #{createTime}, #{payType})
+  </insert>
+  
+</mapper>

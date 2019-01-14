@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.pay.dao.RechargeLogDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.pay.entity.RechargeLog" >
+    <id column="log_id" property="logId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="statues" property="statues" jdbcType="BIT" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="editor" property="editor" jdbcType="INTEGER" />
+    <result column="editor_time" property="editorTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      log_id, create_time, money, statues, order_id, order_no, editor, editor_time, remark, 
+      type_id
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    log_id,create_time,money,statues,order_id,order_no,editor,editor_time,remark,type_id
+    from recharge_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from recharge_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.pay.entity.RechargeLog" >
+    insert into recharge_log (log_id, create_time, money, 
+      statues, order_id, order_no, 
+      editor, editor_time, remark, 
+      type_id)
+    values (#{logId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{money,jdbcType=DECIMAL}, 
+      #{statues,jdbcType=BIT}, #{orderId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, 
+      #{editor,jdbcType=INTEGER}, #{editorTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{typeId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.pay.entity.RechargeLog" >
+    insert into recharge_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        log_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="statues != null" >
+        statues,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="editor != null" >
+        editor,
+      </if>
+      <if test="editorTime != null" >
+        editor_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="statues != null" >
+        #{statues,jdbcType=BIT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="editor != null" >
+        #{editor,jdbcType=INTEGER},
+      </if>
+      <if test="editorTime != null" >
+        #{editorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.pay.entity.RechargeLog" >
+    update recharge_log
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="statues != null" >
+        statues = #{statues,jdbcType=BIT},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="editor != null" >
+        editor = #{editor,jdbcType=INTEGER},
+      </if>
+      <if test="editorTime != null" >
+        editor_time = #{editorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.pay.entity.RechargeLog" >
+    update recharge_log
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      money = #{money,jdbcType=DECIMAL},
+      statues = #{statues,jdbcType=BIT},
+      order_id = #{orderId,jdbcType=INTEGER},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      editor = #{editor,jdbcType=INTEGER},
+      editor_time = #{editorTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER}
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+</mapper>

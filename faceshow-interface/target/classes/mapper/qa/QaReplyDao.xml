@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.qa.dao.QaReplyDao">
+    <resultMap id="BaseResultMap" type="com.faceshow.modules.qa.entity.QaReply">
+        <id column="reply_id" property="replyId" jdbcType="INTEGER" />
+        <result column="info_id" property="infoId" jdbcType="INTEGER" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="like_nums" property="likeNums" jdbcType="INTEGER" />
+        <result column="make_num" property="makeNum" jdbcType="INTEGER" />
+        <result column="video" property="video" jdbcType="VARCHAR" />
+        <result column="cover" property="cover" jdbcType="VARCHAR" />
+        <result column="is_aptimal" property="isAptimal" jdbcType="TINYINT" />
+        <result column="is_shen" property="isShen" jdbcType="TINYINT" />
+        <result column="is_look" property="isLook" jdbcType="TINYINT" />
+        <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+        <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="editor" property="editor" jdbcType="INTEGER" />
+        <result column="editor_time" property="editorTime" jdbcType="TIMESTAMP" />
+        <result column="is_check" property="isCheck" jdbcType="TINYINT" />
+        <result column="comment_num" property="commentNum" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List">
+      reply_id, info_id, content, user_id, create_time, like_nums, make_num, video, cover, 
+      is_aptimal, is_shen, is_look, longitude, latitude, address, editor, editor_time, is_check, comment_num
+  </sql>
+
+    <!-- 添加问答回复-->
+    <insert id="save" parameterType="com.faceshow.modules.qa.entity.QaReply">
+        insert into qa_reply
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="replyId != null" >
+                reply_id,
+            </if>
+            <if test="infoId != null" >
+                info_id,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="likeNums != null" >
+                like_nums,
+            </if>
+            <if test="makeNum != null" >
+                make_num,
+            </if>
+            <if test="video != null" >
+                video,
+            </if>
+            <if test="cover != null" >
+                cover,
+            </if>
+            <if test="isAptimal != null" >
+                is_aptimal,
+            </if>
+            <if test="isShen != null" >
+                is_shen,
+            </if>
+            <if test="isLook != null" >
+                is_look,
+            </if>
+            <if test="longitude != null" >
+                longitude,
+            </if>
+            <if test="latitude != null" >
+                latitude,
+            </if>
+            <if test="address != null" >
+                address,
+            </if>
+            <if test="editor != null" >
+                editor,
+            </if>
+            <if test="editorTime != null" >
+                editor_time,
+            </if>
+            <if test="isCheck != null" >
+                is_check,
+            </if>
+            <if test="commentNum != null" >
+                comment_num,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="replyId != null" >
+                #{replyId,jdbcType=INTEGER},
+            </if>
+            <if test="infoId != null" >
+                #{infoId,jdbcType=INTEGER},
+            </if>
+            <if test="content != null" >
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="likeNums != null" >
+                #{likeNums,jdbcType=INTEGER},
+            </if>
+            <if test="makeNum != null" >
+                #{makeNum,jdbcType=INTEGER},
+            </if>
+            <if test="video != null" >
+                #{video,jdbcType=VARCHAR},
+            </if>
+            <if test="cover != null" >
+                #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="isAptimal != null" >
+                #{isAptimal,jdbcType=TINYINT},
+            </if>
+            <if test="isShen != null" >
+                #{isShen,jdbcType=TINYINT},
+            </if>
+            <if test="isLook != null" >
+                #{isLook,jdbcType=TINYINT},
+            </if>
+            <if test="longitude != null" >
+                #{longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null" >
+                #{latitude,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="editor != null" >
+                #{editor,jdbcType=INTEGER},
+            </if>
+            <if test="editorTime != null" >
+                #{editorTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isCheck != null" >
+                #{isCheck,jdbcType=TINYINT},
+            </if>
+            <if test="commentNum != null" >
+                #{commentNum,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 查询神回复列表-->
+    <select id="shenList" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        a.reply_id replyId,
+        a.info_id infoId,
+        b.title,
+        a.user_id userId,
+        a.like_nums likeNum,
+        a.make_num makeNum,
+        a.cover,
+        a.video,
+        a.address
+    FROM
+        qa_reply a
+    LEFT JOIN qa_info b ON a.info_id = b.info_id
+    WHERE
+        a.is_shen = 1 AND a.is_check = 1
+    ORDER BY
+        a.reply_id DESC
+    LIMIT #{offset}, #{limit}
+  </select>
+
+    <!-- 查询神回复数量-->
+    <select id="shenTotal" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(1) from qa_reply where is_shen = 1 and is_check = 1
+  </select>
+
+    <!-- 查询问答回复详情-->
+    <select id="getQaReplyById" parameterType="java.util.Map" resultType="com.faceshow.modules.qa.vo.QaReplySelectRowVo">
+    SELECT
+        a.reply_id replyId,
+        a.info_id infoId,
+        b.title,
+        b.amount_type amountType,
+        b.user_id publisherId,
+        a.content,
+        d.is_pay isPay,
+        d.price,
+        d.two_price twoPrice,
+        d.three_price threeThree,
+        a.user_id userId,
+        c.nick_name nickName,
+        c.img,
+        UNIX_TIMESTAMP(a.create_time) * 1000 createTime,
+        a.like_nums likeNum,
+        a.make_num makeNum,
+        a.video,
+        a.cover,
+        a.address,
+        a.comment_num commentNum,
+        getIsTutual(#{userId}, b.user_id) isTutual,
+        (
+            6371 * acos(
+                cos(radians(#{latitude})) * cos(radians(a.latitude)) * cos(
+                    radians(#{longitude}) - radians(a.longitude)
+                ) + sin(radians(#{latitude})) * sin(radians(a.latitude))
+            )
+        ) `length`
+    FROM
+        qa_reply a
+    LEFT JOIN qa_info b ON a.info_id = b.info_id
+    LEFT JOIN user_info c ON a.user_id = c.user_id
+    LEFT JOIN qa_amount_set d ON d.info_id = b.info_id
+    WHERE
+        a.reply_id = #{replyId}
+  </select>
+
+    <!--根据问答回复id查询问答回复点赞数量和吐槽数量-->
+    <select id="getLikeNumAndMakeNumById" parameterType="java.lang.Integer" resultType="java.util.Map">
+    select reply_id replyId, like_nums likeNum, make_num makeNum, is_shen isShen from qa_reply where reply_id = #{replyId}
+  </select>
+
+    <!-- 根据问答回复id修改问答回复点赞数和吐槽数量 -->
+    <update id="updateLikeNumAndMakeNumById" parameterType="java.util.Map">
+    update qa_reply set like_nums = #{likeNum}, make_num = #{makeNum}, is_shen = #{isShen} where reply_id = #{replyId}
+  </update>
+
+    <!--根据主键查找userId-->
+    <select id="selectUserIdByReplyId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT  user_id FROM  qa_reply where reply_id = #{replyId}
+    </select>
+
+    <!-- 查询当前用户的回答问题列表 -->
+    <select id="findReplyListByUserId" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        a.reply_id replyId,
+        a.info_id infoId,
+        b.title,
+        a.user_id userId,
+        a.like_nums likeNum,
+        a.make_num makeNum,
+        a.cover,
+        a.video,
+        a.is_check isCheck,
+        a.is_aptimal isAptimal,
+        a.address
+    FROM
+        qa_reply a
+    LEFT JOIN qa_info b ON a.info_id = b.info_id
+    WHERE
+        a.user_id = #{userId}
+    LIMIT #{offset}, #{limit}
+  </select>
+
+    <!-- 查询当前用户的回答问题数量 -->
+    <select id="findReplyTotalByUserId" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(1) from qa_reply where user_id = #{userId}
+  </select>
+
+    <!-- 根据问答id查询问答回复列表-->
+    <select id="findReplyListByInfoId" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+            reply_id replyId,
+            info_id infoId,
+            content,
+            user_id userId,
+            like_nums likeNum,
+            make_num makeNum,
+            is_aptimal isAptimal,
+            address,
+            cover,
+            video,
+            (
+                6371 * acos(
+                    cos(radians(#{latitude})) * cos(radians(latitude)) * cos(
+                        radians(#{longitude}) - radians(longitude)
+                    ) + sin(radians(#{latitude})) * sin(radians(latitude))
+                )
+            ) `length`
+        FROM
+            qa_reply a
+        WHERE
+            is_check = 1 AND info_id = #{infoId}
+        ORDER BY
+            reply_id DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!-- 根据问答id查询问答回复数量-->
+    <select id="findReplyTotalByInfoId" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from qa_reply where is_check = 1 and info_id = #{infoId}
+    </select>
+
+    <!-- 修改问答回复状态为最佳答案 -->
+    <update id="updateIsAptimalByReplyId" parameterType="java.lang.Integer">
+        update qa_reply set is_aptimal = #{isAptimal} where reply_id = #{replyId}
+    </update>
+
+    <!-- 根据问答id查询最佳的前三名-->
+    <select id="getBestTopThreeByInfoId" parameterType="java.lang.Integer" resultType="com.faceshow.modules.qa.vo.QaReplyTopThreeSelectRowVo">
+        SELECT
+            a.reply_id replyId,
+            unix_timestamp(a.create_time) * 1000 createTime,
+            a.user_id userId,
+            b.nick_name nickName
+        FROM
+            qa_reply a
+        LEFT JOIN user_info b ON a.user_id = b.user_id
+        WHERE
+            a.info_id = #{infoId}
+        ORDER BY
+            a.like_nums DESC,
+            a.make_num ASC,
+            a.create_time ASC
+        LIMIT 3
+    </select>
+
+    <!-- 根据回复id查询回复评论数量-->
+    <select id="findCommentNumByReplyId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select comment_num from qa_reply where reply_id = #{replyId}
+    </select>
+
+    <!-- 查询本国热门问答-->
+    <select id="findDomesticHotQaReply" resultType="java.util.Map">
+        SELECT
+            a.cover img,
+            a.like_nums + a.comment_num playNum,
+            b.nick_name
+        FROM
+            qa_reply a
+        LEFT JOIN user_info b ON a.user_id = b.user_id
+        WHERE
+        <if test="state == 0">
+            a.country = #{country}
+        </if>
+        <if test="state != 0">
+            a.country != #{country}
+        </if>
+        ORDER BY
+            playNum DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!--根据视频url查询问答详情 -->
+    <select id="findQaReplyByVideoUrl" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT
+            a.cover videoImg,
+            concat("@", b.nick_name) userNickName,
+            concat("#", c.title) topicName,
+            a.content videoIntroduction,
+            a.video videoUrl
+        FROM
+            qa_reply a
+        LEFT JOIN user_info b ON a.user_id = b.user_id
+        LEFT JOIN qa_info c ON a.info_id = c.info_id
+        WHERE
+            a.video = #{video} and a.is_check = 1
+    </select>
+
+    <!-- 修改点赞数量+1或者-1-->
+    <update id="updateLikeNum" parameterType="com.faceshow.common.utils.NumUtils">
+        update qa_reply set like_nums = like_nums + #{num} where reply_id = #{id}
+    </update>
+    <!-- 修改点踩数量+1或者-1-->
+    <update id="updateMakeNum" parameterType="com.faceshow.common.utils.NumUtils">
+        update qa_reply set make_num = make_num + #{num} where reply_id = #{id}
+    </update>
+    <!-- 修改状态为神回复-->
+    <update id="updateIsShen" parameterType="java.lang.Integer">
+        update qa_reply set is_shen = #{isShen} where reply_id = #{replyId}
+    </update>
+
+    <!-- 修改问答回复评论+1或者 -1 -->
+    <update id="updateCommentNumOne" parameterType="com.faceshow.common.utils.NumUtils">
+        update qa_reply set comment_num = comment_num + #{num} where reply_id = #{id}
+    </update>
+
+
+    <!-- 问答回复数量修改为固定值-->
+    <update id="updateCommentNumMany" parameterType="java.lang.Integer">
+        update qa_reply set comment_num = #{num} where reply_id = #{id}
+    </update>
+
+</mapper>

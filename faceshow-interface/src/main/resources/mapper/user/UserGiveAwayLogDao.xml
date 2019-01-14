@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.UserGiveAwayLogDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.user.entity.UserGiveAwayLog" >
+    <id column="give_id" property="giveId" jdbcType="INTEGER" />
+    <result column="gift_id" property="giftId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="account" property="account" jdbcType="INTEGER" />
+    <result column="account_user_name" property="accountUserName" jdbcType="VARCHAR" />
+    <result column="is_type" property="isType" jdbcType="TINYINT" />
+    <result column="numbers" property="numbers" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="ITEM_ID" property="itemId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    give_id, gift_id, user_id, user_name, create_time, account, account_user_name, is_type,
+    numbers, price, ITEM_ID, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    give_id,gift_id,user_id,user_name,create_time,account,account_user_name,is_type,numbers,price,ITEM_ID,remark
+    from user_give_away_log
+    where give_id = #{giveId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_give_away_log
+    where give_id = #{giveId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="java.util.Map" >
+    insert into user_give_away_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="giveId != null" >
+        give_id,
+      </if>
+      <if test="giftId != null" >
+        gift_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="accountUserName != null" >
+        account_user_name,
+      </if>
+      <if test="isType != null" >
+        is_type,
+      </if>
+      <if test="numbers != null" >
+        numbers,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="itemId != null" >
+        ITEM_ID,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="giveId != null" >
+        #{giveId,jdbcType=INTEGER},
+      </if>
+      <if test="giftId != null" >
+        #{giftId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=INTEGER},
+      </if>
+      <if test="accountUserName != null" >
+        #{accountUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="isType != null" >
+        #{isType,jdbcType=TINYINT},
+      </if>
+      <if test="numbers != null" >
+        #{numbers,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.user.entity.UserGiveAwayLog" >
+    update user_give_away_log
+    <set >
+      <if test="giftId != null" >
+        gift_id = #{giftId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=INTEGER},
+      </if>
+      <if test="accountUserName != null" >
+        account_user_name = #{accountUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="isType != null" >
+        is_type = #{isType,jdbcType=TINYINT},
+      </if>
+      <if test="numbers != null" >
+        numbers = #{numbers,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        ITEM_ID = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where give_id = #{giveId,jdbcType=INTEGER}
+  </update>
+
+  <!-- 修改用户收支记录表数据-->
+  <update id="updateByUserIdAndTypeAndItemId" parameterType="java.util.Map">
+    update user_give_away_log set account = #{account}, account_user_name = #{accountName}
+    where user_id = #{userId} and is_type = #{isType} and ITEM_ID = #{itemId}
+  </update>
+
+  <!-- 修改用户收支记录表(仅问答第三种情况设置前三名使用使用)-->
+  <update id="updateByUserIdAndTypeAndItemIdAndRemark" parameterType="java.util.Map">
+    update user_give_away_log set account = #{account}, account_user_name = #{accountName}
+    where user_id = #{userId} and is_type = #{isType} and ITEM_ID = #{itemId} and remark = #{remark}
+  </update>
+
+  <!-- 保存问答多条数据-->
+  <insert id="saveBatch" parameterType="java.util.Map">
+    insert into user_give_away_log (user_id, user_name, create_time, is_type, ITEM_ID, price, remark) values
+    (#{userId}, #{userName}, #{createTime}, #{isType}, #{itemId}, #{qaAmountSet.price}, '1'),
+    (#{userId}, #{userName}, #{createTime}, #{isType}, #{itemId}, #{qaAmountSet.twoPrice}, '2'),
+    (#{userId}, #{userName}, #{createTime}, #{isType}, #{itemId}, #{qaAmountSet.threePrice}, '3')
+  </insert>
+
+
+  <insert id="insertPaySelective" parameterType="java.util.Map" >
+    insert into user_give_away_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="giveId != null" >
+        give_id,
+      </if>
+      <if test="giftId != null" >
+        gift_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="accountUserName != null" >
+        account_user_name,
+      </if>
+      <if test="isType != null" >
+        is_type,
+      </if>
+      <if test="numbers != null" >
+        numbers,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="itemId != null" >
+        ITEM_ID,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="types != null" >
+        types,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="giveId != null" >
+        #{giveId,jdbcType=INTEGER},
+      </if>
+      <if test="giftId != null" >
+        #{giftId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=INTEGER},
+      </if>
+      <if test="accountUserName != null" >
+        #{accountUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="isType != null" >
+        #{isType,jdbcType=TINYINT},
+      </if>
+      <if test="numbers != null" >
+        #{numbers,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="types != null" >
+        #{types,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <title>分享直播</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta content="email=no" name="format-detection"/>
+    <meta content="address=no" name="format-detection"/>
+    <meta name="applicable-device" content="mobile"/>
+    <!-- UC强制竖屏 -->
+    <meta name="screen-orientation" content="portrait"/>
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="Keywords" content=""/>
+    <meta name="Description" content=""/>
+    <link rel="stylesheet" href="/faceshow/css/common.css"/>
+    <link rel="stylesheet" href="/faceshow/css/faceshow.css"/>
+    <!--<link rel="stylesheet" href="bootstrap/css/bootstrap.css">-->
+    <link rel="stylesheet" type="text/css" href="/faceshow/css/iconfont.css"/>
+    <script src="/faceshow/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<style>
+    #id_video_container video {
+        object-fit: fill;
+    }
+</style>
+<body>
+<div class="wrap_layout video-page" style="position: relative;">
+
+    <!--delete_video-->
+    <p class="delete_tip" th:text="${msg3}"></p>
+
+    <!--more-->
+    <div class="video_wrap clearfix">
+        <div class="header">
+            <span class="title" th:text="${msg}"></span>
+        </div>
+        <ul class="video_list live_list clearfix" id="more_video">
+            <li th:each="live : ${list}">
+                <a href="#">
+                    <img th:src="${live.live_img}"/>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="fc_header bott_header">
+        <div class="logo_wrap"><span class="fc_slogan">美颜椒友 疯狂卖萌</span></div>
+        <a href="javascript:;" class="download_app" onclick="openModal()">立即加入</a>
+    </div>
+</div>
+
+</body>
+
+<script type="text/javascript" src="/faceshow/js/faceshow.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".video_list li").click(function () {
+            // 转调到下载页面
+            openModal();
+        });
+    });
+</script>
+</html>

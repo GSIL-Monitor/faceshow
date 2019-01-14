@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.video.dao.VideoCommentDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.video.entity.VideoComment" >
+    <id column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="video_id" property="videoId" jdbcType="INTEGER" />
+    <result column="parent_comment_id" property="parentCommentId" jdbcType="INTEGER" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="like_num" property="likeNum" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="statues" property="statues" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    comment_id, video_id, comment, user_id, like_num, create_time, statues, parent_comment_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List"/>
+    from video_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from video_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.video.entity.VideoComment" useGeneratedKeys="true" keyProperty="commentId">
+    insert into video_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        comment_id,
+      </if>
+      <if test="videoId != null" >
+        video_id,
+      </if>
+      <if test="comment != null" >
+        comment,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="likeNum != null" >
+        like_num,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="statues != null" >
+        statues,
+      </if>
+      <if test="parentCommentId != null" >
+        parent_comment_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="videoId != null" >
+        #{videoId,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statues != null" >
+        #{statues,jdbcType=TINYINT},
+      </if>
+      <if test="parentCommentId != null" >
+        #{parentCommentId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.video.entity.VideoComment" >
+    update video_comment
+    <set >
+      <if test="videoId != null" >
+        video_id = #{videoId,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null" >
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        like_num = #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statues != null" >
+        statues = #{statues,jdbcType=TINYINT},
+      </if>
+      <if test="parentCommentId != null" >
+        parent_comment_id = #{parentCommentId,jdbcType=TINYINT},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+
+  <!--分页查询当前短视频的评论信息(一级评论信息) -->
+  <select id="findVideoCommentByVideoId" parameterType="java.util.Map" resultType="com.faceshow.modules.video.vo.VideoCommentSelectRowVo">
+    SELECT
+        vc.comment_id commentId,
+        vc.video_id videoId,
+        vc.user_id userId,
+        vc.parent_comment_id parentCommentId,
+        vc.`comment`,
+        vc.like_num likeNum,
+        UNIX_TIMESTAMP(vc.create_time)*1000 createTime,
+        ui.img userImg,
+        ui.nick_name isCommentator,
+	    uu.nick_name byCommentator,
+	    uu.user_id byCommentatorId
+    FROM
+        video_comment vc
+    LEFT JOIN user_info ui ON vc.user_id = ui.user_id
+    LEFT JOIN video_comment vi ON vi.comment_id = vc.parent_comment_id
+    LEFT JOIN user_info uu ON uu.user_id = vi.user_id
+    WHERE
+        vc.statues = 1
+      AND ui.statues = 1
+      AND ui.del = 1
+      AND vc.parent_comment_id = 0
+      AND vc.video_id = #{videoId}
+    ORDER BY
+        vc.like_num DESC,
+	    vc.comment_id DESC
+    LIMIT #{currPage}, #{pageSize}
+  </select>
+
+  <!-- 查询该视频评论总数-->
+  <select id="findCommentTotalCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT count(1) FROM video_comment vc
+    LEFT JOIN user_info ui ON vc.user_id = ui.user_id
+    LEFT JOIN video_comment vi ON vi.comment_id = vc.parent_comment_id
+    LEFT JOIN user_info uu ON uu.user_id = vi.user_id
+    WHERE
+        vc.statues = 1
+      AND ui.statues = 1
+      AND ui.del = 1
+      AND vc.parent_comment_id = 0
+      AND vc.video_id = #{videoId}
+  </select>
+
+  <!-- 递归查询子评论-->
+  <select id="findCommentByParent" parameterType="java.lang.Integer" resultType="com.faceshow.modules.video.vo.VideoCommentSelectRowVo">
+    SELECT
+        vc.comment_id commentId,
+        vc.video_id videoId,
+        vc.user_id userId,
+        vc.parent_comment_id parentCommentId,
+        vc.`comment`,
+        vc.like_num likeNum,
+        UNIX_TIMESTAMP(vc.create_time)*1000 createTime,
+        ui.img userImg,
+        ui.nick_name isCommentator,
+	    uu.nick_name byCommentator,
+	    uu.user_id byCommentatorId
+    FROM
+        video_comment vc
+    LEFT JOIN user_info ui ON vc.user_id = ui.user_id
+    LEFT JOIN video_comment vi ON vi.comment_id = vc.parent_comment_id
+    LEFT JOIN user_info uu ON uu.user_id = vi.user_id
+    WHERE
+        vc.statues = 1
+      AND ui.statues = 1
+      AND ui.del = 1
+      AND vc.parent_comment_id = #{parentCommentId}
+    ORDER BY
+	    vc.comment_id DESC
+  </select>
+
+  <!-- 根据父评论id查询子评论集合-->
+  <select id="findcommentIdByParentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select comment_id from video_comment where parent_comment_id = #{parentCommentId}
+  </select>
+
+  <!-- 根据评论id查询视频id-->
+  <select id="findVideoIdByCommentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select video_id from video_comment where comment_id = #{commentId}
+  </select>
+
+  <!-- 视频评论点赞修改+1或者-1-->
+  <update id="updateCommentLikeNum" parameterType="com.faceshow.common.utils.NumUtils">
+    update video_comment set like_num = like_num + #{num} where comment_id = #{id}
+  </update>
+    <!--根据评论查看userId-->
+  <select id="selectUserIdByCommentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT  user_id FROM  video_comment WHERE comment_id = #{id}
+  </select>
+
+</mapper>

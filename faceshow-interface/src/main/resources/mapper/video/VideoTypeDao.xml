@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.video.dao.VideoTypeDao" >
+
+    <!--redis缓存-->
+    <cache type="com.faceshow.common.RedisCache.MybatisRedisCache"/>
+
+    <resultMap id="BaseResultMap" type="com.faceshow.modules.video.entity.VideoType" >
+        <id column="type_id" property="typeId" jdbcType="INTEGER" />
+        <result column="img" property="img" jdbcType="VARCHAR" />
+        <result column="tname" property="tname" jdbcType="VARCHAR" />
+        <result column="creator" property="creator" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        type_id, img, tname, creator, create_time, introduction
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        type_id,img,tname,creator,create_time
+        from video_type
+        where type_id = #{typeId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from video_type
+        where type_id = #{typeId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertSelective" parameterType="com.faceshow.modules.video.entity.VideoType" >
+        insert into video_type
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="typeId != null" >
+                type_id,
+            </if>
+            <if test="img != null" >
+                img,
+            </if>
+            <if test="tname != null" >
+                tname,
+            </if>
+            <if test="creator != null" >
+                creator,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="introduction != null" >
+                introduction,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="typeId != null" >
+                #{typeId,jdbcType=INTEGER},
+            </if>
+            <if test="img != null" >
+                #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="tname != null" >
+                #{tname,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null" >
+                #{creator,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="introduction != null" >
+                #{introduction,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.video.entity.VideoType" >
+        update video_type
+        <set >
+            <if test="img != null" >
+                img = #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="tname != null" >
+                tname = #{tname,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null" >
+                creator = #{creator,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="introduction != null" >
+                introduction = #{introduction,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where type_id = #{typeId,jdbcType=INTEGER}
+    </update>
+
+  <!--查询热门视频分类 -->
+  <select id="findHotType" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+        ut.type_id typeId,
+        ut.img,
+        ut.tname,
+        (
+            SELECT
+                count(uv.video_id)
+            FROM
+                video_info uv
+            WHERE
+                uv.type_id = ut.type_id
+            AND uv.country = #{country}
+        ) videoNum
+    FROM
+        video_type ut
+    ORDER BY
+        videoNum
+    LIMIT 0, 20
+  </select>
+
+  <!--查询得分最高的视频 -->
+  <select id="findHightScoreVideo" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        uv.video_id videoId,
+        (
+            (
+                SELECT
+                    count(*)
+                FROM
+                    video_collection_log ul
+                WHERE
+                    ul.video_id = uv.video_id
+            ) + (uv.collection_num) + (
+                SELECT
+                    count(*)
+                FROM
+                    video_play_log vl
+                WHERE
+                    vl.video_id = uv.video_id
+            )
+        ) count,
+        uv.img,
+        uv.url
+    FROM
+        video_info uv
+    WHERE
+        uv.type_id = #{typeId}
+    AND uv.statues = 1
+    AND uv.is_private = 1
+    <if test="type == 3">
+      AND uv.country = #{country}
+    </if>
+    <if test="type == 1">
+      ORDER BY uv.create_time DESC
+      LIMIT #{currPage}, #{pageSize}
+    </if>
+    <if test="type != 1">
+      ORDER BY count DESC
+      LIMIT 0, 20
+    </if>
+  </select>
+
+  <!--查询得分最高的用户 -->
+  <select id="findHightScoreUser" parameterType="java.lang.Integer" resultType="java.util.Map">
+    SELECT
+        sum(
+            (
+                SELECT
+                    count(*)
+                FROM
+                    video_collection_log ul
+                WHERE
+                    ul.video_id = uv.video_id
+            ) + (uv.collection_num) + (
+                SELECT
+                    count(*)
+                FROM
+                    video_play_log vl
+                WHERE
+                    vl.video_id = uv.video_id
+            )
+        ) count,
+        ui.img,
+        uv.user_id userId
+    FROM
+        video_info uv,
+        user_info ui
+    WHERE
+        uv.type_id = #{typeId}
+    AND uv.user_id = ui.user_id
+    GROUP BY
+        uv.user_id
+    ORDER BY
+        count DESC
+    LIMIT 0, 6
+  </select>
+
+    <!-- 条件查询视频总数-->
+    <select id="findVideoTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from video_info  where type_id = #{typeId}
+    </select>
+    
+    <!-- 查询视频分类20个-->
+    <select id="findList"  parameterType="java.util.Map" resultMap="BaseResultMap">
+        select type_id, tname, img from video_type
+        WHERE 1=1
+        <if test="type ==null">
+            AND type_id &lt;&gt; 18
+            AND type_id &lt;&gt; 19
+        </if>
+        ORDER BY type_id DESC
+    </select>
+
+    <!-- 查询类型信息-->
+    <select id="findTypeByTypeId" parameterType="java.lang.Integer" resultType="java.util.Map">
+        select type_id typeId, img, tname, introduction from video_type where type_id = #{typeId}
+    </select>
+
+</mapper>

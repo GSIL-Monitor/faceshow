@@ -1,0 +1,44 @@
+@charset "utf-8";
+/*--------------使用条款、版权声明、隐私政策----------------*/
+.wrap_layout{ max-width:720px;height: auto; margin: 0 auto;}
+.padding_layer{ padding: 0 15px 20px;}
+.h3_title{ color: #dabb84; font-size: 18px;text-align: center;padding: 20px 0;}
+.p_content{ color: #848b9a; font-size: 14px; line-height: 20px;}
+/*-------------------重置密码---------------------*/
+.reset_head{width: 100%; height: auto;padding-top: 30px; padding-bottom: 30px; text-align: center;}
+.logo_pic{width: 86px; height: 86px; border-radius: 50%; display: block; margin: 0 auto;}
+.reset_out{ width: auto; margin-bottom: 10px;}
+.reset_out input { width: 100%; padding: 0 15px; height: 40px; line-height: 40px; font-size: 14px;  border: none; border-radius: 20px; background: #333949; text-align: center;}
+#pas{ color: #cdb07b; text-align: center;background: none;
+    font-size: 18px;}
+.btn{ margin: 10px 0;}
+.btn input{ width: 100%; color: #DABB84; font-size: 18px;border-radius: 20px; background: #bb0462;line-height: 40px; max-height: 40px;}
+#p_pas2,#p_pas1{color: #DF122C; text-align: center;padding-bottom: 10px;}
+
+/*---------------------魅力值页面-----------------------*/
+.tit_num{padding:40px 0; text-align: center; color: #bb0462; font-size: 44px;}
+.txt_tit{ font-size: 16px; color: #848b9a; padding: 0 15px 20px;}
+.txt_tit h5{ font-size: 20px; padding-bottom: 5px;}
+
+.tb_diamonds{width: 100%; color: #848b9a; font-size: 16px;-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+.tb_diamonds thead tr{color: #d5b67f; font-size: 18px;}
+.tb_diamonds thead tr th{padding: 5px 10px;text-align: left; }
+.tb_diamonds td{padding: 5px 10px;}
+.tb_diamonds tbody tr{  height:48px;min-height: 48px; text-align: left; border-bottom: 1px solid #21232b;background: #2a2d37;}
+.tb_diamonds thead tr th:nth-child(1){ width: 35%;}
+.tb_diamonds thead tr th:nth-child(2){ width: 15%;}
+.tb_diamonds thead tr th:nth-child(3){ width: 50%;}
+/*---------------------赚取钻石页面-----------------------*/
+.ul_PerCenter{ width: 100%; height: auto; padding-top: 20px;}
+.ul_PerCenter li{ height:50px; line-height: 50px; background: #292b35; border-bottom: 1px solid  #21232b;}
+.ul_PerCenter li a{ display:block; color: #848b9a; padding: 0 20px;}
+.fl_span{ float: left;  padding-left: 45px;}
+.fr_span{ float: right; background: url(../img/jiantou.png) no-repeat center;margin-top: 17px; background-size: 9px 16px; width: 9px; height: 16px;}
+.tp01{ background: url(../img/tb01.png) no-repeat left center;background-size: 30px;}
+.tp02{ background: url(../img/tb02.png) no-repeat left center;background-size: 30px;}
+.tp03{ background: url(../img/tb03.png) no-repeat left center;background-size: 30px;}
+.tp04{ background: url(../img/tb04.png) no-repeat left center;background-size: 30px;}
+.tp05{ background: url(../img/tb05.png) no-repeat left center;background-size: 30px;}
+.ul_PerCenter h3{ color: #d5b67f;  font-size: 16px; padding-bottom: 20px; padding-left: 20px;}
+.tp06{ background: url(../img/tb06.png) no-repeat left center;background-size: 30px;}
+.tp07{ background: url(../img/tb07.png) no-repeat left center;background-size: 30px;}

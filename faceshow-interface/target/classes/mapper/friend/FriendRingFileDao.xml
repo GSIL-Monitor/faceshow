@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.friend.dao.FriendRingFileDao">
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.friend.entity.FriendRingFile">
+    <id column="file_id" property="fileId" jdbcType="INTEGER" />
+    <result column="friend_id" property="friendId" jdbcType="INTEGER" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="file_small_url" property="fileSmallUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+      file_id, friend_id, file_url, type, create_time, file_small_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List"/>
+    from friend_ring_file
+    where file_id = #{fileId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from friend_ring_file
+    where file_id = #{fileId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.friend.entity.FriendRingFile">
+    insert into friend_ring_file
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fileId != null" >
+        file_id,
+      </if>
+      <if test="friendId != null" >
+        friend_id,
+      </if>
+      <if test="fileUrl != null" >
+        file_url,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="fileSmallUrl != null" >
+        file_small_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fileId != null" >
+        #{fileId,jdbcType=INTEGER},
+      </if>
+      <if test="friendId != null" >
+        #{friendId,jdbcType=INTEGER},
+      </if>
+      <if test="fileUrl != null" >
+        #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileSmallUrl != null" >
+        #{fileSmallUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.friend.entity.FriendRingFile">
+    update friend_ring_file
+    <set >
+      <if test="friendId != null" >
+        friend_id = #{friendId,jdbcType=INTEGER},
+      </if>
+      <if test="fileUrl != null" >
+        file_url = #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileSmallUrl != null" >
+        file_small_url = #{fileSmallUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where file_id = #{fileId,jdbcType=INTEGER}
+  </update>
+
+  <!--批量添加文件 -->
+  <insert id="saveFiles" parameterType="java.util.List">
+    insert into friend_ring_file (friend_id, file_url, type, create_time, file_small_url) values
+    <foreach collection="list" item="friendRingFile"  separator=",">
+      (#{friendRingFile.friendId}, #{friendRingFile.fileUrl}, #{friendRingFile.type},#{friendRingFile.createTime,jdbcType=TIMESTAMP}, #{friendRingFile.fileSmallUrl,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+  <!-- 获取当前朋友圈的图片 -->
+  <select id="findFileByFriendId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from friend_ring_file where friend_id = #{friendId}
+  </select>
+
+  <!--根据朋友圈id删除文件 -->
+  <delete id="deleteFileByFriendId" parameterType="java.lang.Integer">
+    delete from friend_ring_file where friend_id = #{friendId}
+  </delete>
+
+</mapper>

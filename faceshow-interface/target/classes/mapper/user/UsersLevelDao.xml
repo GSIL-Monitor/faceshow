@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.UsersLevelDao">
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.user.entity.UsersLevel">
+    <id column="level_id" jdbcType="INTEGER" property="levelId" />
+    <result column="names" jdbcType="VARCHAR" property="names" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="creator" jdbcType="INTEGER" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="editor" jdbcType="INTEGER" property="editor" />
+    <result column="editor_time" jdbcType="TIMESTAMP" property="editorTime" />
+    <result column="del" jdbcType="BIT" property="del" />
+    <result column="sort" jdbcType="TINYINT" property="sort" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <if test="fields == null">
+      level_id, names, memo, creator, create_time, editor, editor_time, del, sort
+    </if>
+    <if test="fields != null">
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    level_id,names,memo,creator,create_time,editor,editor_time,del,sort
+    from users_level
+    where level_id = #{levelId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from users_level
+    where level_id = #{levelId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.user.entity.UsersLevel">
+    insert into users_level (level_id, names, memo, 
+      creator, create_time, editor, 
+      editor_time, del, sort
+      )
+    values (#{levelId,jdbcType=INTEGER}, #{names,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{editor,jdbcType=INTEGER}, 
+      #{editorTime,jdbcType=TIMESTAMP}, #{del,jdbcType=BIT}, #{sort,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.user.entity.UsersLevel">
+    insert into users_level
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="levelId != null">
+        level_id,
+      </if>
+      <if test="names != null">
+        names,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="editor != null">
+        editor,
+      </if>
+      <if test="editorTime != null">
+        editor_time,
+      </if>
+      <if test="del != null">
+        del,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="levelId != null">
+        #{levelId,jdbcType=INTEGER},
+      </if>
+      <if test="names != null">
+        #{names,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null">
+        #{editor,jdbcType=INTEGER},
+      </if>
+      <if test="editorTime != null">
+        #{editorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="del != null">
+        #{del,jdbcType=BIT},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.user.entity.UsersLevel">
+    update users_level
+    <set>
+      <if test="names != null">
+        names = #{names,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null">
+        editor = #{editor,jdbcType=INTEGER},
+      </if>
+      <if test="editorTime != null">
+        editor_time = #{editorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="del != null">
+        del = #{del,jdbcType=BIT},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=TINYINT},
+      </if>
+    </set>
+    where level_id = #{levelId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.user.entity.UsersLevel">
+    update users_level
+    set names = #{names,jdbcType=VARCHAR},
+      memo = #{memo,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      editor = #{editor,jdbcType=INTEGER},
+      editor_time = #{editorTime,jdbcType=TIMESTAMP},
+      del = #{del,jdbcType=BIT},
+      sort = #{sort,jdbcType=TINYINT}
+    where level_id = #{levelId,jdbcType=INTEGER}
+  </update>
+</mapper>

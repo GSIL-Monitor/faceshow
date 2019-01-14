@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.job.dao.JobUserDao" >
+
+  <!--redis缓存-->
+  <cache type="com.faceshow.common.RedisCache.MybatisRedisCache"/>
+
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.job.entity.JobUser" >
+    <id column="job_user_id" property="jobUserId" jdbcType="INTEGER" />
+    <result column="info_id" property="infoId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="company" property="company" jdbcType="VARCHAR" />
+    <result column="career" property="career" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="DATE" />
+    <result column="end_time" property="endTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      job_user_id, info_id, create_time, user_id, company, career, start_time, end_time
+  </sql>
+
+  <!-- 添加用户职业信息-->
+  <insert id="save" parameterType="com.faceshow.modules.job.entity.JobUser" >
+    insert into job_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="jobUserId != null and jobUserId != 0" >
+        job_user_id,
+      </if>
+      <if test="infoId != null and infoId != 0" >
+        info_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="userId != null and userId != 0" >
+        user_id,
+      </if>
+      <if test="company != null and company.trim() != ''" >
+        company,
+      </if>
+      <if test="career != null and career.trim() != ''" >
+        career,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="jobUserId != null and jobUserId != 0" >
+        #{jobUserId,jdbcType=INTEGER},
+      </if>
+      <if test="infoId != null and infoId != 0" >
+        #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null and userId != 0" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="company != null and company.trim() != ''" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="career != null and career.trim() != ''" >
+        #{career,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+
+  <!-- 修改用户职业信息-->
+  <update id="update" parameterType="com.faceshow.modules.job.entity.JobUser" >
+    update job_user
+    <set >
+      <if test="infoId != null and infoId != 0" >
+        info_id = #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="company != null and company.trim() != ''" >
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="career != null and career.trim() != ''" >
+        career = #{career,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=DATE},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <!-- 根据id删除用户职业信息-->
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from job_user where job_user_id = #{jobUserId}
+  </delete>
+
+  <!-- 根据用户id查询用户职业-->
+  <select id="findCareerByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select career from job_user where user_id = #{userId}
+  </select>
+
+  <!--根据用户id查询用户职业信息 -->
+  <select id="findByUserId" parameterType="java.lang.Integer" resultType="com.faceshow.modules.job.vo.JobUserSelectRowVo">
+    SELECT
+        a.job_user_id jobUserId,
+        a.career,
+        a.company,
+        a.info_id infoId,
+        b.info_name infoName
+    FROM
+        job_user a
+    LEFT JOIN job_info b ON a.info_id = b.info_id
+    WHERE
+        a.user_id = #{userId}
+  </select>
+</mapper>

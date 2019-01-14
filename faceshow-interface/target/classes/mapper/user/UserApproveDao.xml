@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.UserApproveDao">
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.user.entity.UserApprove">
+    <id column="approve_id" jdbcType="INTEGER" property="approveId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="approve_time" jdbcType="TIMESTAMP" property="approveTime" />
+    <result column="card_op" jdbcType="VARCHAR" property="cardOp" />
+    <result column="card_po" jdbcType="VARCHAR" property="cardPo" />
+    <result column="card_id" jdbcType="VARCHAR" property="cardId" />
+    <result column="approve_man" jdbcType="INTEGER" property="approveMan" />
+    <result column="ok_time" jdbcType="TIMESTAMP" property="okTime" />
+    <result column="is_past" jdbcType="BIT" property="isPast" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <if test="fields == null">
+      approve_id, user_id, real_name, approve_time, card_op, card_po, card_id, approve_man, 
+      ok_time, is_past, remark
+    </if>
+    <if test="fields != null">
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    approve_id,user_id,real_name,approve_time,card_op,card_po,card_id,approve_man,ok_time,is_past,remark
+    from user_approve
+    where approve_id = #{approveId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_approve
+    where approve_id = #{approveId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.user.entity.UserApprove">
+    insert into user_approve (approve_id, user_id, real_name, 
+      approve_time, card_op, card_po, 
+      card_id, approve_man, ok_time, 
+      is_past, remark)
+    values (#{approveId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{realName,jdbcType=VARCHAR}, 
+      #{approveTime,jdbcType=TIMESTAMP}, #{cardOp,jdbcType=VARCHAR}, #{cardPo,jdbcType=VARCHAR}, 
+      #{cardId,jdbcType=VARCHAR}, #{approveMan,jdbcType=INTEGER}, #{okTime,jdbcType=TIMESTAMP}, 
+      #{isPast,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.user.entity.UserApprove" useGeneratedKeys="true" keyProperty="userId">
+    insert into user_approve
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="approveId != null">
+        approve_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="approveTime != null">
+        approve_time,
+      </if>
+      <if test="cardOp != null">
+        card_op,
+      </if>
+      <if test="cardPo != null">
+        card_po,
+      </if>
+      <if test="cardId != null">
+        card_id,
+      </if>
+      <if test="approveMan != null">
+        approve_man,
+      </if>
+      <if test="okTime != null">
+        ok_time,
+      </if>
+      <if test="isPast != null">
+        is_past,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="approveId != null">
+        #{approveId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="approveTime != null">
+        #{approveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardOp != null">
+        #{cardOp,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPo != null">
+        #{cardPo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null">
+        #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="approveMan != null">
+        #{approveMan,jdbcType=INTEGER},
+      </if>
+      <if test="okTime != null">
+        #{okTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPast != null">
+        #{isPast,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.user.entity.UserApprove">
+    update user_approve
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="approveTime != null">
+        approve_time = #{approveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardOp != null">
+        card_op = #{cardOp,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPo != null">
+        card_po = #{cardPo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null">
+        card_id = #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="approveMan != null">
+        approve_man = #{approveMan,jdbcType=INTEGER},
+      </if>
+      <if test="okTime != null">
+        ok_time = #{okTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPast != null">
+        is_past = #{isPast,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where approve_id = #{approveId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.user.entity.UserApprove">
+    update user_approve
+    set user_id = #{userId,jdbcType=INTEGER},
+      real_name = #{realName,jdbcType=VARCHAR},
+      approve_time = #{approveTime,jdbcType=TIMESTAMP},
+      card_op = #{cardOp,jdbcType=VARCHAR},
+      card_po = #{cardPo,jdbcType=VARCHAR},
+      card_id = #{cardId,jdbcType=VARCHAR},
+      approve_man = #{approveMan,jdbcType=INTEGER},
+      ok_time = #{okTime,jdbcType=TIMESTAMP},
+      is_past = #{isPast,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where approve_id = #{approveId,jdbcType=INTEGER}
+  </update>
+</mapper>

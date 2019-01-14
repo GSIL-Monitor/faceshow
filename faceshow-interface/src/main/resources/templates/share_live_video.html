@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <title>分享直播</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta content="email=no" name="format-detection"/>
+    <meta content="address=no" name="format-detection"/>
+    <meta name="applicable-device" content="mobile"/>
+    <!-- UC强制竖屏 -->
+    <meta name="screen-orientation" content="portrait"/>
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <meta name="Keywords" content=""/>
+    <meta name="Description" content=""/>
+    <link rel="stylesheet" href="/faceshow/css/common.css"/>
+    <link rel="stylesheet" href="/faceshow/css/faceshow.css"/>
+    <!--<link rel="stylesheet" href="bootstrap/css/bootstrap.css">-->
+    <link rel="stylesheet" type="text/css" href="/faceshow/css/iconfont.css"/>
+    <link rel="stylesheet" href="/faceshow/css/mobile.css?v=1.0.3"/>
+    <script src="/faceshow/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+    <script src="//qzonestyle.gtimg.cn/open/qcloud/video/live/h5/live_connect.js" charset="utf-8"></script>
+
+</head>
+<style>
+    #id_video_container video {
+        object-fit: fill;
+    }
+</style>
+<body>
+<div class="wrap_layout video-page" style="position: relative;">
+
+    <!-- 头部信息 start-->
+    <div class="live_top">
+        <div class="author">
+            <a class="author_a" href="#" onclick="openModal()">
+                <img th:src="${live.img}"/>
+            </a>
+            <h3 th:text="${live.nick_name}"></h3>
+            <p>6.5W</p>
+            <a class="follow" href="#" onclick="openModal()" th:text="${msg2}"></a>
+        </div>
+        <span class="anchor_lm"><a href="download_app.html" class="lianmai"><i class="iconfont">&#xe603;</i></a></span>
+        <div class="roomid">
+            <span class="room fl" th:text="${live.home_no}"></span>
+            <a class="zan fr" href="#" onclick="openModal()">1.5K</a>
+        </div>
+    </div>
+    <!-- 头部信息 end-->
+
+    <!-- 视频部分 start-->
+    <div id="id_video_container" style="width:100%; height:100%;text-align: center;color: #fff;"></div>
+    <!-- 视频部分 end-->
+
+    <!-- 礼物按钮部分 start-->
+    <div class="bott_icon">
+        <ul>
+            <li>
+                <a href="#" onclick="openModal()" title="more" class=""><i class="iconfont">&#xe637;</i></a>
+            </li>
+            <li>
+                <a href="#" onclick="openModal()" title="gift" class=""><i class="iconfont">&#xe657;</i></a>
+            </li>
+        </ul>
+    </div>
+    <!-- 礼物按钮部分 end-->
+
+    <!--聊天部分 start-->
+    <div class="video-pane">
+        <div class="video-pane-body">
+            <div class="video-discuss">
+                <ul class="video-sms-list" id="video_sms_list">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--聊天部分 end-->
+
+    <!--more-->
+    <div class="video_wrap clearfix">
+        <div class="header">
+            <span class="title" th:text="${msg}"></span>
+        </div>
+        <ul class="video_list live_list clearfix" id="more_video">
+            <li th:each="live : ${list}">
+                <a href="#">
+                    <img th:src="${live.live_img}"/>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="fc_header bott_header">
+        <div class="logo_wrap"><span class="fc_slogan">美颜椒友 疯狂卖萌</span></div>
+        <a href="javascript:;" class="download_app" onclick="openModal()">立即加入</a>
+    </div>
+</div>
+<input th:value="${live1}" id="hiddenInput" style="display: none"/>
+
+</body>
+
+<script type="text/javascript" src="/faceshow/js/faceshow.js"></script>
+<script type="text/javascript" src="/faceshow/js/webim.js?v=1"></script>
+<script type="text/javascript" src="/faceshow/js/json2.js"></script>
+<!--TLS web sdk(只用于托管模式，独立模式不用引入)-->
+<script type="text/javascript" src="https://tls.qcloud.com/libs/api.min.js"></script>
+<!--webim demo js-->
+<script type="text/javascript" src="/faceshow/js/demo_base.js"></script>
+<script type="text/javascript" src="/faceshow/js/demo_group_notice.js"></script>
+<script src="http://sdklog.isd.com/js/vconsole.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".video_list li").click(function () {
+            // 转调到下载页面
+            openModal();
+        });
+    });
+</script>
+
+<script>
+    var live = JSON.parse($("#hiddenInput").val());
+
+    var option = {
+        "live_url": live.flv_url,
+        "live_url2": live.hls_url,
+        "h5_start_patch": {
+            "url": live.live_img,
+            stretch: true
+        },
+        "hide_volume_tips": 1,
+        "x5_type": "h5",
+        "x5_fullscreen": true,
+        "controls": "none",
+        'systemFullscreen': true,
+        "wording": {
+            '20113': '直播已经结束啦，请稍后再来',
+            '20301': '直播频道不存在，请确认频道 ID',
+            'TipReconnect': '重新连接中',
+            'TipRequireFlash': '当前浏览器不能支持视频播放，可下载最新的 QQ 浏览器或者安装 Flash 即可播放'
+        }
+
+    };
+    var player = new qcVideo.Player("id_video_container", option);
+    var liveVideo = $('video');
+    window.onresize = function () {
+        liveVideo.style.width = window.innerWidth + "px";
+        liveVideo.style.height = window.innerHeight + "px";
+        liveVideo.css("style", "width: " + window.innerWidth + "px" + ";height: " + window.innerHeight + "px" + ";object-fit: fill;");
+        console.log(liveVideo);
+    }
+</script>
+
+<script type="text/javascript">
+
+    var live = JSON.parse($("#hiddenInput").val());
+
+    //帐号模式，0-表示独立模式，1-表示托管模式
+    var accountMode = 1;
+
+    //官方 demo appid,需要开发者自己修改（托管模式）
+    var sdkAppID = parseInt(live.sdkAppID);
+    var accountType = parseInt(live.accountType);
+
+    var avChatRoomId = live.IM_ID; //默认房间群ID，群类型必须是直播聊天室（AVChatRoom），这个为官方测试ID(托管模式)
+
+    var selType = webim.SESSION_TYPE.GROUP;
+    var selToID = avChatRoomId; //当前选中聊天id（当聊天类型为私聊时，该值为好友帐号，否则为群号）
+    var selSess = null; //当前聊天会话
+
+    //默认群组头像(选填)
+    var selSessHeadUrl = '/faceshow/img/2017.jpg';
+
+    //当前用户身份
+    var loginInfo = {
+        'sdkAppID': sdkAppID, //用户所属应用id,必填
+        'appIDAt3rd': sdkAppID, //用户所属应用id，必填
+        'accountType': accountType, //用户所属应用帐号类型，必填
+        'identifier': null, //当前用户ID,必须是否字符串类型，选填
+        'identifierNick': "null", //当前用户昵称，选填
+        'userSig': null, //当前用户身份凭证，必须是字符串类型，选填
+        'headurl': 'img/2016.gif' //当前用户默认头像，选填
+    };
+    //监听（多终端同步）群系统消息方法，方法都定义在demo_group_notice.js文件中
+    //注意每个数字代表的含义，比如，
+    //1表示监听申请加群消息，2表示监听申请加群被同意消息，3表示监听申请加群被拒绝消息等
+    var onGroupSystemNotifys = {
+        "5": onDestoryGroupNotify, //群被解散(全员接收)
+        "11": onRevokeGroupNotify, //群已被回收(全员接收)
+        "255": onCustomGroupNotify //用户自定义通知(默认全员接收)
+    };
+
+    //监听连接状态回调变化事件
+    var onConnNotify = function (resp) {
+        switch (resp.ErrorCode) {
+            case webim.CONNECTION_STATUS.ON:
+                //webim.Log.warn('连接状态正常...');
+                break;
+            case webim.CONNECTION_STATUS.OFF:
+                webim.Log.warn('连接已断开，无法收到新消息，请检查下你的网络是否正常');
+                break;
+            default:
+                webim.Log.error('未知连接状态,status=' + resp.ErrorCode);
+                break;
+        }
+    };
+
+    //监听事件
+    var listeners = {
+        "onConnNotify": onConnNotify, //选填
+        "jsonpCallback": jsonpCallback, //IE9(含)以下浏览器用到的jsonp回调函数,移动端可不填，pc端必填
+        "onBigGroupMsgNotify": onBigGroupMsgNotify, //监听新消息(大群)事件，必填
+        "onMsgNotify": onMsgNotify, //监听新消息(私聊(包括普通消息和全员推送消息)，普通群(非直播聊天室)消息)事件，必填
+        "onGroupSystemNotifys": onGroupSystemNotifys, //监听（多终端同步）群系统消息事件，必填
+        "onGroupInfoChangeNotify": onGroupInfoChangeNotify //监听群资料变化事件，选填
+    };
+
+    var isAccessFormalEnv = true; //是否访问正式环境
+
+    if (webim.Tool.getQueryString("isAccessFormalEnv") == "false") {
+        isAccessFormalEnv = false; //访问测试环境
+    }
+
+    var isLogOn = true; //是否在浏览器控制台打印sdk日志
+
+    //其他对象，选填
+    var options = {
+        'isAccessFormalEnv': isAccessFormalEnv, //是否访问正式环境，默认访问正式，选填
+        'isLogOn': isLogOn //是否开启控制台打印日志,默认开启，选填
+    };
+
+    var curPlayAudio = null; //当前正在播放的audio对象
+
+    var openEmotionFlag = false; //是否打开过表情
+
+    if (accountMode == 1) { //托管模式
+        //判断是否已经拿到临时身份凭证
+        if (webim.Tool.getQueryString('tmpsig')) {
+            if (loginInfo.identifier == null) {
+                webim.Log.info('start fetchUserSig');
+                //获取正式身份凭证，成功后会回调tlsGetUserSig(res)函数
+                TLSHelper.fetchUserSig();
+            }
+        } else { //未登录,无登录态模式
+            //sdk登录
+            sdkLogin();
+        }
+    } else { //独立模式
+        $('#login_dialog').show();
+        //sdkLogin();
+    }
+    if (/debug/gi.test(location.hash)) {
+
+    }
+
+    function colseLogin() {
+        $('#login_dialog').hide();
+    }
+</script>
+
+
+</html>

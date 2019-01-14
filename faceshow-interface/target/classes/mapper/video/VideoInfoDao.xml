@@ -1,0 +1,951 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.video.dao.VideoInfoDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.video.entity.VideoInfo" >
+      <id column="video_id" property="videoId" jdbcType="INTEGER" />
+      <result column="type_id" property="typeId" jdbcType="INTEGER" />
+      <result column="user_id" property="userId" jdbcType="INTEGER" />
+      <result column="music_id" property="musicId" jdbcType="INTEGER" />
+      <result column="country" property="country" jdbcType="VARCHAR" />
+      <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="url" property="url" jdbcType="VARCHAR" />
+      <result column="statues" property="statues" jdbcType="TINYINT" />
+      <result column="collection_num" property="collectionNum" jdbcType="INTEGER" />
+      <result column="is_private" property="isPrivate" jdbcType="TINYINT" />
+      <result column="img" property="img" jdbcType="VARCHAR" />
+      <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+      <result column="is_source" property="isSource" jdbcType="TINYINT" />
+      <result column="is_hot" property="isHot" jdbcType="TINYINT" />
+      <result column="heat_num" property="heatNum" jdbcType="INTEGER" />
+      <result column="comment_num" property="commentNum" jdbcType="INTEGER" />
+      <result column="share_num" property="shareNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    video_id, type_id, user_id, music_id, country, create_time, url, statues, collection_num,
+    is_private, img, introduction, is_source, is_hot, heat_num, comment_num, share_num
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List"/> from video_info where video_id = #{videoId,jdbcType=INTEGER}
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update video_info set statues = 0 where video_id = #{videoId,jdbcType=INTEGER}
+  </update>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.video.entity.VideoInfo" useGeneratedKeys="true" keyProperty="videoId">
+    insert into video_info
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="videoId != null and videoId != 0" >
+              video_id,
+          </if>
+          <if test="typeId != null and typeId != 0" >
+              type_id,
+          </if>
+          <if test="userId != null and userId != 0" >
+              user_id,
+          </if>
+          <if test="musicId != null and musicId != 0" >
+              music_id,
+          </if>
+          <if test="country != null" >
+              country,
+          </if>
+          <if test="createTime != null" >
+              create_time,
+          </if>
+          <if test="url != null" >
+              url,
+          </if>
+          <if test="statues != null" >
+              statues,
+          </if>
+          <if test="collectionNum != null" >
+              collection_num,
+          </if>
+          <if test="isPrivate != null" >
+              is_private,
+          </if>
+          <if test="img != null" >
+              img,
+          </if>
+          <if test="introduction != null" >
+              introduction,
+          </if>
+          <if test="isSource != null" >
+              is_source,
+          </if>
+          <if test="isHot != null" >
+              is_hot,
+          </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="videoId != null and videoId != 0" >
+              #{videoId,jdbcType=INTEGER},
+          </if>
+          <if test="typeId != null and typeId != 0" >
+              #{typeId,jdbcType=INTEGER},
+          </if>
+          <if test="userId != null and userId != 0" >
+              #{userId,jdbcType=INTEGER},
+          </if>
+          <if test="musicId != null and musicId != 0" >
+              #{musicId,jdbcType=INTEGER},
+          </if>
+          <if test="country != null" >
+              #{country,jdbcType=VARCHAR},
+          </if>
+          <if test="createTime != null" >
+              #{createTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="url != null" >
+              #{url,jdbcType=VARCHAR},
+          </if>
+          <if test="statues != null" >
+              #{statues,jdbcType=TINYINT},
+          </if>
+          <if test="collectionNum != null" >
+              #{collectionNum,jdbcType=INTEGER},
+          </if>
+          <if test="isPrivate != null" >
+              #{isPrivate,jdbcType=TINYINT},
+          </if>
+          <if test="img != null" >
+              #{img,jdbcType=VARCHAR},
+          </if>
+          <if test="introduction != null" >
+              #{introduction,jdbcType=VARCHAR},
+          </if>
+          <if test="isSource != null" >
+              #{isSource,jdbcType=TINYINT},
+          </if>
+          <if test="isHot != null" >
+              #{isHot,jdbcType=TINYINT},
+          </if>
+      </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.video.entity.VideoInfo" >
+    update video_info
+      <set >
+          <if test="typeId != null and typeId != 0" >
+              type_id = #{typeId,jdbcType=INTEGER},
+          </if>
+          <if test="userId != null and userId != 0" >
+              user_id = #{userId,jdbcType=INTEGER},
+          </if>
+          <if test="musicId != null and musicId != 0" >
+              music_id = #{musicId,jdbcType=INTEGER},
+          </if>
+          <if test="country != null" >
+              country = #{country,jdbcType=VARCHAR},
+          </if>
+          <if test="createTime != null" >
+              create_time = #{createTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="url != null" >
+              url = #{url,jdbcType=VARCHAR},
+          </if>
+          <if test="statues != null" >
+              statues = #{statues,jdbcType=TINYINT},
+          </if>
+          <if test="collectionNum != null" >
+              collection_num = #{collectionNum,jdbcType=INTEGER},
+          </if>
+          <if test="isPrivate != null" >
+              is_private = #{isPrivate,jdbcType=TINYINT},
+          </if>
+          <if test="img != null" >
+              img = #{img,jdbcType=VARCHAR},
+          </if>
+          <if test="introduction != null" >
+              introduction = #{introduction,jdbcType=VARCHAR},
+          </if>
+          <if test="isSource != null" >
+              is_source = #{isSource,jdbcType=TINYINT},
+          </if>
+          <if test="isHot != null" >
+              is_hot = #{isHot,jdbcType=TINYINT},
+          </if>
+      </set>
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </update>
+
+
+
+  <!-- 我的视频页面星星 点击后调取这个接口-->
+  <insert id="InsertCollection" parameterType="java.lang.Integer">
+    <selectKey keyProperty="log_id" resultType="int" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    INSERT INTO video_collection_log (
+    video_id,
+    user_id,
+    create_time
+    )
+    VALUES
+    (#{video_id}, #{userId}, NOW())
+  </insert>
+  <!--我的视频页面星星 点击后调取这个接口 关注数+1-->
+  <update id="updateFollow" parameterType="java.lang.Integer">
+    UPDATE video_info SET collection_num = collection_num + 1 WHERE video_id = #{video_id}
+  </update>
+
+  <!--我的视频页面星星 点击后再次点击调取这个接口 关注数-1-->
+  <update id="updateCancel" parameterType="java.lang.Integer">
+    UPDATE video_info SET collection_num = collection_num - 1 WHERE video_id = #{video_id}
+  </update>
+  <!-- 我的视频页面 点去取消关注后 删除对应的日志记录表-->
+  <delete id="deleteCancel" parameterType="java.util.HashMap">
+    delete from
+    video_collection_log
+    where
+    video_id = #{video_id}
+    AND user_id=#{userId}
+  </delete>
+
+
+  <!--公开视频详情页面 -->
+  <select id="lookVideoDetail" parameterType="java.util.HashMap" resultType="com.faceshow.modules.video.vo.VideoInfoSelectRowVo">
+    SELECT
+      vi.video_id videoId,
+      vi.topic_id topicId,
+      vi.type_id typeId,
+      vy.tname typeName,
+      vi.is_source isSource,
+      vi.user_id userId,
+      vi.music_id musicId,
+      vi.create_time videoCreateTime,
+      vi.url videoUrl,
+      vi.collection_num videoCollectionNum,
+      vi.img videoImg,
+      vi.introduction videoIntroductionContent,
+      ui.nick_name userNickName,
+      ui.img userImg,
+      vt.tname topicName,
+      vt.img topicImg,
+      vt.introduction topicIntroduction,
+      mi.mname musicName,
+      mi.img musicImg,
+      mi.url musicUrl,
+      vi.play_num videoPlayNum,
+      vi.comment_num commentNum,
+      getIsTutual(#{userId}, vi.user_id) isAttention
+    FROM
+        video_info vi
+    LEFT JOIN user_info ui ON vi.user_id = ui.user_id
+    LEFT JOIN video_topic vt ON vt.topic_id = vi.topic_id
+    LEFT JOIN music_info mi ON mi.music_id = vi.music_id
+    LEFT JOIN video_type vy ON vi.type_id = vy.type_id
+    WHERE
+       vi.video_id=#{video_id}
+      <!-- AND vi.is_private = #{is_private}
+      AND ui.user_id = #{userId}-->
+
+    <!-- SELECT
+        a.type_id,
+        a.video_id,
+        a.topic_id,
+        a.introduction,
+        a.collection_num zanNum,
+        b.nick_name,
+        d.tname,
+        d.img,
+        a.vname,
+    	IFNULL(c.mname, "") mname
+    FROM
+        video_info a
+    LEFT JOIN user_info b ON a.user_id = b.user_id
+    LEFT JOIN music_info c ON a.music_id = c.music_id
+    LEFT JOIN video_topic d ON d.topic_id = a.topic_id
+    WHERE
+        a.user_id = #{userId}
+    AND a.is_private=#{is_private}
+    AND a.video_id=#{video_id}-->
+  </select>
+    <!--给这个视频的点赞数量-->
+  <select id="lookVideoDetailZanNum" parameterType="java.util.HashMap" resultType="int">
+    SELECT
+    COUNT(*) zanNum
+    FROM
+        video_collection_log
+    WHERE
+    video_id=#{video_id}
+  </select>
+    <!--给这个视频的评论数量-->
+    <select id="lookVideoDetailCommentNum" parameterType="java.util.HashMap" resultType="int">
+        SELECT COUNT(1) num FROM video_comment WHERE video_id = #{video_id}
+    </select>
+
+
+    <!--我的话题页面 我参与的话题 -->
+  <select id="participateTopic" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+     <!--SELECT
+        a.join_id,
+        b.tname,
+         b.img,
+        c.counts
+      FROM
+          user_topic_join a,
+          sys_topic b,
+          (SELECT
+              topic_id,
+              count(1) AS counts
+          FROM
+              user_topic_join
+          GROUP BY
+              topic_id ) c
+      WHERE a.topic_id =b.topic_id
+      AND a.user_id=#{userId}
+      AND c.topic_id =b.topic_id
+      ORDER BY b.create_time DESC-->
+      SELECT
+          a.join_id,
+          a.topic_id,
+          b.tname,
+          b.user_id faqizheId,
+          b.img,
+          b.introduction,
+          d.img touxiang,
+          d.nick_name,
+          c.counts
+      FROM
+          user_topic_join a,
+          video_topic b,
+          user_info d,
+          (
+              SELECT
+                  topic_id,
+                  count(1) AS counts
+              FROM
+                  user_topic_join
+              GROUP BY
+                  topic_id
+          ) c
+      WHERE
+          a.topic_id = b.topic_id
+          AND a.user_id = #{userId}
+          AND c.topic_id = b.topic_id
+          AND d.user_id = b.user_id
+      ORDER BY
+          b.create_time DESC
+      <if test="offset != null and limit != null">
+          limit #{offset}, #{limit}
+      </if>
+  </select>
+    <select id="participateTopicTotal" parameterType="java.util.HashMap" resultType="int">
+        select
+            count(*)
+        FROM
+            user_topic_join a,
+            video_topic b,
+            (
+                SELECT
+                    topic_id,
+                    count(1) AS counts
+                FROM
+                    user_topic_join
+                GROUP BY
+                    topic_id
+            ) c
+        WHERE a.topic_id =b.topic_id
+            AND a.user_id=#{userId}
+            AND c.topic_id =b.topic_id
+    </select>
+
+  <!--我的话题页面 我发出的话题-->
+  <select id="deliverTopic" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+      SELECT
+          a.topic_id,
+          a.tname,
+          a.introduction,
+          b.counts,
+          a.img,
+          d.img touxiang,
+          d.nick_name
+      FROM
+          video_topic a,
+          (
+              SELECT
+                  topic_id,
+                  count(1) AS counts
+              FROM
+                  user_topic_join
+              GROUP BY
+                  topic_id
+          ) b,
+          user_info d
+      WHERE
+          a.user_id = #{userId}
+          AND b.topic_id = a.topic_id
+          AND d.user_id = a.user_id
+      ORDER BY
+          a.create_time DESC
+      <if test="offset != null and limit != null">
+          limit #{offset}, #{limit}
+      </if>
+  </select>
+    <select id="deliverTopicTotal" parameterType="java.util.HashMap" resultType="int">
+        select
+            count(*)
+        FROM
+            video_topic a,
+            (
+                SELECT
+                    topic_id,
+                    count(1) AS counts
+                FROM
+                    user_topic_join
+                GROUP BY
+                    topic_id
+            ) b
+        WHERE
+            a.user_id = #{userId}
+            AND b.topic_id = a.topic_id
+    </select>
+
+  <!--根据视频类型查看当前类型下热门视频15个 -->
+  <select id="findHotVideoByTypeId" parameterType="java.lang.Integer" resultType="java.util.Map" >
+    SELECT
+      uv.video_id videoId,
+      uv.collection_num collectionNum,
+      uv.url,
+      uv.img
+    FROM
+      video_info uv
+    WHERE
+      type_id = #{type}
+    AND is_private = 1
+    AND statues = 1
+    ORDER BY
+       uv.collection_num DESC
+    LIMIT 0, 15
+  </select>
+
+  <!--分页查询视频详情 -->
+  <select id="findVideoByRecommend" parameterType="java.util.Map" resultType="com.faceshow.modules.video.entity.RecommendVideo">
+    SELECT
+        vi.video_id videoId,
+        vi.topic_id topicId,
+        vi.type_id typeId,
+        vy.tname typeName,
+        vi.user_id userId,
+        vi.is_source isSource,
+        vi.music_id musicId,
+        vi.create_time videoCreateTime,
+        vi.url videoUrl,
+        vi.collection_num videoCollectionNum,
+        vi.introduction videoIntroductionContent,
+        vi.img videoImg,
+        ui.nick_name userNickName,
+        ui.img userImg,
+        mi.mname musicName,
+        mi.img musicImg,
+        vi.comment_num videoCommentNum,
+        vi.play_num videoPlayNum,
+        getIsTutual(#{userId}, vi.user_id) isAttention,
+        mi.url musicUrl
+    FROM
+        video_info vi
+    LEFT JOIN user_info ui ON vi.user_id = ui.user_id
+    LEFT JOIN music_info mi ON mi.music_id = vi.music_id
+    LEFT JOIN video_type vy ON vi.type_id = vy.type_id
+    WHERE
+       vi.statues = 1
+    AND vi.is_private = 1
+    AND ui.statues = 1
+    AND ui.del = 1
+      <if test="country != null and country.trim() != ''">
+        AND vi.country = #{country}
+      </if>
+      <if test="type == 1">
+        <!-- 推荐视频-->
+          ORDER BY vi.is_hot DESC, vi.heat_num DESC, vi.collection_num + vi.play_num DESC
+      </if>
+      <if test="type == 2">
+          <!-- 关注人的视频-->
+          AND (EXISTS (select a.account from user_attention a where a.user_id = #{userId} and a.account = vi.user_id) or vi.user_id = #{userId})
+          ORDER BY vi.is_hot DESC, vi.heat_num DESC, vi.collection_num + vi.play_num DESC
+      </if>
+      <if test="type == 3">
+          <!-- 最新视频-->
+          ORDER BY vi.create_time DESC
+      </if>
+      LIMIT #{currPage}, #{pageSize}
+
+  </select>
+
+    <!--查询信息总条数 -->
+    <select id="findVideoTotalCountByRecommend" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+        FROM
+            video_info vi
+        LEFT JOIN user_info ui ON vi.user_id = ui.user_id
+        LEFT JOIN video_topic vt ON vt.topic_id = vi.topic_id
+        LEFT JOIN music_info mi ON mi.music_id = vi.music_id
+        WHERE
+           vi.statues = 1
+        AND vi.is_private = 1
+        AND ui.statues = 1
+        AND ui.del = 1
+        <if test="country != null and country.trim() != ''">
+            AND vi.country = #{country}
+        </if>
+        <if test="type == 2">
+            <!-- 关注人的视频-->
+            AND (EXISTS (select a.account from user_attention a where a.user_id = #{userId} and a.account = vi.user_id) or vi.user_id = #{userId})
+        </if>
+    </select>
+    <!--6.2.1.7.1我的点赞直播页面带分页-->
+    <select id="videoFabulous" parameterType="java.util.Map" resultType="java.util.Map">
+         SELECT
+        a.live_id,
+        a.online_num,
+        a.live_img,
+        a.file_url,
+        a.is_live * 1 is_live,
+        c.nick_name
+    FROM
+        live_info a,
+        live_collection_log b,
+        user_info c
+    WHERE
+        a.live_id = b.live_id
+    AND b.user_id = #{userId}
+    AND a.user_id = c.user_id
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="videoFabulousTotal" parameterType="java.util.Map" resultType="int">
+         select count(*)
+        FROM
+        live_info a,
+        live_collection_log b,
+        user_info c
+        WHERE
+        a.live_id = b.live_id
+        AND b.user_id = #{userId}
+        AND a.user_id = c.user_id
+    </select>
+    <!--6.2.1.8.1进入话题页面-->
+    <select id="topicMaster" parameterType="java.util.Map" resultType="java.util.Map">
+                SELECT
+            a.topic_id,
+            a.introduction,
+            c.nick_name,
+            c.img
+        FROM
+            video_topic a,
+            user_topic_join b,
+            user_info c
+        WHERE
+            a.topic_id = #{topic_id}
+        AND b.user_id = #{userId}
+        AND a.topic_id = b.topic_id
+        AND b.user_id = c.user_id
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="topicMasterTotal" parameterType="java.util.Map" resultType="int">
+         select
+         count(*)
+        FROM
+        video_topic a,
+        user_topic_join b,
+        user_info c
+        WHERE
+        a.topic_id = #{topic_id}
+        AND b.user_id = #{userId}
+        AND a.topic_id = b.topic_id
+        AND b.user_id = c.user_id
+    </select>
+<!--我的点赞 公开视频 带分页-->
+    <select id="findZanVideo" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        a.url videoUrl,
+        a.video_id,
+        a.img,
+        a.collection_num,
+        b.img userImg
+        FROM
+        video_info a,
+        user_info b
+        WHERE
+        a.is_private = 1
+        AND a.user_id = b.user_id
+    AND video_id IN (
+        SELECT
+            video_id
+        FROM
+            video_collection_log
+        WHERE
+            user_id = #{userId}
+    )
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="findZanVideoTotal" parameterType="java.util.Map" resultType="int">
+        SELECT
+        COUNT(*)
+        FROM
+        video_info
+        WHERE
+        is_private = 1
+        AND video_id IN (
+        SELECT
+        video_id
+        FROM
+        video_collection_log
+        WHERE
+        user_id = #{userId}
+        )
+    </select>
+
+
+    <!--直播的时候增加了多少个粉丝？-->
+    <select id="AddFansVideo" parameterType="java.util.Map" resultType="int">
+        SELECT
+        COUNT(*) count
+        FROM
+        user_attention
+        WHERE
+        create_time  &gt;= #{stime}
+        AND create_time &lt;= #{etime}
+        AND account=#{userId}
+    </select>
+    <!--直播的时候 赚取了多少钻石-->
+    <select id="AddPrice" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT SUM(price * numbers) FROM
+        user_give_away_log
+        WHERE
+        create_time  &gt;=#{stime}
+        AND create_time &lt;=#{etime}
+        AND is_type = 2
+        AND account=#{userId}
+    </select>
+    <!--用户关注表 他们的关系-->
+    <select id="FansYes" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+            is_tutual*1 is_tutual
+        FROM
+            user_attention
+        WHERE
+        user_id=#{userId}
+        AND account=#{account}
+    </select>
+    <!--我的直播历史记录-->
+    <select id="liveHistory" parameterType="java.util.Map" resultType="java.util.Map">
+     SELECT
+      live_img,
+      user_id,
+      file_url,
+      start_time stime,
+      end_time etime,
+      DATE_FORMAT(start_time, '%Y年%m月%d日') start_time,
+      (select SEC_TO_TIME((TIME_TO_SEC(end_time) - TIME_TO_SEC(start_time))) ) intervals,
+      online_num
+    FROM
+        live_info
+    WHERE user_id=#{userId}
+     <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+     </if>
+    </select>
+    <select id="liveHistoryTotal" parameterType="java.util.Map" resultType="int">
+        SELECT
+        count(*)
+        FROM
+        live_info
+        WHERE user_id=#{userId}
+    </select>
+    <!--获取前六个最高的点赞数量 -->
+    <select id="TopicVideo" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        user_id,
+        img
+    FROM
+        user_info
+    WHERE
+        user_id IN (  SELECT
+            user_id
+        FROM
+            video_info
+        WHERE
+            topic_id = #{topic_id}
+        ORDER BY
+            collection_num DESC )
+    LIMIT 6
+    </select>
+    <!--查看这个人是否点赞过这个视频-->
+   <select id="OrCollection_log" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        log_id
+    FROM
+        video_collection_log
+    WHERE video_id=#{video_id}
+    AND user_id=#{user_id}
+   </select>
+
+    <!--进入话题详情, 音乐详情, 视频分类详情需要展示的视频列表 -->
+    <select id="findVideoRelevantList" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+            a.user_id,
+            a.video_id,
+            a.collection_num,
+            a.url,
+            a.img
+        from
+            video_info a
+        <if test="topicId != null and topicId.trim() != ''">
+            left join video_topic_belong b on  a.video_id = b.video_id
+        </if>
+        <where>
+            <if test="topicId != null and topicId.trim() != ''">
+                and b.topic_id = #{topicId}
+            </if>
+            <if test="musicId != null and musicId.trim() != ''">
+                and a.music_id = #{musicId}
+            </if>
+            <if test="typeId != null and typeId.trim() != ''">
+                and a.type_id = #{typeId}
+            </if>
+            <if test="type == 2">
+                and a.country=#{country}
+            </if>
+        </where>
+        <if test="type == 0">
+            order by a.video_id desc
+        </if>
+        <if test="type != 0">
+            order by a.collection_num desc
+        </if>
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--进入话题详情, 音乐详情, 视频分类详情需要展示的视频数量 -->
+    <select id="findVideoRelevantTotal" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from video_info a
+        <if test="topicId != null and topicId.trim() != ''">
+            left join video_topic_belong b on  a.video_id = b.video_id
+        </if>
+        <where>
+            <if test="topicId != null and topicId.trim() != ''">
+                and b.topic_id = #{topicId}
+            </if>
+            <if test="musicId != null and musicId.trim() != ''">
+                and a.music_id = #{musicId}
+            </if>
+            <if test="typeId != null and typeId.trim() != ''">
+                and a.type_id = #{typeId}
+            </if>
+            <if test="type == 2">
+                AND a.country=#{country}
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询话题, 分类, 音乐 得分最高的六个人-->
+    <select id="findHightScoreUser" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT
+            a.user_id userId,
+            b.img userImg
+        FROM
+          video_info a
+        LEFT JOIN user_info b ON a.user_id = b.user_id
+        <where>
+            <if test="type == 1">
+                and a.topic_id = #{param}
+            </if>
+            <if test="type == 2">
+                and a.type_id = #{param}
+            </if>
+            <if test="type == 3">
+                and a.music_id = #{param}
+            </if>
+        </where>
+        GROUP BY
+          a.user_id
+        ORDER BY
+          sum(a.collection_num) DESC
+        LIMIT 5
+    </select>
+
+    <!-- 根据视频url判断视频是否存在-->
+    <select id="findVideoImgByVideoUrl" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT
+          vi.url videoUrl,
+          vi.img videoImg,
+          vi.video_id videoId,
+          vi.introduction videoIntroduction,
+          concat("@", ui.nick_name) userNickName,
+          concat("#", vt.tname) topicName,
+          mi.mname musicName
+        FROM
+            video_info vi
+        LEFT JOIN user_info ui ON vi.user_id = ui.user_id
+        LEFT JOIN video_topic vt ON vt.topic_id = vi.topic_id
+        LEFT JOIN music_info mi ON mi.music_id = vi.music_id
+        WHERE
+           vi.url = #{videoUrl} and vi.statues = 1 and vi.is_private = 1 and ui.statues = 1 and ui.del = 1
+    </select>
+
+    <!-- 查询本国热门视频-->
+    <select id="findDomesticHotVideo" resultType="java.util.Map">
+        SELECT
+            a.img,
+            b.nick_name,
+            a.collection_num + (SELECT count(1) FROM video_play_log c WHERE c.video_id = a.video_id ) playNum
+        FROM
+            video_info a
+        LEFT JOIN user_info b ON a.user_id = b.user_id
+        WHERE
+            <if test="state == 0">
+                a.country = #{country}
+            </if>
+            <if test="state != 0">
+                a.country != #{country}
+            </if>
+        ORDER BY playNum DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!--根据话题查询-->
+    <select id="selectByTopic" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        video_id,
+        user_id,
+        img,
+        collection_num
+        FROM
+        video_info
+        WHERE
+        statues = 1
+        AND is_private = 1
+        AND topic_id = #{topic_id}
+    </select>
+
+    <!--查询视频的名字-->
+    <select id="selectvname" parameterType="java.util.Map" resultType="java.util.Map">
+     SELECT  vname FROM  video_info WHERE video_id=#{video_id}
+    </select>
+
+    <!-- 视频评论数量+1 或者-1-->
+    <update id="updateCommentNumOne" parameterType="com.faceshow.common.utils.NumUtils">
+        update video_info set comment_num = comment_num + #{num} where video_id = #{id}
+    </update>
+    <!--根據 video_id 查詢用户ID-->
+    <select id="selectVideoUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+          SELECT
+    user_id userId
+    FROM
+        video_info
+    WHERE
+        video_id = #{id}
+    </select>
+
+    <!-- 将评论数量修改为指定值-->
+    <update id="updateCommentNumMany" parameterType="com.faceshow.common.utils.NumUtils">
+        update video_info set comment_num = #{num} where video_id = #{id}
+    </update>
+
+    <!-- 修改点赞数量-->
+    <update id="updateLikeNum" parameterType="com.faceshow.common.utils.NumUtils">
+        update video_info set collection_num = collection_num + #{num} where video_id = #{id}
+    </update>
+
+    <!-- 标记视频删除-->
+    <update id="deleteVideo" parameterType="java.lang.Integer">
+        update video_info set statues = 0 where video_id = #{videoId}
+    </update>
+
+    <!-- 标记视频为公开-->
+    <update id="updateState" parameterType="java.lang.Integer">
+        update video_info set is_private = 1 where video_id = #{videoId}
+    </update>
+
+    <!--查询关注的人的视频列表 -->
+    <select id="findAttentionVideoList" parameterType="java.util.Map" resultType="com.faceshow.modules.video.entity.RecommendVideo">
+        SELECT
+            vi.video_id videoId,
+            vi.topic_id topicId,
+            vi.type_id typeId,
+            vy.tname typeName,
+            vi.user_id userId,
+            vi.is_source isSource,
+            vi.music_id musicId,
+            vi.create_time videoCreateTime,
+            vi.url videoUrl,
+            vi.collection_num videoCollectionNum,
+            vi.img videoImg,
+            vi.introduction videoIntroduction,
+            ui.nick_name userNickName,
+            ui.img userImg,
+            vt.tname topicName,
+            vt.img topicImg,
+            vt.introduction topicIntroduction,
+            mi.mname musicName,
+            mi.img musicImg,
+            vi.comment_num videoCommentNum,
+            <if test="currPage != 0">
+                (SELECT count(1) FROM video_play_log vl WHERE vl.video_id = vi.video_id) playCount,
+            </if>
+            mi.url musicUrl
+        FROM
+            video_info vi
+        LEFT JOIN user_info ui ON vi.user_id = ui.user_id
+        LEFT JOIN video_topic vt ON vt.topic_id = vi.topic_id
+        LEFT JOIN music_info mi ON mi.music_id = vi.music_id
+        LEFT JOIN video_type vy ON vi.type_id = vy.type_id
+        WHERE
+            vi.statues = 1
+            AND vi.is_private = 1
+            AND ui.statues = 1
+            AND ui.del = 1
+            AND EXISTS
+              (select a.account from user_attention a where a.user_id = #{userId} and a.account = vi.user_id)
+        <if test="currPage == 0">
+            <!-- 最新视频-->
+            ORDER BY vi.is_hot DESC, vi.heat_num DESC, vi.create_time DESC
+        </if>
+        <if test="currPage != 0">
+            <!-- 得分最多视频-->
+            ORDER BY vi.is_hot DESC, vi.heat_num DESC, vi.collection_num+playCount DESC
+        </if>
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!-- 查询关注人的视频数量-->
+    <select id="findAttentionVideoTotal" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1) FROM video_info vi
+        LEFT JOIN user_info ui ON vi.user_id = ui.user_id
+        LEFT JOIN video_topic vt ON vt.topic_id = vi.topic_id
+        LEFT JOIN music_info mi ON mi.music_id = vi.music_id
+        LEFT JOIN video_type vy ON vi.type_id = vy.type_id
+        WHERE
+            vi.statues = 1
+        AND vi.is_private = 1
+        AND ui.statues = 1
+        AND ui.del = 1
+        AND EXISTS
+        (select a.account from user_attention a where a.user_id = #{userId} and a.account = vi.user_id)
+    </select>
+
+    <!--根据视频id查询视频使用音乐的音乐发起人 -->
+    <select id="findMusicUserIdByVideoId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select b.user_id from  video_info a , music_info b where a.music_id = b.music_id and a.video_id = #{videoId}
+    </select>
+
+    <!-- 根据视频id修改视频播放次数-->
+    <update id="addplayNumByVideoId" parameterType="com.faceshow.modules.video.entity.VideoPlayLog">
+        update video_info set play_num = play_num + 1 where video_id in
+        <foreach collection="list" item="videoPlayLog" open="(" close=")" separator=",">
+            #{videoPlayLog.videoId}
+        </foreach>
+    </update>
+
+    <!-- 视频分享数量+1-->
+    <update id="addShareNumByVideoId" parameterType="java.lang.Integer">
+        update video_info set share_num = share_num + 1 where video_id = #{videoId}
+    </update>
+
+</mapper>

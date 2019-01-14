@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.video.dao.VideoTopicBelongDao" >
+
+  <!-- 单个保存视频话题操作-->
+  <insert id="save" parameterType="com.faceshow.modules.video.entity.VideoTopicBelong" >
+    insert into video_topic_belong (topic_id, video_id, create_time) values (#{topicId}, #{videoId}, #{createTime})
+  </insert>
+
+  <!-- 批量保存视频话题操作-->
+  <insert id="saveBatch" parameterType="com.faceshow.modules.video.entity.VideoTopicBelong" >
+    insert into video_topic_belong (topic_id, video_id, create_time) values
+    <foreach collection="list" item="videoTopicBelong" separator="," >
+      (#{videoTopicBelong.topicId}, #{videoTopicBelong.videoId}, #{videoTopicBelong.createTime})
+    </foreach>
+  </insert>
+  
+</mapper>

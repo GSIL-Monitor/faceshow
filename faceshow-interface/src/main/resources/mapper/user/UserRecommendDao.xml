@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.UserRecommendDao">
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.user.entity.UserRecommend">
+    <id column="recommend_id" jdbcType="INTEGER" property="recommendId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="creator" jdbcType="INTEGER" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <if test="fields == null">
+      recommend_id, user_id, creator, create_time
+    </if>
+    <if test="fields != null">
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    recommend_id,user_id,creator,create_time
+    from user_recommend
+    where recommend_id = #{recommendId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_recommend
+    where recommend_id = #{recommendId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.user.entity.UserRecommend">
+    insert into user_recommend (recommend_id, user_id, creator, 
+      create_time)
+    values (#{recommendId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{creator,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.user.entity.UserRecommend">
+    insert into user_recommend
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="recommendId != null">
+        recommend_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="recommendId != null">
+        #{recommendId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.user.entity.UserRecommend">
+    update user_recommend
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where recommend_id = #{recommendId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.user.entity.UserRecommend">
+    update user_recommend
+    set user_id = #{userId,jdbcType=INTEGER},
+      creator = #{creator,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where recommend_id = #{recommendId,jdbcType=INTEGER}
+  </update>
+</mapper>

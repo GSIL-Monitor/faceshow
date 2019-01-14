@@ -1,0 +1,1295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.live.dao.LiveInfoDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.live.entity.LiveInfo" >
+    <id column="live_id" property="liveId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="anchor_no" property="anchorNo" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="online_num" property="onlineNum" jdbcType="INTEGER" />
+    <result column="like_num" property="likeNum" jdbcType="INTEGER" />
+    <result column="gift_num" property="giftNum" jdbcType="INTEGER" />
+    <result column="live_img" property="liveImg" jdbcType="VARCHAR" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+    <result column="is_live" property="isLive" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      live_id, user_id, anchor_no, start_time, end_time, online_num, like_num, gift_num, 
+      live_img, file_url, is_live
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    live_id,user_id,anchor_no,start_time,end_time,online_num,like_num,gift_num,live_img,file_url,is_live
+    from live_info
+    where live_id = #{liveId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from live_info
+    where live_id = #{liveId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="java.util.Map" >
+    <selectKey keyProperty="live_id" resultType="int" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into live_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="live_id!= null and live_id != ''">
+        live_id,
+      </if>
+      <if test="type_id!= null and type_id != ''">
+        type_id,
+      </if>
+      <if test="user_id!= null and user_id != ''">
+        user_id,
+      </if>
+      <if test="info_id!= null and info_id != ''">
+        info_id,
+      </if>
+      <if test="anchor_no!= null and anchor_no != ''">
+        anchor_no,
+      </if>
+      <if test="start_time!= null">
+        start_time,
+      </if>
+      <if test="end_time!= null">
+        end_time,
+      </if>
+      <if test="online_num!= null and online_num != ''">
+        online_num,
+      </if>
+      <if test="like_num!= null and like_num != ''">
+        like_num,
+      </if>
+      <if test="gift_num!= null and gift_num != ''">
+        gift_num,
+      </if>
+      <if test="live_img!= null and live_img != ''">
+        live_img,
+      </if>
+      <if test="rtmp_url!= null and rtmp_url != ''">
+        rtmp_url,
+      </if>
+      <if test="hls_url!= null and hls_url != ''">
+        hls_url,
+      </if>
+      <if test="flv_url!= null and flv_url != ''">
+        flv_url,
+      </if>
+      <if test="file_url!= null and file_url != ''">
+        file_url,
+      </if>
+      <if test="is_live!= null and is_live != ''">
+        is_live,
+      </if>
+      <if test="is_disable!= null and is_disable != ''">
+        is_disable,
+      </if>
+      <if test="country_id!= null and country_id != ''">
+        country_id,
+      </if>
+      <if test="info_name!= null and info_name != ''">
+        info_name,
+      </if>
+      <if test="types!= null and types != ''">
+        types,
+      </if>
+      <if test="pwd!= null and pwd != ''">
+        pwd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="live_id!= null and live_id != ''">
+        #{live_id},
+      </if>
+      <if test="type_id!= null and type_id != ''">
+        #{type_id},
+      </if>
+      <if test="user_id!= null and user_id != ''">
+        #{user_id},
+      </if>
+      <if test="info_id!= null and info_id != ''">
+        #{info_id},
+      </if>
+      <if test="anchor_no!= null and anchor_no != ''">
+        #{anchor_no},
+      </if>
+      <if test="start_time!= null">
+        #{start_time},
+      </if>
+      <if test="end_time!= null">
+        #{end_time},
+      </if>
+      <if test="online_num!= null and online_num != ''">
+        #{online_num},
+      </if>
+      <if test="like_num!= null and like_num != ''">
+        #{like_num},
+      </if>
+      <if test="gift_num!= null and gift_num != ''">
+        #{gift_num},
+      </if>
+      <if test="live_img!= null and live_img != ''">
+        #{live_img},
+      </if>
+      <if test="rtmp_url!= null and rtmp_url != ''">
+        #{rtmp_url},
+      </if>
+      <if test="hls_url!= null and hls_url != ''">
+        #{hls_url},
+      </if>
+      <if test="flv_url!= null and flv_url != ''">
+        #{flv_url},
+      </if>
+      <if test="file_url!= null and file_url != ''">
+        #{file_url},
+      </if>
+      <if test="is_live!= null and is_live != ''">
+        #{is_live},
+      </if>
+      <if test="is_disable!= null and is_disable != ''">
+        #{is_disable},
+      </if>
+      <if test="country_id!= null and country_id != ''">
+        #{country_id},
+      </if>
+      <if test="info_name!= null and info_name != ''">
+        #{info_name},
+      </if>
+      <if test="types!= null and types != ''">
+        #{types},
+      </if>
+      <if test="pwd!= null and pwd != ''">
+        #{pwd},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.live.entity.LiveInfo" >
+    update live_info
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="anchorNo != null" >
+        anchor_no = #{anchorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onlineNum != null" >
+        online_num = #{onlineNum,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        like_num = #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="giftNum != null" >
+        gift_num = #{giftNum,jdbcType=INTEGER},
+      </if>
+      <if test="liveImg != null" >
+        live_img = #{liveImg,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        file_url = #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isLive != null" >
+        is_live = #{isLive,jdbcType=TINYINT},
+      </if>
+    </set>
+    where live_id = #{liveId,jdbcType=INTEGER}
+  </update>
+
+  <!--查询正在直播的直播列表 -->
+  <select id="findLiveList" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        li.live_id liveId,
+        li.user_id userId,
+        li.anchor_no anchorNo,
+        li.online_num onlineNum,
+        li.live_img liveImg,
+        li.file_url fileUrl,
+        ui.nick_name nickName,
+        ui.signature
+    FROM
+        live_info li
+    LEFT JOIN user_info ui ON li.user_id = ui.user_id
+    <if test="type == 3">
+      LEFT JOIN user_application_anchor ua ON ua.user_id = li.user_id
+    </if>
+    WHERE
+        ui.statues = 1
+    AND li.is_live = 0
+    AND ui.del = 1
+    <if test="type == 2">
+      AND ui.country = #{country}
+    </if>
+    <if test="type == 3">
+      AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <![CDATA[   <=  ]]> ua.check_time
+      ORDER BY ua.check_time DESC
+    </if>
+    <if test="type != 3">
+      ORDER BY ui.charm_values DESC
+    </if>
+    LIMIT #{currPage}, #{pageSize}
+  </select>
+
+  <!-- 查询正在直播的数量-->
+  <select id="findLiveTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT
+      count(*)
+    FROM
+        live_info li
+    LEFT JOIN user_info ui ON li.user_id = ui.user_id
+    <if test="type == 3">
+      LEFT JOIN user_application_anchor ua ON ua.user_id = li.user_id
+    </if>
+    WHERE
+        ui.statues = 1
+    AND li.is_live = 0
+    AND ui.del = 1
+    <if test="type == 2">
+      AND ui.country = #{country}
+    </if>
+    <if test="type == 3">
+      AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) <![CDATA[   <=  ]]> ua.check_time
+    </if>
+  </select>
+  <!--更新为主播 并且提供主播编号-->
+  <update id="updateAnchor" parameterType="java.util.Map">
+    UPDATE user_info
+    SET is_anchor = #{is_anchor},
+    anchor_no = #{anchor_no}
+    WHERE user_id=#{userId}
+  </update>
+
+  <!--批量插入用户直播间信息-->
+  <insert id="insertlive_home_info" parameterType="java.util.Map" >
+    <selectKey keyProperty="info_id" resultType="int" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into live_home_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="home_no!= null and home_no != ''">
+        home_no,
+      </if>
+      <if test="info_name!= null and info_name != ''">
+        info_name,
+      </if>
+      <if test="create_time!= null">
+        create_time,
+      </if>
+      <if test="creator!= null and creator != ''">
+        creator,
+      </if>
+      <if test="editor_time!= null ">
+        editor_time,
+      </if>
+      <if test="editor!= null and editor != ''">
+        editor,
+      </if>
+      <if test="userId= null and userId != ''">
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="home_no!= null and home_no != ''">
+        #{home_no},
+      </if>
+      <if test="info_name!= null and info_name != ''">
+        #{info_name},
+      </if>
+      <if test="create_time!= null ">
+        #{create_time},
+      </if>
+      <if test="creator!= null and creator != ''">
+        #{creator},
+      </if>
+      <if test="editor_time!= null ">
+        #{editor_time},
+      </if>
+      <if test="editor!= null and editor != ''">
+        #{editor},
+      </if>
+      <if test="userId= null and userId != ''">
+        #{userId},
+      </if>
+    </trim>
+  </insert>
+  <!--直播结束后更新数据库 TX的回掉-->
+  <update id="endBroadcast" parameterType="java.util.Map">
+    UPDATE live_info
+    SET end_time = #{end_time},
+    is_live = #{is_live}
+    WHERE
+        info_id =(SELECT
+    info_id
+    FROM
+    live_home_info
+    WHERE
+    stream_id= #{stream_id})
+  </update>
+      <!--开启直播-->
+  <insert id="SaveLive_home_info" parameterType="java.util.Map" >
+    insert into  live_home_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="home_no!= null and home_no != ''">
+        home_no,
+      </if>
+      <if test="create_time!= null">
+        create_time,
+      </if>
+      <if test="creator!= null and creator != ''">
+        creator,
+      </if>
+      <if test="editor_time!= null">
+        editor_time,
+      </if>
+      <if test="editor!= null and editor != ''">
+        editor,
+      </if>
+      <if test="IM_ID!= null and IM_ID != ''">
+        IM_ID,
+      </if>
+      <if test="userId= null and userId != ''">
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="home_no!= null and home_no != ''">
+        #{home_no},
+      </if>
+      <if test="create_time!= null">
+        #{create_time},
+      </if>
+      <if test="creator!= null and creator != ''">
+        #{creator},
+      </if>
+      <if test="editor_time!= null">
+        #{editor_time},
+      </if>
+      <if test="editor!= null and editor != ''">
+        #{editor},
+      </if>
+      <if test="IM_ID!= null and IM_ID != ''">
+        #{IM_ID},
+      </if>
+      <if test="userId= null and userId != ''">
+        #{userId},
+      </if>
+    </trim>
+  </insert>
+   <!--实名认证之后才会有 如果没有 开启直播失败-->
+  <select id="authentication" resultType="java.util.Map" parameterType="java.util.Map" >
+    SELECT
+        info_id,
+        IM_ID
+    FROM
+        live_home_info
+    WHERE
+        user_id=#{userId}
+  </select>
+
+  <!--查看主播编号-->
+  <select id="findAnchor_no" parameterType="java.util.Map" resultType="String">
+    SELECT
+	anchor_no
+FROM
+	user_info
+WHERE
+	user_id = #{userId}
+	AND is_anchor=1
+  </select>
+  <!--查看正在直播的列表  #全球热门  传递country_id就是#本国热门  带分页   1全球2本国热门3最新4私密5生活6才艺7PK-->
+  <select id="beingBroadcast" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+    a.types*1 types,
+    IFNULL(a.business_id, '') business_id,
+    IFNULL(a.pwd, '') pwd,
+    a.live_id,
+    a.info_name,
+    a.live_img,
+    a.online_num,
+    a.flv_url,
+    a.hls_url,
+    a.rtmp_url,
+    b.nick_name,
+    b.user_id,
+    c.IM_ID,
+    c.stream_id
+    FROM
+    live_info a,
+    user_info b,
+    live_home_info c
+    WHERE
+    a.user_id = b.user_id
+    AND c.info_id = a.info_id
+    AND a.is_live = 0
+    AND a.is_disable = 1
+    <if test="type_id!= 1">
+      AND a.country_id=#{country_id}
+    </if>
+    <if test="type_id!= null and type_id != ''and type_id !=1 and type_id !=2 and type_id !=3"><!-- -->
+      AND a.type_id=#{type_id}
+    </if>
+    <if test="type_id == 1 or type_id == 2"><!-- -->
+      ORDER BY
+      a.online_num DESC
+    </if>
+    <if test="type_id == 3">
+      ORDER BY
+      a.start_time DESC
+    </if>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+  <select id="beingBroadcastTotal"  parameterType="java.util.Map" resultType="int">
+   SELECT count(*)
+    FROM
+	live_info a,
+	user_info b,
+	live_home_info c
+    WHERE
+        a.user_id = b.user_id
+    AND c.info_id = a.info_id
+    AND a.is_live = 0
+    AND a.is_disable = 1
+    <if test="country_id!= null and country_id != ''">
+      AND a.country_id=#{country_id}
+    </if>
+  </select>
+  <!--根据用户ID 跟新IM的聊天室-->
+  <update id="updateIM_ID" parameterType="java.util.Map">
+    UPDATE  live_home_info
+    SET IM_ID=#{IM_ID},
+    stream_id=#{stream_id}
+    WHERE user_id=#{userId}
+  </update>
+  <!--解散群用 所以要查询IM_ID-->
+  <select id="selectIm_ID" parameterType="java.util.Map" resultType="String">
+    SELECT
+        IM_ID
+    FROM
+        live_home_info
+    WHERE
+        stream_id =#{stream_id}
+  </select>
+  <!--查询这场直播增加了多少粉丝 多少等 需要得到开播时间和结束开播时间-->
+  <select id="selectLive_info" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+    online_num,
+   (select SEC_TO_TIME((TIME_TO_SEC(end_time) - TIME_TO_SEC(start_time))) ) intervals,
+    live_img
+    FROM
+    live_info
+    WHERE
+    live_id =#{live_id}
+  </select>
+  <!--直播了多少场了-->
+  <select id="selectNumber" parameterType="java.util.Map" resultType="int">
+     SELECT
+      COUNT(*) total
+  FROM
+      live_info
+  WHERE
+      user_id = #{userId}
+  AND is_live = 1
+  AND is_disable = 1
+  </select>
+  <!--禁言的时间-->
+  <select id="selectTimes" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+	a.user_id,
+    DATE_FORMAT (a.times, '%Y-%m-%d %H:%i:%S') times,
+	b.nick_name,
+	b.img,
+	b.signature
+FROM
+	live_info_ban a,
+	user_info b
+    WHERE a.IM_ID=#{IM_ID}
+    AND a.user_id = b.user_id
+  </select>
+  <!--查看主播的头像ID昵称-->
+  <select id="selectAnchor" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        user_id,
+        img,
+        nick_name
+    FROM
+        user_info
+    WHERE user_id=#{userId}
+  </select>
+    <!--连麦-->
+  <insert id="insertSelectiveMicrophone" parameterType="java.util.Map" >
+    insert into live_microphone
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="anchor_id!= null and anchor_id != ''">
+        anchor_id,
+      </if>
+      <if test="audience_id!= null and audience_id != ''">
+        audience_id,
+      </if>
+      <if test="creat_time!= null">
+        creat_time,
+      </if>
+      <if test="type!= null and type != ''">
+        type,
+      </if>
+      <if test="flv_url!= null and flv_url != ''">
+        flv_url,
+      </if>
+      <if test="hls_url!= null and hls_url != ''">
+        hls_url,
+      </if>
+      <if test="rtmp_url!= null and rtmp_url != ''">
+        rtmp_url,
+      </if>
+      <if test="stream_id!= null and stream_id != ''">
+        stream_id,
+      </if>
+      <if test="final_url!= null and final_url != ''">
+        final_url,
+      </if>
+      <if test="types!= null and types != ''">
+        types,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="anchor_id!= null and anchor_id != ''">
+        #{anchor_id},
+      </if>
+      <if test="audience_id!= null and audience_id != ''">
+        #{audience_id},
+      </if>
+      <if test="creat_time!= null">
+        #{creat_time},
+      </if>
+      <if test="type!= null and type != ''">
+        #{type},
+      </if>
+      <if test="flv_url!= null and flv_url != ''">
+        #{flv_url},
+      </if>
+      <if test="hls_url!= null and hls_url != ''">
+        #{hls_url},
+      </if>
+      <if test="rtmp_url!= null and rtmp_url != ''">
+        #{rtmp_url},
+      </if>
+      <if test="stream_id!= null and stream_id != ''">
+        #{stream_id},
+      </if>
+      <if test="final_url!= null and final_url != ''">
+        #{final_url},
+      </if>
+      <if test="types!= null and types != ''">
+       #{types},
+      </if>
+    </trim>
+  </insert>
+   <!--查询申请连麦的的列表页面 传递的是主播的的用户ID-->
+  <select id="selectMicrophoneList" parameterType="java.util.Map" resultType="java.util.Map">
+SELECT
+    b.user_id,
+	b.nick_name,
+	b.img,
+	b.signature,
+	a.audience_id,
+	a.type * 1 type,
+	a.final_url,
+	a.flv_url,
+	a.hls_url,
+	a.rtmp_url,
+	a.stream_id
+FROM
+	live_microphone a,
+	user_info b
+WHERE
+	b.user_id = a.audience_id
+AND anchor_id = #{anchor_id}
+AND types=#{types}
+ORDER BY
+	a.type DESC,
+	a.creat_time
+LIMIT 10
+  </select>
+
+  <!--申请连麦成功后返回的-->
+  <select id="applyMicrophoneList" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+    b.nick_name,
+	b.img,
+	b.signature,
+	a.audience_id,
+	a.type * 1 type,
+	a.final_url,
+	a.flv_url,
+	a.hls_url,
+	a.rtmp_url,
+	a.stream_id
+    FROM
+    live_microphone a,
+    user_info b
+    WHERE
+    b.user_id = a.audience_id
+    AND  a.stream_id = #{stream_id}
+  </select>
+  <!--插入直播表这个语音连麦表的主键 加以关联 -->
+  <select id="findMicrophone_id" parameterType="String" resultType="int">
+  SELECT  microphone_id FROM  live_microphone
+WHERE
+	stream_id = #{stream_id}
+  </select>
+  <!--增加业务关联和直播表-->
+  <update id="updateLive_infoBusiness_id" parameterType="java.util.Map" >
+    UPDATE live_info
+    SET business_id=#{business_id},
+    types=#{types}
+    WHERE live_id=#{live_id}
+  </update>
+
+  <!--主播同意连麦连麦-->
+  <update id="endMicrophoneList" parameterType="String">
+    UPDATE live_microphone
+    SET type = 1
+    WHERE
+    stream_id = #{stream_id}
+  </update>
+
+  <!--连麦结束后删除这个人的申请在连麦申请表-->
+  <delete id="finishMicrophoneList" parameterType="int">
+  DELETE
+  FROM
+      live_microphone
+  WHERE
+      audience_id = #{audience_id}
+  AND type=1
+  </delete>
+    <!--直播结束后的回掉 删除这个主播所有的连麦申请   ，不能先select出同一表中的某些值，再update这个表(在同一语句中)-->
+    <delete id="finishBroadcast" parameterType="java.util.Map">
+        DELETE
+FROM
+	live_microphone
+WHERE
+	anchor_id = (
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					anchor_id
+				FROM
+					live_microphone
+				WHERE
+					stream_id = #{stream_id}
+			)a
+	)
+    </delete>
+
+  <!--拒绝连麦 删除连麦申请表中的数据-->
+  <delete id="refuseMicrophoneList" parameterType="java.util.Map">
+    DELETE
+    FROM
+    live_microphone
+    WHERE
+    stream_id = #{stream_id}
+  </delete>
+  <!--查看是否申请过连麦-->
+  <select id="connectMicrophoneList" parameterType="java.util.Map" resultType="java.util.Map">
+     SELECT
+      microphone_id
+  FROM
+      live_microphone
+  WHERE
+  anchor_id=#{anchor_id}
+  AND audience_id=#{audience_id}
+  AND types=#{types}
+  </select>
+
+
+<!--1V1表等待匹配表的插入-->
+  <insert id="insertSelectiveLiveMatching" parameterType="java.util.Map" >
+    insert into live_matching
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="type_id!= null and type_id != ''">
+        type_id,
+      </if>
+      <if test="user_id!= null and user_id != ''">
+        user_id,
+      </if>
+      <if test="nick_name!= null and nick_name != ''">
+        nick_name,
+      </if>
+      <if test="img!= null and img != ''">
+        img,
+      </if>
+      <if test="sex!= null and sex != ''">
+        sex,
+      </if>
+      <if test="create_time!= null">
+        create_time,
+      </if>
+      <if test="symbol!= null and symbol != ''">
+        symbol,
+      </if>
+
+      <if test="rtmp_url!= null and rtmp_url != ''">
+        rtmp_url,
+      </if>
+      <if test="hls_url!= null and hls_url != ''">
+        hls_url,
+      </if>
+      <if test="flv_url!= null and flv_url != ''">
+        flv_url,
+      </if>
+      <if test="final_url!= null and final_url != ''">
+        final_url,
+      </if>
+      <if test="stream_id!= null and stream_id != ''">
+        stream_id,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="type_id!= null and type_id != ''">
+        #{type_id},
+      </if>
+      <if test="user_id!= null and user_id != ''">
+        #{user_id},
+      </if>
+      <if test="nick_name!= null and nick_name != ''">
+        #{nick_name},
+      </if>
+      <if test="img!= null and img != ''">
+        #{img},
+      </if>
+      <if test="sex!= null and sex != ''">
+        #{sex},
+      </if>
+      <if test="create_time!= null">
+        #{create_time},
+      </if>
+      <if test="symbol!= null and symbol != ''">
+        #{symbol},
+      </if>
+
+      <if test="rtmp_url!= null and rtmp_url != ''">
+        #{rtmp_url},
+      </if>
+      <if test="hls_url!= null and hls_url != ''">
+        #{hls_url},
+      </if>
+      <if test="flv_url!= null and flv_url != ''">
+        #{flv_url},
+      </if>
+      <if test="final_url!= null and final_url != ''">
+        #{final_url},
+      </if>
+      <if test="stream_id!= null and stream_id != ''">
+        #{stream_id},
+      </if>
+    </trim>
+  </insert>
+<!--查询1v1类型表-->
+  <select id="selectLiveMatchingType"  resultType="java.util.Map">
+  SELECT
+    type_id,
+	names,
+	img,
+	price
+FROM
+	live_matching_type
+WHERE
+type=0
+  </select>
+  <!--去1V1匹配去 传递匹配的时间间隔的时间和匹配类型  interval  type_id 匹配一个-->
+  <!-- <select id="intervalMatchingType" parameterType="java.util.Map" resultType="java.util.Map">
+     SELECT
+     user_id,
+     nick_name,
+     img,
+     sex * 1 sex
+     FROM
+     live_matching
+     WHERE
+     type_id = #{type_id}
+     AND symbol = 0
+     AND create_time &gt; DATE_SUB(NOW(), INTERVAL #{interval} SECOND)
+     AND create_time &lt; DATE_ADD(NOW(), INTERVAL #{interval} SECOND)
+     ORDER BY create_time
+     LIMIT 1
+   </select>-->
+   <!--插入1V1匹配中表-->
+  <insert id="intervalLiveMatchingFinish" parameterType="java.util.Map">
+    <selectKey resultType="int" order="AFTER" keyProperty="finish_id">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+  INSERT INTO live_matching_finish (
+      juser_id,
+      yuser_id,
+      create_time,
+      update_time,
+      end_time
+  )
+  VALUES
+      (#{juser_id},#{yuser_id},#{create_time}, #{update_time},DATE_ADD(#{create_time}, INTERVAL 60 SECOND))
+  </insert>
+  <!--匹配成功后结束匹配-->
+  <update id="finishMatching" parameterType="java.util.Map">
+UPDATE live_matching
+SET symbol = 1
+WHERE
+	user_id = #{juser_id} OR user_id=#{yuser_id}
+  </update>
+  <!--1V1匹配历史表-->
+  <select id="historyMatching" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        finish_id
+    FROM
+        live_matching_finish
+    WHERE
+        juser_id = #{juser_id}
+    OR yuser_id = #{juser_id}
+    limit 1
+  </select>
+  <!--1V1匹配过后就更新匹配次数加一-->
+  <update id="updateNum" parameterType="java.util.Map">
+        UPDATE
+    live_matching_finish
+    SET
+    num=num+1,
+    end_time=DATE_ADD(#{update_time}, INTERVAL 60 SECOND),
+    update_time=#{update_time}
+    WHERE finish_id=#{finish_id}
+  </update>
+  <!--历史1V1记录-->
+    <select id="allFinish" parameterType="java.util.Map" resultType="java.util.Map">
+   SELECT
+	finish_id,
+	juser_id,
+	yuser_id,
+	UNIX_TIMESTAMP(create_time) create_time,
+	UNIX_TIMESTAMP(end_time) end_time,
+	UNIX_TIMESTAMP(update_time) update_time
+    FROM
+	live_matching_finish
+    WHERE
+        juser_id = #{userId}
+    OR yuser_id = #{userId}
+    </select>
+<!--1V1收到多少礼物-->
+  <select id="stotalgift" parameterType="java.util.Map" resultType="java.util.Map">
+  SELECT
+      SUM(numbers) snum
+  FROM
+      user_give_away_log
+  WHERE
+   create_time  &gt;= #{stime}
+   AND create_time &lt;= #{etime}
+   AND   is_type = 3
+  AND account = #{userId}
+  AND ITEM_ID=#{finish_id}
+  </select>
+  <!--1V1送出去多少礼物-->
+  <select id="ztotalgift" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+    SUM(numbers) znum
+    FROM
+    user_give_away_log
+    WHERE
+    create_time  &gt;= #{stime}
+    AND create_time &lt;= #{etime}
+    AND   is_type = 3
+    AND user_id = #{userId}
+    AND ITEM_ID=#{finish_id}
+  </select>
+<!--更新礼物时长-->
+  <update id="addTime" parameterType="java.util.Map">
+    UPDATE live_matching_finish
+    SET end_time=#{end_time}
+    WHERE
+    finish_id=#{finish_id}
+  </update>
+  <select id="selectaddTime" parameterType="java.util.Map" resultType="java.util.Map">
+   SELECT finish_id, DATE_ADD(update_time, INTERVAL #{interval} SECOND) end_time FROM live_matching_finish WHERE finish_id=#{finish_id}
+  </select>
+  <!--查看是否关注-->
+  <select id="OrAttention" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+    is_tutual*1 is_tutual
+    FROM
+    user_attention
+    WHERE
+    user_id = #{juser_id}
+    AND account = #{yuser_id}
+  </select>
+  <!--寻找推拉流-->
+  <select id="playUrl" parameterType="java.util.Map" resultType="java.util.Map">
+      SELECT
+      user_id,
+      nick_name,
+      img,
+      rtmp_url brtmp_url,
+      hls_url bhls_url,
+      flv_url bflv_url,
+      final_url bfinal_url,
+      stream_id bstream_id
+  FROM
+      live_matching
+  WHERE
+      user_id = #{yuser_id}
+     ORDER BY
+	create_time DESC
+LIMIT 1
+  </select>
+
+  <delete id="delMatching" parameterType="java.util.Map">
+   DELETE FROM
+   live_matching
+   WHERE user_id=#{user_id}
+  </delete>
+<!--查看还剩下多少的1v1时间-->
+  <select id="RemainingTime" parameterType="java.util.Map" resultType="java.util.Map">
+select (UNIX_TIMESTAMP(end_time) - UNIX_TIMESTAMP(update_time)) end_time
+from live_matching_finish WHERE finish_id=#{finish_id}
+  </select>
+
+
+  <!--PK的视频-->
+  <insert id="insertSelectiveLive_challenge" parameterType="java.util.Map" >
+    <selectKey resultType="int" order="AFTER" keyProperty="live_challenge_id">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into live_challenge
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="info_id!= null and info_id != ''">
+        info_id,
+      </if>
+      <if test="theme!= null and theme != ''">
+        theme,
+      </if>
+      <if test="challenge_time!= null and challenge_time != ''">
+        challenge_time,
+      </if>
+      <if test="red_team!= null and red_team != ''">
+        red_team,
+      </if>
+      <if test="yellow_team!= null and yellow_team != ''">
+        yellow_team,
+      </if>
+      <if test="red_gift_id!= null and red_gift_id != ''">
+        red_gift_id,
+      </if>
+      <if test="yellow_gift_id!= null and yellow_gift_id != ''">
+        yellow_gift_id,
+      </if>
+      <if test="red_gift_price!= null and red_gift_price != ''">
+        red_gift_price,
+      </if>
+      <if test="yellow_gift_price!= null and yellow_gift_price != ''">
+        yellow_gift_price,
+      </if>
+      <if test="types!= null and types != ''">
+        types,
+      </if>
+      <if test="creat_time!= null">
+        creat_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="info_id!= null and info_id != ''">
+        #{info_id},
+      </if>
+      <if test="theme!= null and theme != ''">
+        #{theme},
+      </if>
+      <if test="challenge_time!= null and challenge_time != ''">
+        #{challenge_time},
+      </if>
+      <if test="red_team!= null and red_team != ''">
+        #{red_team},
+      </if>
+      <if test="yellow_team!= null and yellow_team != ''">
+        #{yellow_team},
+      </if>
+      <if test="red_gift_id!= null and red_gift_id != ''">
+        #{red_gift_id},
+      </if>
+      <if test="yellow_gift_id!= null and yellow_gift_id != ''">
+        #{ yellow_gift_id},
+      </if>
+      <if test="red_gift_price!= null and red_gift_price != ''">
+        #{red_gift_price},
+      </if>
+      <if test="yellow_gift_price!= null and yellow_gift_price != ''">
+        #{yellow_gift_price},
+      </if>
+      <if test="types!= null and types != ''">
+        #{types},
+      </if>
+      <if test="creat_time!= null">
+        #{creat_time},
+      </if>
+    </trim>
+  </insert>
+
+  <!--修改状态 视频直播的状态 '0普通1PK2私密3交友',-->
+  <update id="broadcastState" parameterType="java.util.Map">
+    UPDATE live_info
+    SET types = #{types}
+    WHERE
+        live_id = #{live_id}
+  </update>
+<!--PK 操作 -->
+<update id="stateChallenge" parameterType="java.util.Map">
+UPDATE live_challenge
+SET  types = #{types}
+WHERE
+	live_challenge_id = #{live_challenge_id}
+</update>
+  <!--查看连麦的开关状态-->
+  <select id="microphone_switch" parameterType="java.util.Map" resultType="java.util.Map">
+   SELECT  microphone_switch  FROM live_info WHERE  live_id=#{live_id}
+  </select>
+  <!--修改连麦的状态-->
+  <update id="stateMicrophone_switch" parameterType="java.util.Map">
+    UPDATE live_info
+    SET microphone_switch=#{microphone_switch}
+    WHERE  live_id=#{live_id}
+  </update>
+
+
+  <!--查看全局禁言的开关状态-->
+  <select id="prohibit_speaking" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT  prohibit_speaking  FROM live_info WHERE  live_id=#{live_id}
+  </select>
+  <!--修改全局禁言的状态-->
+  <update id="stateProhibit_speaking" parameterType="java.util.Map">
+    UPDATE live_info
+    SET prohibit_speaking=#{prohibit_speaking}
+    WHERE  live_id=#{live_id}
+  </update>
+
+
+
+  <!-- 批量删除视频连麦的 -->
+  <delete id="deleteAll" parameterType="String">
+    delete from
+    live_microphone
+    where
+    stream_id in
+    <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+  <!--个人查看连麦列表0-->
+  <select id="personalLianmaiListAttention" parameterType="java.util.Map" resultType="java.util.Map">
+  SELECT
+      is_tutual*1 is_tutual
+  FROM
+      user_attention
+  WHERE
+      user_id = #{userId}
+  AND account = #{account}
+  </select>
+<!--查询开始直播的分类 不返回PK 全球 热门 最新-->
+  <select id="selectLive_type"  resultType="java.util.Map">
+    SELECT
+    type_id,
+    tname
+    FROM
+    live_type
+    LIMIT 3,3
+  </select>
+<!--直播分类页面的返回-->
+  <select id="selectLive_typeAll"  resultType="java.util.Map">
+    SELECT
+    type_id,
+    tname
+    FROM
+    live_type
+  </select>
+<!--直播查看红队和蓝队的信息 如果是PK的话-->
+  <select id="selectLive_challenge" parameterType="java.util.Map" resultType="java.util.Map">
+  SELECT
+      a.live_challenge_id,
+      a.red_team userId,
+      b.nick_name,
+      b.signature,
+      b.img
+  FROM
+      live_challenge a,
+      user_info b
+  WHERE
+      b.user_id = a.red_team
+  AND live_challenge_id=#{live_challenge_id}
+  UNION
+      SELECT
+          a.live_challenge_id,
+          a.yellow_team userId,
+          b.nick_name,
+          b.signature,
+          b.img
+      FROM
+          live_challenge a,
+          user_info b
+      WHERE
+          b.user_id = a.yellow_team
+  AND live_challenge_id=#{live_challenge_id}
+  </select>
+
+  <!--为了防止直播结束后腾讯回掉失败，当开启直播的时候，再次关闭以前的直播-->
+  <update id="updateEndBroadcast" parameterType="java.util.Map" >
+    update live_info set is_live=1 where user_id=#{userId}
+  </update>
+
+  <!-- 查询本国热门视频 -->
+  <select id="findDomesticHotLive" resultType="java.util.Map">
+    SELECT
+        live_img
+    FROM
+        live_info
+    WHERE
+        is_live = 0
+    AND types = 0
+    <if test="state == 1">
+      AND country_id = #{countryId}
+    </if>
+    <if test="state != 1">
+      AND country_id != #{countryId}
+    </if>
+    ORDER BY
+        like_num DESC
+    LIMIT #{offset}, #{limit}
+  </select>
+
+  <!-- 根据直播路径查询当前直播是否正在继续直播-->
+  <select id="findLiveByLiveUrl" parameterType="java.lang.String" resultType="java.util.Map">
+    SELECT
+        ui.img,
+        ui.nick_name,
+        concat("Room number：", lh.home_no) home_no,
+        lh.stream_id,
+        lh.IM_ID,
+        li.rtmp_url,
+        li.hls_url,
+        li.flv_url,
+        li.live_img
+    FROM
+        live_info li
+    LEFT JOIN user_info ui ON ui.user_id = li.user_id
+    LEFT JOIN live_home_info lh ON lh.info_id = li.info_id
+    WHERE
+        li.rtmp_url = #{liveUrl}
+    AND li.types = 0
+  </select>
+  <!--查看某个群的 连麦开关0关闭1开启' 全局禁言开关0关闭1开启'-->
+  <select id="imSwitch" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        a.microphone_switch*1 microphone_switch,
+        a.prohibit_speaking*1 prohibit_speaking,
+        b.IM_ID
+    FROM
+        live_info a,
+        live_home_info b
+    WHERE
+        a.live_id = #{live_id}
+    AND a.info_id = b.info_id
+  </select>
+<!--查詢出來這個人是否在群里被禁言-->
+  <select id="banIm" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+    ban_id,
+    DATE_FORMAT(times, '%Y-%m-%d %H:%i:%s ') times
+    FROM
+    live_info_ban
+    WHERE
+    IM_ID = #{IM_ID}
+    AND user_id = #{userId}
+  </select>
+
+  <!--1V1设置设置状态表-->
+  <select id="selectLive_v_set" parameterType="java.util.Map" resultType="java.util.Map">
+          SELECT
+        *
+    FROM
+        live_v_set
+        <where>
+          <if test="user_id!= null and user_id != ''">
+            and  user_id =#{user_id}
+          </if>
+          <if test="userId!= null and userId != ''">
+            and  user_id =#{userId}
+          </if>
+        </where>
+  </select>
+  <!--1V1设置设置状态表-->
+    <insert id="insertLive_v_set" parameterType="java.util.Map">
+      INSERT INTO live_v_set (user_id)
+      VALUES
+        (#{userId})
+    </insert>
+
+<!--更新1V1设置设置状态表 批量更新-->
+  <update id="updateLive_v_set" parameterType="java.util.Map">
+    update
+    live_v_set
+    <set>
+      <if test="all_open!=null and all_open!=''">
+        all_open = #{all_open},
+      </if>
+      <if test="friend_open!=null and friend_open!=''">
+        friend_open = #{friend_open},
+      </if>
+      <if test="fs_open!=null and fs_open!=''">
+        fs_open = #{fs_open},
+      </if>
+      <if test="fs_ourt_open!=null and fs_ourt_open!=''">
+        fs_open = #{fs_open},
+      </if>
+      <if test="friend_ourt_open!=null and friend_ourt_open!=''">
+        friend_ourt_open = #{friend_ourt_open},
+      </if>
+      <if test="all_shield!=null and all_shield!=''">
+        all_shield = #{all_shield},
+      </if>
+    </set>
+    <where>
+      <if test="user_id!=null and user_id!=''">
+        and    user_id = #{user_id}
+      </if>
+    </where>
+  </update>
+
+
+  <!--查看直播最后一次的直播间名字以及背景图-->
+  <select id="selectMyLive" parameterType="java.util.Map" resultType="java.util.Map">
+  SELECT
+	a.live_img,
+	a.info_name,
+	b.img
+FROM
+	live_info a,
+	user_info b
+WHERE
+	a.user_id = #{userId}
+AND a.user_id = b.user_id
+ORDER BY
+	start_time DESC
+LIMIT 1
+  </select>
+    <!--根据编码查询ID-->
+  <select id="selectCountry_id" parameterType="String" resultType="String">
+      SELECT
+  country_id
+  FROM
+      sys_country
+  WHERE
+      coding = #{coding}
+
+  </select>
+
+</mapper>

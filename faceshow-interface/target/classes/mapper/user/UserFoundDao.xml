@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.UserFoundDao">
+    <!-- 热门后台推荐的话题 这个是发现页面使用-->
+    <select id="findHotTopic" resultType="java.util.Map">
+    SELECT
+    a.topic_id,
+    a.tname,
+    a.img,
+    a.user_id,
+    a.introduction,
+    b.numbers
+    FROM
+    video_topic a,
+    (SELECT
+    topic_id,
+    COUNT(topic_id) numbers
+    FROM
+    video_info
+    GROUP BY
+    topic_id) b
+    WHERE
+    a.is_hot = 1
+    AND a.topic_id=b.topic_id
+  </select>
+    <!--根据话题查询-->
+    <select id="selectByTopic" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        video_id,
+        user_id,
+        img,
+        url,
+        create_time,
+        collection_num
+        FROM
+        video_info
+        WHERE
+        statues = 1
+        AND is_private = 1
+        AND topic_id = #{topic_id}
+        ORDER BY
+        create_time DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+
+    </select>
+    <!--根据话题查询带分页-->
+    <select id="selectByTopicTotal" parameterType="java.util.Map" resultType="int">
+    select count(*)
+    FROM
+    video_info
+    WHERE
+    statues = 1
+    AND is_private = 1
+    AND topic_id = #{topic_id}
+  </select>
+
+
+  <!--进入发现页面随机推荐用户6个本国4个外国  country_id传递-->
+  <select id="recommendUser" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+      *
+    FROM
+        (
+          (
+            SELECT
+                a.user_id,
+                a.img,
+                a.nick_name,
+                a.charm_values,
+                a.signature
+            FROM
+                user_info a
+            <where>
+                <if test="country!= null and country != ''">
+                    AND  a.country = #{country}
+                </if>
+
+                <if test="country_id!= null and country_id != ''">
+                  AND  a.country_id = #{country_id}
+                </if>
+                <if test="countryId!= null and countryId != ''">
+                  AND  a.country_id = #{countryId}
+                </if>
+            </where>
+            LIMIT 6
+          )
+          UNION
+          (
+            SELECT
+              a.user_id,
+              a.img,
+              a.nick_name,
+              a.charm_values,
+              a.signature
+            FROM
+              user_info a
+            <where>
+                <if test="country!= null and country != ''">
+                    AND  a.country = #{country}
+                </if>
+              <if test="country_id!= null and country_id != ''">
+                  AND a.country_id &lt;&gt; #{country_id}
+              </if>
+              <if test="countryId!= null and countryId != ''">
+                AND    a.country_id &lt;&gt; #{countryId}
+              </if>
+            </where>
+          )
+        )a
+    LIMIT 10
+  </select>
+<!--发现页面的某种类型的视频发布的所有短视频在7天内获得的赞数，按倒叙排列-->
+  <select id="weekSort" parameterType="java.util.Map" resultType="java.util.Map">
+      SELECT
+      a.user_id,
+      b.charm_values collection_num,
+      a.create_time,
+      b.img,
+      b.nick_name,
+      c.diamond
+      FROM
+      video_info a,
+      user_info b,
+      user_info_detail c
+      WHERE
+      a.user_id = b.user_id
+      AND c.user_id = a.user_id
+    <if test="type_id != 18 and type_id != 19"><!--18全国  19本国-->
+      AND type_id = #{type_id}
+    </if>
+    AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(create_time)
+    GROUP BY user_id
+    ORDER BY
+    collection_num DESC
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+  <select id="weekSortTotal" parameterType="java.util.Map" resultType="int">
+    select count(*)
+    FROM
+    video_info a,
+    user_info b
+    WHERE
+    type_id = #{type_id}
+    AND a.user_id = b.user_id
+    AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(create_time)
+  </select>
+
+
+    <!--热门音乐-->
+    <select id="hotMusic" resultType="java.util.Map">
+        SELECT
+        music_id,
+        type_id,
+        url,
+        mname,
+        img,
+        numbers,
+        introduce
+        FROM
+        music_info
+        ORDER BY
+        numbers DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="hotMusicTotal" parameterType="java.util.Map" resultType="int">
+    SELECT
+    COUNT(*)
+    FROM
+    music_info
+  </select>
+
+
+    <!--热门视频-->
+    <select id="hotVideo" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        video_id,
+        user_id,
+        img,
+        url,
+        create_time,
+        collection_num
+        FROM
+        video_info
+        WHERE
+        statues = 1
+        AND is_private = 1
+        AND is_hot=1
+        ORDER BY create_time DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <!--热门视频的分页-->
+    <select id="hotVideoTotal" parameterType="java.util.Map" resultType="int">
+    SELECT
+    COUNT(*)
+    FROM
+    video_info
+    WHERE
+    statues = 1
+    AND is_private = 1
+    AND is_hot = 1
+  </select>
+
+
+</mapper>

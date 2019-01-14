@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.qa.dao.QaReplyCommentDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.qa.entity.QaReplyComment" >
+    <id column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="reply_id" property="replyId" jdbcType="INTEGER" />
+    <result column="parent_comment_id" property="parentCommentId" jdbcType="INTEGER" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="like_num" property="likeNum" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="statues" property="statues" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      comment_id, reply_id, parent_comment_id, comment, user_id, like_num, create_time, statues
+  </sql>
+
+  <!--删除评论 -->
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from qa_reply_comment where comment_id = #{commentId}
+  </delete>
+
+  <!-- 添加评论-->
+  <insert id="save" parameterType="com.faceshow.modules.qa.entity.QaReplyComment" >
+    insert into qa_reply_comment (reply_id, parent_comment_id, comment, user_id, create_time) values
+    (#{replyId}, #{parentCommentId}, #{comment}, #{userId}, #{createTime})
+  </insert>
+
+  <!-- 查询一级评论-->
+  <select id="findCommentListByReplyId" parameterType="java.util.Map" resultType="com.faceshow.modules.qa.vo.QaInfoCommentSelectRowVo">
+    SELECT
+        a.comment_id commentId,
+        a.reply_id replyId,
+        a.parent_comment_id parentCommentId,
+        a.`comment`,
+        a.user_id userId,
+        a.like_num likeNum,
+        unix_timestamp(a.create_time) * 1000 createTime,
+        b.img userImg,
+        b.nick_name isCommentator,
+        d.nick_name byCommentator,
+        d.user_id byCommentatorId
+    FROM
+        qa_reply_comment a
+    LEFT JOIN user_info b ON a.user_id = b.user_id
+    LEFT JOIN qa_reply_comment c ON c.comment_id = a.parent_comment_id
+    LEFT JOIN user_info d ON d.user_id = c.user_id
+    WHERE
+        a.parent_comment_id = 0
+    AND a.reply_id = #{replyId}
+    AND a.statues = 1
+    ORDER BY
+        a.like_num DESC,
+        a.comment_id DESC
+    LIMIT #{offset}, #{limit}
+  </select>
+
+  <!--查询一级评论总数量-->
+  <select id="findCommentTotalByReplyId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1) from qa_reply_comment where reply_id = #{replyId} and parent_comment_id = 0
+  </select>
+
+  <!-- 根据评论父id查询子评论列表-->
+  <select id="findCommentByParent" parameterType="java.lang.Integer" resultType="com.faceshow.modules.qa.vo.QaInfoCommentSelectRowVo">
+    SELECT
+        a.comment_id commentId,
+        a.reply_id replyId,
+        a.parent_comment_id parentCommentId,
+        a.`comment`,
+        a.user_id userId,
+        a.like_num likeNum,
+        unix_timestamp(a.create_time) * 1000 createTime,
+        b.img userImg,
+        b.nick_name isCommentator,
+        d.nick_name byCommentator,
+        d.user_id byCommentatorId
+    FROM
+        qa_reply_comment a
+    LEFT JOIN user_info b ON a.user_id = b.user_id
+    LEFT JOIN qa_reply_comment c ON c.comment_id = a.parent_comment_id
+    LEFT JOIN user_info d ON d.user_id = c.user_id
+    WHERE
+        a.parent_comment_id = #{parentCommentId}
+    AND a.statues = 1
+    ORDER BY
+        a.comment_id DESC
+  </select>
+
+  <!-- 根据父评论id查询自评论id -->
+  <select id="findCommentIdByParentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select comment_id from qa_reply_comment where parent_comment_id = #{parentCommentId}
+  </select>
+
+  <!-- 查询评论总数量-->
+  <select id="findCommentNumByReplyId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1) from qa_reply_comment where reply_id = #{replyId}
+  </select>
+
+  <!--评论点赞数量+1或者-1-->
+  <update id="updateLikeNum" parameterType="java.lang.Integer">
+    update qa_reply_comment set like_num = like_num + #{num} where comment_id = #{id}
+  </update>
+
+    <!--根据主键 查找用户ID-->
+    <select id="selectUserIdByCommentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT  user_id FROM  qa_reply_comment where comment_id = #{id}
+    </select>
+</mapper>

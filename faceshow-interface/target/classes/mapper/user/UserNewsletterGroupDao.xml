@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.UserNewsletterGroupDao">
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.user.entity.UserNewsletterGroup">
+    <id column="newsletter_id" jdbcType="INTEGER" property="newsletterId" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="activity" jdbcType="INTEGER" property="activity" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="editor" jdbcType="INTEGER" property="editor" />
+    <result column="editor_time" jdbcType="TIMESTAMP" property="editorTime" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="cements" jdbcType="VARCHAR" property="cements" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    newsletter_id, type_id, group_name, activity, user_id, create_time, editor, editor_time, img, cements
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    newsletter_id,type_id,group_name,activity,user_id,create_time,editor,editor_time,img,cements
+    from newsletter_group
+    where newsletter_id = #{newsletterId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from newsletter_group
+    where newsletter_id = #{newsletterId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.user.entity.UserNewsletterGroup">
+    insert into newsletter_group (newsletter_id, type_id, group_name,
+    activity, user_id, create_time,
+    editor, editor_time, img,
+    cements)
+    values (#{newsletterId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR},
+    #{activity,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+    #{editor,jdbcType=INTEGER}, #{editorTime,jdbcType=TIMESTAMP}, #{img,jdbcType=VARCHAR},
+    #{cements,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.user.entity.UserNewsletterGroup">
+    insert into newsletter_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="newsletterId != null">
+        newsletter_id,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="groupName != null">
+        group_name,
+      </if>
+      <if test="activity != null">
+        activity,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="editor != null">
+        editor,
+      </if>
+      <if test="editorTime != null">
+        editor_time,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="cements != null">
+        cements,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="newsletterId != null">
+        #{newsletterId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="activity != null">
+        #{activity,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null">
+        #{editor,jdbcType=INTEGER},
+      </if>
+      <if test="editorTime != null">
+        #{editorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="cements != null">
+        #{cements,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.user.entity.UserNewsletterGroup">
+    update newsletter_group
+    <set>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="groupName != null">
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="activity != null">
+        activity = #{activity,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editor != null">
+        editor = #{editor,jdbcType=INTEGER},
+      </if>
+      <if test="editorTime != null">
+        editor_time = #{editorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="cements != null">
+        cements = #{cements,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where newsletter_id = #{newsletterId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.user.entity.UserNewsletterGroup">
+    update newsletter_group
+    set type_id = #{typeId,jdbcType=INTEGER},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      activity = #{activity,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      editor = #{editor,jdbcType=INTEGER},
+      editor_time = #{editorTime,jdbcType=TIMESTAMP},
+      img = #{img,jdbcType=VARCHAR},
+      cements = #{cements,jdbcType=VARCHAR}
+    where newsletter_id = #{newsletterId,jdbcType=INTEGER}
+  </update>
+
+  <!--进入搜索发现页面查询数据 -->
+  <select id="findNewsletterGroupByCriteria" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+    newsletter_id,
+    IM_ID,
+    type_id,
+    group_name,
+    img,
+    activity,
+    introduction
+    FROM
+    newsletter_group
+    WHERE 1=1
+      <if test="search != null and search != ''">
+        and group_name LIKE CONCAT(CONCAT('%', #{search}),'%')
+      </if>
+    <if test="typeId != null and typeId != ''">
+      and  type_id=#{typeId}
+    </if>
+    <if test="type_id != null and type_id != ''">
+      and  type_id=#{type_id}
+    </if>
+    ORDER BY
+        activity DESC
+    LIMIT #{currPage}, #{pageSize}
+  </select>
+
+  <!-- 查询分组总数-->
+  <select id="findNewsletterGroupTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(*)   FROM  newsletter_group   WHERE 1=1
+      <if test="search != null and search != ''">
+       AND   group_name LIKE CONCAT(CONCAT('%', #{search}),'%')
+      </if>
+    <if test="typeId != null and typeId != ''">
+      and  type_id=#{typeId}
+    </if>
+    <if test="type_id != null and type_id != ''">
+      and  type_id=#{type_id}
+    </if>
+  </select>
+</mapper>

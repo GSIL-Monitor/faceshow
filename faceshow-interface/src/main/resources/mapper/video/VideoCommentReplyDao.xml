@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.video.dao.VideoCommentReplyDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.video.entity.VideoCommentReply" >
+    <id column="reply_id" property="replyId" jdbcType="INTEGER" />
+    <result column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="like_num" property="likeNum" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="statues" property="statues" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    reply_id, comment_id, comment, user_id, like_num, create_time, statues
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    reply_id,comment_id,comment,user_id,like_num,create_time,statues
+    from video_comment_reply
+    where reply_id = #{replyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from video_comment_reply
+    where reply_id = #{replyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.video.entity.VideoCommentReply" >
+    insert into video_comment_reply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="replyId != null" >
+        reply_id,
+      </if>
+      <if test="commentId != null" >
+        comment_id,
+      </if>
+      <if test="comment != null" >
+        comment,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="likeNum != null" >
+        like_num,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="statues != null" >
+        statues,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="replyId != null" >
+        #{replyId,jdbcType=INTEGER},
+      </if>
+      <if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statues != null" >
+        #{statues,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.video.entity.VideoCommentReply" >
+    update video_comment_reply
+    <set >
+      <if test="commentId != null" >
+        comment_id = #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null" >
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        like_num = #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statues != null" >
+        statues = #{statues,jdbcType=TINYINT},
+      </if>
+    </set>
+    where reply_id = #{replyId,jdbcType=INTEGER}
+  </update>
+
+  <!-- 根据视频评论id查询该评论的回复信息 -->
+  <select id="findVideoCommentReplyByVideoId" parameterType="java.lang.Integer" resultType="java.util.Map">
+    SELECT
+        vr.reply_id replyId,
+        vr.comment_id commentId,
+        vr.user_id userId,
+        vr.`comment`,
+        vr.like_num likeNum,
+        vr.create_time createTime,
+        ui.img userImg,
+        ui.nick_name nickName
+    FROM
+        video_comment_reply vr
+    LEFT JOIN user_info ui ON vr.user_id = ui.user_id
+    WHERE
+        vr.comment_id = #{commentId}
+    AND vr.statues = 1
+    AND ui.del = 1
+    AND ui.statues = 1
+    ORDER BY
+        like_num
+  </select>
+</mapper>

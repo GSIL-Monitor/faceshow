@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.hobby.dao.HobbyInfoDao">
+
+  <!--redis缓存-->
+  <cache type="com.faceshow.common.RedisCache.MybatisRedisCache"/>
+
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.hobby.entity.HobbyInfo">
+    <id column="hobby_id" property="hobbyId" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="tags" property="tags" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List">
+      hobby_id, type_id, tags, type, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from hobby_info where hobby_id = #{hobbyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hobby_info where hobby_id = #{hobbyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.hobby.entity.HobbyInfo">
+    insert into hobby_info (hobby_id, type_id, tags,
+      type, create_time)
+    values (#{hobbyId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{tags,jdbcType=VARCHAR},
+      #{type,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.hobby.entity.HobbyInfo" useGeneratedKeys="true" keyProperty="hobbyId">
+    insert into hobby_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="hobbyId != null" >
+        hobby_id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="tags != null" >
+        tags,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="hobbyId != null" >
+        #{hobbyId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="tags != null" >
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.hobby.entity.HobbyInfo">
+    update hobby_info
+    <set >
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="tags != null" >
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where hobby_id = #{hobbyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.hobby.entity.HobbyInfo">
+    update hobby_info
+    set tags = #{tags,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=TINYINT}
+    where hobby_id = #{hobbyId,jdbcType=INTEGER}
+  </update>
+
+  <!--查询所有系统标签 -->
+  <select id="findSysHobbyAll"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select  hobby_id, tags, create_time, type from hobby_info where type = 0
+    UNION
+    SELECT
+    h.hobby_id,
+    h.tags,
+    h.create_time,
+    h.type
+    FROM
+    hobby_info h
+    WHERE
+    hobby_id in (
+    SELECT
+    d.hobby_id
+    FROM
+    hobby_user_info d
+    WHERE
+    d.user_id = #{userId}
+    )
+    AND h.type=1
+  </select>
+
+  <!--查询当前用户的所有标签 -->
+  <select id="findHobbyByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT
+        h.hobby_id,
+        h.create_time,
+        h.tags,
+        h.type
+    FROM
+        hobby_info h,
+        hobby_user_info d
+    WHERE
+        d.hobby_id = h.hobby_id
+    AND d.user_id = #{userId}
+  </select>
+
+  <!-- 查询用户所有的标签名-->
+  <select id="findHobbyTagsByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select h.tags from hobby_info h, hobby_user_info d where d.hobby_id = h.hobby_id and d.user_id = #{userId}
+  </select>
+
+</mapper>

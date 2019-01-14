@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.report.dao.ReportInfoDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.report.entity.ReportInfo" >
+    <id column="report_id" property="reportId" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="INTEGER" />
+    <result column="report_type" property="reportType" jdbcType="TINYINT" />
+    <result column="info_id" property="infoId" jdbcType="INTEGER" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_process" property="isProcess" jdbcType="TINYINT" />
+    <result column="is_user" property="isUser" jdbcType="VARCHAR" />
+    <result column="process_time" property="processTime" jdbcType="TIMESTAMP" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    report_id, type_id, user_id, account, report_type, info_id, img, content, create_time,
+    is_process, is_user, process_time, memo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List"/> from report_info where report_id = #{reportId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from report_info where report_id = #{reportId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.report.entity.ReportInfo" >
+    insert into report_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="reportId != null" >
+        report_id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="reportType != null" >
+        report_type,
+      </if>
+      <if test="infoId != null" >
+        info_id,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isProcess != null" >
+        is_process,
+      </if>
+      <if test="isUser != null" >
+        is_user,
+      </if>
+      <if test="processTime != null" >
+        process_time,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="reportId != null" >
+        #{reportId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=INTEGER},
+      </if>
+      <if test="reportType != null" >
+        #{reportType,jdbcType=TINYINT},
+      </if>
+      <if test="infoId != null" >
+        #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isProcess != null" >
+        #{isProcess,jdbcType=TINYINT},
+      </if>
+      <if test="isUser != null" >
+        #{isUser,jdbcType=VARCHAR},
+      </if>
+      <if test="processTime != null" >
+        #{processTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.report.entity.ReportInfo" >
+    update report_info
+    <set >
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=INTEGER},
+      </if>
+      <if test="reportType != null" >
+        report_type = #{reportType,jdbcType=TINYINT},
+      </if>
+      <if test="infoId != null" >
+        info_id = #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isProcess != null" >
+        is_process = #{isProcess,jdbcType=TINYINT},
+      </if>
+      <if test="isUser != null" >
+        is_user = #{isUser,jdbcType=VARCHAR},
+      </if>
+      <if test="processTime != null" >
+        process_time = #{processTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where report_id = #{reportId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByUserId" parameterType="java.util.Map" resultType="java.util.Map">
+    select  a.user_id,a.img,a.type_id,a.account,b.sex,b.nick_name,b.img,b.signature
+    from report_info as a,user_info as b where a.user_id=b.user_id and a.user_id=#{userId,jdbcType=INTEGER}   order by b.nick_name limit #{begin,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+
+  </select>
+
+  <select id="selectByUserIdNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select
+   count(user_id)
+    from report_info
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+</mapper>

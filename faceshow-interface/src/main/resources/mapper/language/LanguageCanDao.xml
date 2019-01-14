@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceshow.modules.language.dao.LanguageCanDao" >
+
+  <!--redis缓存-->
+  <cache type="com.faceshow.common.RedisCache.MybatisRedisCache"/>
+
+  <!-- 根据用户id删除用户会说的语言信息-->
+  <delete id="deleteByUserId" parameterType="java.lang.Integer" >
+    delete from language_can where user_id = #{userId}
+  </delete>
+
+  <!-- 批量添加用户会说的语言信息-->
+  <insert id="save">
+    insert into language_can (user_id, language, creator_time) values
+    <foreach item="language" collection="languages" separator=",">
+      (#{userId}, #{language}, #{date})
+    </foreach>
+  </insert>
+
+  <!-- 查询用户掌握的语言-->
+  <select id="findLanguageByUserId" parameterType="java.lang.Integer" resultType="com.faceshow.modules.language.LanguageSelectRowVo">
+    select can_id languageId, language languageName from language_can where user_id = #{userId}
+  </select>
+
+  <!-- 查询用户掌握的语言名称, 编辑个人资料展示使用-->
+  <select id="findLanguageNameByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select language from language_can where user_id = #{userId}
+  </select>
+
+  <!-- 根据用户掌握语言id查询用户id -->
+  <select id="findUserIdByLanguageId" resultType="java.lang.String">
+    select user_id from language_can where language in
+    <foreach item="language" collection="array" separator="," open="(" close=")">
+      #{language}
+    </foreach>
+    group by user_id
+  </select>
+
+  <insert id="insert">
+    insert into language_can  (user_id, language, creator_time) values (#{userId}, #{language}, now())
+  </insert>
+
+  
+</mapper>

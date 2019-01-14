@@ -1,0 +1,52 @@
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        druid:
+            first:  #数据源1
+                url: jdbc:mysql://104.243.131.2:3306/newfaceshow?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+                username: faceshow
+                password: '!Gchao999'
+            second:  #数据源2
+                url: jdbc:mysql://45.122.138.156:3306/newfaceshow?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+                username: faceshow
+                password: '!Gchao999'
+            initial-size: 10
+            max-active: 100
+            min-idle: 10
+            max-wait: 60000
+            pool-prepared-statements: true
+            max-pool-prepared-statement-per-connection-size: 20
+            time-between-eviction-runs-millis: 60000
+            min-evictable-idle-time-millis: 300000
+            validation-query: SELECT 1 FROM DUAL
+            test-while-idle: true
+            test-on-borrow: false
+            test-on-return: false
+            stat-view-servlet:
+                enabled: true
+                url-pattern: /druid/*
+                #login-username: admin
+                #login-password: admin
+            filter:
+                stat:
+                    log-slow-sql: true
+                    slow-sql-millis: 1000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true
+
+app:
+  tim:
+    api:
+      user-sign: "eJxlj81Og0AYRfc8xYStRoafIWDipnVIUamYQhq7IZQZxs-SgcDQosZ3t8Umkni359zc3C8NIaQnT6ubvCjqXqpMfTRcR7dIx-r1H2waYFmuMrtl-yAfGmh5lpeKtyM0CSEWxlMHGJcKSrgYOduDnOCO7bJx47fvnMqu7fveVAExwoim8-BlvhhCSw3MewfZByK1W0oerkT5unZcXg6bKKaqquNqu6UiFM8MjkGVsmVyNHZsvZkZM*PtfmlKsz50n33wGC8Su6CFF9G7yaSCPb8cMl3ie9iZXjrwtoNajoKFT4pl43N07Vv7AXExXaM_"
+      sdk-appid: 1400063998
+      identifier: admin
+      content-type: json
+
+#rocketmq配置
+rocketmq:
+  producer:
+    namesrvAddr: 43.249.223.101:9876
+    sendMsgTimeout: 100

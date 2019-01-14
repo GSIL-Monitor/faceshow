@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.video.dao.VideoTopicDao" >
+
+    <!--redis缓存-->
+  <cache type="com.faceshow.common.RedisCache.MybatisRedisCache"/>
+
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.video.entity.VideoTopic" >
+    <id column="topic_id" property="topicId" jdbcType="INTEGER" />
+    <result column="tname" property="tname" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    topic_id, tname, user_id, create_time, img, introduction
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from video_topic where topic_id = #{topicId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from video_topic where topic_id = #{topicId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.video.entity.VideoTopic" useGeneratedKeys="true" keyProperty="topicId">
+    insert into video_topic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="topicId != null" >
+        topic_id,
+      </if>
+      <if test="tname != null" >
+        tname,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="topicId != null" >
+        #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="tname != null" >
+        #{tname,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.video.entity.VideoTopic" >
+    update video_topic
+    <set >
+      <if test="tname != null" >
+        tname = #{tname,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where topic_id = #{topicId,jdbcType=INTEGER}
+  </update>
+
+  <!-- 进入发现查询搜索页面 -->
+  <select id="findTopicByCriteria" parameterType="java.util.Map" resultType="java.util.Map">
+      SELECT
+      a.topic_id,
+      a.tname,
+      a.img,
+      a.user_id,
+      a.introduction,
+      b.numbers
+      FROM
+      video_topic a,
+      (
+      SELECT
+      topic_id,
+      COUNT(topic_id) numbers
+      FROM
+      video_info
+      GROUP BY
+      topic_id
+      ) b
+      WHERE
+      a.is_hot = 1
+      AND a.topic_id = b.topic_id
+      <if test="search != null and search != ''">
+      AND  a.tname LIKE CONCAT(CONCAT('%',  #{search}),'%')
+      </if>
+    ORDER BY
+      numbers DESC
+    LIMIT #{currPage}, #{pageSize}
+  </select>
+
+  <!-- 查询话题总数-->
+  <select id="findTopicTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+      SELECT
+      count(*)
+      FROM
+      video_topic a,
+      (
+      SELECT
+      topic_id,
+      COUNT(topic_id) numbers
+      FROM
+      video_info
+      GROUP BY
+      topic_id
+      ) b
+      WHERE
+      a.is_hot = 1
+      AND a.topic_id = b.topic_id
+      <if test="search != null and search != ''">
+          AND  a.tname LIKE CONCAT(CONCAT('%',  #{search}),'%')
+      </if>
+  </select>
+
+  <!--进入话题详情页面, 查询话题发起人信息和话题信息 -->
+  <select id="findUserAndTopicByTopicId" parameterType="java.lang.Integer" resultType="java.util.Map">
+    SELECT
+        v.topic_id topicId,
+        v.introduction,
+        v.tname,
+        u.user_id userId,
+        u.nick_name nickName,
+        u.img
+    FROM
+        video_topic v,
+        user_info u
+    WHERE
+        v.user_id = u.user_id
+    AND v.topic_id = #{topicId}
+  </select>
+
+  <!--查询得分最高的视频 -->
+  <select id="findHightScoreVideo" parameterType="java.util.Map" resultType="java.util.Map">
+      SELECT
+        uv.video_id videoId,
+        (
+            (
+                SELECT
+                    count(*)
+                FROM
+                   video_collection_log ul
+                WHERE
+                    ul.video_id = uv.video_id
+            ) + (uv.collection_num) + (
+                SELECT
+                    count(*)
+                FROM
+                    video_play_log vl
+                WHERE
+                    vl.video_id = uv.video_id
+            )
+        ) count,
+        uv.img,
+        uv.url
+    FROM
+        video_info uv
+    WHERE
+        uv.topic_id = #{topicId}
+    AND uv.statues = 1
+    AND uv.is_private = 1
+    <if test="type == 3">
+      AND uv.country = #{country}
+    </if>
+    <if test="type == 1">
+      ORDER BY uv.create_time DESC
+      LIMIT #{currPage}, #{pageSize}
+    </if>
+    <if test="type != 1">
+      ORDER BY uv.is_hot DESC,
+      count DESC
+      LIMIT 0, 20
+    </if>
+
+  </select>
+      <!--相关话题 全球话题 本国话题-->
+      <select id="findTopicRelevant" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+          user_id,
+          video_id,
+          collection_num,
+          url,
+          img
+        FROM
+        video_info
+        <where>
+          <if test="topic_id != null and topic_id.trim() != ''">
+            and topic_id = #{topic_id}
+          </if>
+          <if test="music_id != null and music_id.trim() != ''">
+            and music_id = #{music_id}
+          </if>
+          <if test="type_id != null and type_id.trim() != ''">
+            and type_id = #{type_id}
+          </if>
+
+          <if test="type==3">
+            AND country=#{country}
+          </if>
+        </where>
+        <if test="type == 1">
+          ORDER BY create_time DESC
+          limit #{offset}, #{limit}
+        </if>
+        <if test="type != 1">
+          ORDER BY collection_num DESC
+          limit #{offset}, #{limit}
+        </if>
+      </select>
+    <!--相关话题 全球话题 本国话题-->
+    <select id="findTopicRelevantTotal" parameterType="java.util.Map" resultType="int">
+      SELECT
+      COUNT(*)
+      FROM
+      video_info
+      <where>
+        <if test="topic_id != null and topic_id.trim() != ''">
+          and topic_id = #{topic_id}
+        </if>
+        <if test="music_id != null and music_id.trim() != ''">
+          and music_id = #{music_id}
+        </if>
+        <if test="type_id != null and type_id.trim() != ''">
+          and type_id = #{type_id}
+        </if>
+
+        <if test="type==3">
+          AND country=#{country}
+        </if>
+      </where>
+    </select>
+
+  <!--查分页查看视频话题列表-->
+  <select id="findAll" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT topic_id topicId, tname, getCountVideoByTopicId(topic_id) num FROM video_topic ORDER BY num DESC LIMIT #{offset}, #{limit}
+  </select>
+
+  <!-- 查询话题数量-->
+  <select id="findAllTotal" resultType="java.lang.Integer">
+    select count(1) from video_topic
+  </select>
+
+  <!--查看这个话题参与者按照魅力值分页 业务修改 废弃-->
+  <select id="findRankingList" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT
+        b.signature,
+        b.user_id,
+        b.nick_name,
+        b.img,
+        a.zanNum
+    FROM
+        user_info b,
+        (
+          SELECT
+              type_id,
+              user_id,
+              SUM(collection_num) zanNum
+          FROM
+              video_info
+          GROUP BY
+              user_id,
+              type_id
+        ) a
+    WHERE
+        a.user_id = b.user_id
+        AND a.type_id = #{type_id}
+    ORDER BY
+        a.zanNum DESC
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+  <!--分页-->
+  <select id="findRankingListTotal" parameterType="java.util.Map" resultType="int">
+    SELECT
+        count(*)
+    FROM
+        user_info b,
+        (
+            SELECT
+                type_id,
+                user_id,
+                SUM(collection_num) zanNum
+            FROM
+                video_info
+            GROUP BY
+                user_id,
+                type_id
+        ) a
+    WHERE
+        a.user_id = b.user_id
+    AND a.type_id = #{type_id}
+  </select>
+
+  <!-- 根据话题名字查询话题-->
+  <select id="findByTopicName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select topic_id, tname from video_topic where tname = #{topicName}
+  </select>
+  <!-- 热门后台推荐的话题 这个是发现页面使用-->
+  <select id="findHotTopic" resultType="java.util.Map">
+    SELECT
+    a.topic_id,
+    a.tname,
+    a.img,
+    a.user_id,
+    a.introduction,
+    b.numbers
+    FROM
+    video_topic a,
+    (SELECT
+    topic_id,
+    COUNT(topic_id) numbers
+    FROM
+    video_info
+    GROUP BY
+    topic_id) b
+    WHERE
+    a.is_hot = 1
+    AND a.topic_id=b.topic_id
+  </select>
+
+    <!-- 根据话题名字查询话题id-->
+    <select id="findTopicIdByTopicName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select topic_id from video_topic where tname = #{topic}
+    </select>
+
+</mapper>

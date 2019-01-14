@@ -1,0 +1,281 @@
+<html lang="zh-cn">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0,maximum-scale=1.0">
+	<meta name="renderer" content="webkit">
+	<script src="js/jquery-2.1.0.js"></script>
+	<title>慧管店</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+			font-size:16px;
+		}
+		li{
+			list-style: none;
+		}
+		body{
+			background:#f1f1f1;
+		}
+		.choose{
+			width:90%;
+			min-height:400px;
+			margin:15px 5%;
+			background:#fff;
+			border-radius: 8px;
+			border:1px solid #bfbfbf;
+		}
+		.choose ul li{
+			width:100%;
+			min-height:50px;
+			padding: 10px 0 5px 0;
+			border-bottom:1px solid #bfbfbf;
+		}
+		.choose ul li:last-child{
+			border-bottom:none;
+		}
+		.choose ul li p{
+			line-height: 25px;
+			margin-left: 15px;
+		}
+		.choose ul li p:nth-child(2){
+			padding:10px;
+			color:#666;
+		}
+		input,label,button{
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+			-webkit-user-select: none;
+			-moz-user-focus: none;
+			-moz-user-select: none;
+			-webkit-appearance:none;
+			outline: none;
+			border: none;
+		}
+
+		label{
+			position:relative;
+			display:block;
+			width:100%;
+			height:35px;
+			margin-right:10px;
+			cursor:pointer;
+			line-height:25px;
+			font-size:14px;
+			margin-bottom: 5px;
+			text-indent: 19px;
+
+		}
+		input[type="radio"]{
+			position:absolute;
+			top:0;
+			left:0;
+			width:100%;
+			height:35px;
+			/*appearance: none;
+            -webkit-appearance: none;
+            outline: none;*/
+			opacity: 0;			}
+
+		label input[type="radio"] + span{
+			position: absolute;
+			top:5px;
+			left:0px;
+			width:15px;
+			height:15px;
+			display:inline-block;
+			margin-right:5px;
+			background:url(img/check.png);
+			background-size:100% 100%;
+			vertical-align: baseline;
+		}
+		label input[type="radio"]:checked + span{
+			background:url(img/checked.png);
+			background-size:100% 100%;
+		}
+		.submitbtn{
+			width:90%;
+			height:45px;
+			margin-left:5%;
+			margin-top:40px;
+			background:#507af2;
+			color:#fff;
+			border-radius:8px;
+		}
+		.tipbalck{
+			position: absolute;
+			bottom:0;
+			top:0;
+			left:0;
+			right:0;
+			margin:auto;
+			width:160px;
+			height:35px;
+			color:#fff;
+			border-radius: 10px;
+			font-size: 14px;
+			line-height:35px;
+			text-align: center;
+			background:rgba(0,0,0,.5);
+			display: none;
+		}
+	</style>
+</head>
+<body>
+<div id="content" class="content">
+	<div class="choose">
+		<ul class="questionlist">
+			<!-- <li>
+                <p>性&nbsp;&nbsp;别:</p>
+                <p>
+                    <label><input id="woman" type="radio" checked="checked" name="sex"/><span></span>女</label>
+                    <label><input id="man" type="radio"  name="sex"/><span></span>男</label>
+                </p>
+            </li>
+            <li>
+                <p>年&nbsp;&nbsp;龄:</p>
+                <p>
+                    <label><input id="new" type="radio" checked="checked" name="old"/><span></span>18-25岁</label>
+                    <label><input id="old" type="radio"  name="old"/><span></span>25-35岁</label>
+                    <label><input id="old" type="radio"  name="old"/><span></span>35-50岁</label>
+                </p>
+            </li>
+            <li>
+                <p>学&nbsp;&nbsp;历:</p>
+                <p>
+                    <label><input id="new" type="radio" checked="checked" name="study"/><span></span>如果您已经在一家新开店铺里购买过一次商品，那么在将来您会继续光顾吗？</label>
+                    <label><input id="old" type="radio"  name="study"/><span></span>大专及以上大专及以上</label>
+                    <label><input id="old" type="radio"  name="study"/><span></span>本科及以上</label>
+                </p>
+            </li> -->
+		</ul>
+	</div>
+	<button class="submitbtn" onclick="submitbtn();">提交</button>
+	<div class="tipbalck">请检查网络</div>
+</div>
+</body>
+<script>
+
+    //js获取项目根路径，如： http://localhost:8083/uimcardprj
+     function getRootPath(){
+         //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+         var curWwwPath=window.document.location.href;
+         //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+         var pathName=window.document.location.pathname;
+         var pos=curWwwPath.indexOf(pathName);
+         //获取主机地址，如： http://localhost:8083
+         var localhostPaht=curWwwPath.substring(0,pos);
+         //获取带"/"的项目名，如：/uimcardprj
+         var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+         return(localhostPaht+projectName);
+     }
+    var url = getRootPath()+"/api/first/";
+    //获取问答列表
+    $.ajax({
+        type : 'post',
+        dataType : 'jsonp', // 数据类型配置成jsonp
+        jsonp : "callback", //配置jsonp随机码标签,在服务器代码部分需要用到他来拼接一个json的js对象
+        url : url+"getQuestion", //服务路径
+        async : false,
+        data: "",
+        success : function (response) {
+            if(response.code == 200){
+                // console.log(response.pageUtil.list);
+                var data = response.pageUtil.list;
+                var list = "";
+                var answer = [];
+                var score = [],anum=0;
+                // console.log(data.length);
+                for(var i=0;i<data.length;i++){
+                    //问题答案转化为数组
+                    answer = data[i].answer.split(",");
+                    // console.log(answer);
+                    //问题分数转化为数组
+                    score = data[i].score.split(",");
+                    // console.log(score);
+                    anum = (i+1)*1+".";
+                    list += '<li><p>'+anum+data[i].qname+'</p><p class="alllist">';
+                    for(var j=0;j<answer.length;j++){
+                        //单选按钮绑定答案，问题序号
+                        list += '<label class="chebox"><input type="radio" name="old'+i+'" datas="'+i+'" class="achbox" dataanswer="'+answer[j]+'" data="'+score[j]+'"/><span ></span>'+answer[j]+'</label>'
+                    }
+                    list +='</p></li>';
+                }
+                //数据填充
+                $(".questionlist").append(list);
+                //默认一个选中
+                $("li .alllist label:nth-child(1) input:nth-child(1)").attr("checked",true);
+                $(".achbox").on("touchend",function(){
+                    $(this).parents(".alllist").find(".achbox").attr("checked",false);
+                    $(this).attr("checked",true)
+                })
+            }else{
+                alert("失败");
+            }
+        },
+        error:function (){
+            alert('服务器异常！');
+        }
+    });
+
+    //提交问答数据
+
+    //判断是ios还是安卓
+    var type = window.location.href.split("?")[1].split("=")[1];
+    function submitbtn(){
+        var score=0,answerstr="";
+        $(".achbox").each(function(){
+            if($(this).attr("checked")){
+                score+=Number($(this).attr("data"));//总分数
+                answerstr+=($(this).attr("datas")*1+1)*1+$(this).attr("dataanswer")+",";//答案以及序号
+            }
+        });
+        var datas={
+            score:score,
+            answerstr:answerstr
+        }
+
+
+        var datasend=JSON.stringify(datas);
+        console.log(datasend);
+        //判断是ios还是安卓
+        type=="android"?window.messageHandlers.postMessage(datasend):window.webkit.messageHandlers.Redirect.postMessage(datasend);
+        //判断是ios还是安卓
+        //  type=='android'?window.messageHandlers.postMessage(datas):window.webkit.messageHandlers.Redirect.postMessage(datas);
+        console.log(score);
+        console.log(answerstr);
+//直接提交到后台	
+// $.ajax({
+        //        type:'post',
+        //        dataType:'jsonp', // 数据类型配置成jsonp
+        //        jsonp:"callback", //配置jsonp随机码标签,在服务器代码部分需要用到他来拼接一个json的js对象
+        //        url:url+"questionAnswer", //服务路径
+        //        async:false,
+        //        data:{
+        //        	usersId:20,
+        //        	scores:score,
+        //        	answers:answerstr
+        //        },
+        //        success:function (response) {
+        //            if(response.code == 200){
+        //              console.log(response);
+        //            }else{
+        //                tipbank();
+        //            }
+        //        },
+        //        error:function (){
+        //            tipbank();
+        //        }
+        //    });
+    }
+
+    //提示框
+    function tipbank(){
+        $(".tipbalck").show();
+        var timer = setTimeout(function(){
+            $(".tipbalck").hide();
+        },2000);
+    }
+
+</script>
+</html>

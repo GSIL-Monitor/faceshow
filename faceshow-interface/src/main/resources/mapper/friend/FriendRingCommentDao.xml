@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.friend.dao.FriendRingCommentDao" >
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.friend.entity.FriendRingComment" >
+    <id column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="friend_id" property="friendId" jdbcType="INTEGER" />
+    <result column="parent_comment_id" property="parentCommentId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="like_num" property="likeNum" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="is_check" property="isCheck" jdbcType="BIT" />
+    <result column="video_comment_id" property="videoCommentId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    comment_id, friend_id, parent_comment_id, user_id, like_num, create_time, content,
+    is_check, video_comment_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from friend_ring_comment where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from friend_ring_comment where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.friend.entity.FriendRingComment" useGeneratedKeys="true" keyProperty="commentId">
+    insert into friend_ring_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        comment_id,
+      </if>
+      <if test="friendId != null" >
+        friend_id,
+      </if>
+      <if test="parentCommentId != null" >
+        parent_comment_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="likeNum != null" >
+        like_num,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="isCheck != null" >
+        is_check,
+      </if>
+      <if test="videoCommentId != null" >
+        video_comment_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="friendId != null" >
+        #{friendId,jdbcType=INTEGER},
+      </if>
+      <if test="parentCommentId != null" >
+        #{parentCommentId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="isCheck != null" >
+        #{isCheck,jdbcType=BIT},
+      </if>
+      <if test="videoCommentId != null" >
+        #{videoCommentId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.friend.entity.FriendRingComment" >
+    update friend_ring_comment
+    <set >
+      <if test="friendId != null" >
+        friend_id = #{friendId,jdbcType=INTEGER},
+      </if>
+      <if test="parentCommentId != null" >
+        parent_comment_id = #{parentCommentId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        like_num = #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="isCheck != null" >
+        is_check = #{isCheck,jdbcType=BIT},
+      </if>
+      <if test="videoCommentId != null" >
+        video_comment_id = #{videoCommentId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+
+  <!-- 根据朋友圈内容id分页查询一级评论 -->
+  <select id="findCommentByFriendId" parameterType="java.util.Map" resultType="com.faceshow.modules.friend.vo.FriendRingSelectRowVo">
+    SELECT
+        f.comment_id commentId,
+        f.friend_id friendId,
+        f.user_id userId,
+        f.parent_comment_id parentCommentId,
+        f.content comment,
+        f.like_num likeNum,
+        UNIX_TIMESTAMP(f.create_time) * 1000 createTime,
+        u.img userImg,
+        u.nick_name isCommentator,
+        uu.nick_name byCommentator,
+        uu.user_id byCommentatorId
+    FROM
+        friend_ring_comment f
+    LEFT JOIN user_info u ON u.user_id = f.user_id
+    LEFT JOIN friend_ring_comment fi ON fi.comment_id = f.parent_comment_id
+    LEFT JOIN user_info uu ON uu.user_id = fi.user_id
+    WHERE
+        f.friend_id = #{friendId}
+    AND f.is_check = 1
+    AND f.parent_comment_id = 0
+    ORDER BY
+        f.like_num DESC,
+        f.comment_id DESC
+    LIMIT #{currPage}, #{pageSize}
+  </select>
+
+  <!-- 获取一级评论总数 -->
+  <select id="findCommentTotalCountByFriendId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT COUNT(1) FROM friend_ring_comment f
+    LEFT JOIN user_info u ON u.user_id = f.user_id
+    LEFT JOIN friend_ring_comment fi ON fi.comment_id = f.parent_comment_id
+    LEFT JOIN user_info uu ON uu.user_id = fi.user_id
+    WHERE
+        f.friend_id = #{friendId}
+    AND f.is_check = 1
+    AND f.parent_comment_id = 0
+  </select>
+
+  <!-- 获取总数量-->
+  <select id="findCountByFriendId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1) from friend_ring_comment where friend_id = #{friendId}
+  </select>
+
+  <!-- 递归查询子评论-->
+  <select id="findCommentByParent" parameterType="java.lang.Integer" resultType="com.faceshow.modules.friend.vo.FriendRingSelectRowVo">
+    SELECT
+        f.comment_id commentId,
+        f.friend_id friendId,
+        f.user_id userId,
+        f.parent_comment_id parentCommentId,
+        f.content comment,
+        f.like_num likeNum,
+        UNIX_TIMESTAMP(f.create_time) * 1000 createTime,
+        u.img userImg,
+        u.nick_name isCommentator,
+        uu.nick_name byCommentator,
+        uu.user_id byCommentatorId
+    FROM
+        friend_ring_comment f
+    LEFT JOIN user_info u ON u.user_id = f.user_id
+    LEFT JOIN friend_ring_comment fi ON fi.comment_id = f.parent_comment_id
+    LEFT JOIN user_info uu ON uu.user_id = fi.user_id
+    WHERE
+        f.is_check = 1
+    AND f.parent_comment_id = #{parentCommentId}
+    ORDER BY
+        f.comment_id DESC
+  </select>
+
+  <!--查询当前父评论下所有的子评论 -->
+  <select id="findByParentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select comment_id from friend_ring_comment where parent_comment_id = #{parentCommentId}
+  </select>
+
+  <!--查询当前朋友圈下所有的评论id -->
+  <select id="findAllCommentByFriendId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select comment_id from friend_ring_comment where friend_id = #{friendId}
+  </select>
+
+  <!-- 查询原有的点赞数量-->
+  <select id="findLikeNumById" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select like_num from friend_ring_comment where comment_id = #{commentId}
+  </select>
+
+  <!--根据朋友圈评论id查询视频评论id -->
+  <select id="findVideoCommentIdByFriendCommentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select video_comment_id from friend_ring_comment where comment_id = #{friendCommentId}
+  </select>
+
+  <!--根据视频评论id查询朋友圈评论id -->
+  <select id="findFriendCommentIdByVideoCommentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select comment_id from friend_ring_comment where video_comment_id = #{videoCommentId}
+  </select>
+
+  <!-- 评论点赞数量修改-->
+  <update id="updateCommentLikeNum" parameterType="com.faceshow.common.utils.NumUtils">
+    update friend_ring_comment set like_num = like_num + #{num} where comment_id = #{id}
+  </update>
+  <!--根据评论主键查看userId-->
+  <select id="selectUserIdByCommentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT
+        user_id
+    FROM
+        friend_ring_comment
+    WHERE
+        comment_id = #{comment_id}
+  </select>
+</mapper>

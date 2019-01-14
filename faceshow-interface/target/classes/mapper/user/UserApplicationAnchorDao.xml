@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.faceshow.modules.user.dao.UserApplicationAnchorDao">
+  <resultMap id="BaseResultMap" type="com.faceshow.modules.user.entity.UserApplicationAnchor">
+    <id column="anchor_id" jdbcType="INTEGER" property="anchorId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="card" jdbcType="VARCHAR" property="card" />
+    <result column="card_positive" jdbcType="VARCHAR" property="cardPositive" />
+    <result column="card_opposite" jdbcType="VARCHAR" property="cardOpposite" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="check_name" jdbcType="VARCHAR" property="checkName" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="check_type" jdbcType="TINYINT" property="checkType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <if test="fields == null">
+      anchor_id, user_id, card, card_positive, card_opposite, real_name, create_time, check_name, 
+      check_time, check_type
+    </if>
+    <if test="fields != null">
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    anchor_id,user_id,card,card_positive,card_opposite,real_name,create_time,check_name,check_time,check_type
+    from user_application_anchor
+    where anchor_id = #{anchorId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_application_anchor
+    where anchor_id = #{anchorId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.faceshow.modules.user.entity.UserApplicationAnchor">
+    insert into user_application_anchor (anchor_id, user_id, card, 
+      card_positive, card_opposite, real_name, 
+      create_time, check_name, check_time, 
+      check_type)
+    values (#{anchorId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{card,jdbcType=VARCHAR}, 
+      #{cardPositive,jdbcType=VARCHAR}, #{cardOpposite,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{checkName,jdbcType=VARCHAR}, #{checkTime,jdbcType=TIMESTAMP}, 
+      #{checkType,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceshow.modules.user.entity.UserApplicationAnchor">
+    insert into user_application_anchor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="anchorId != null">
+        anchor_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="card != null">
+        card,
+      </if>
+      <if test="cardPositive != null">
+        card_positive,
+      </if>
+      <if test="cardOpposite != null">
+        card_opposite,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="checkName != null">
+        check_name,
+      </if>
+      <if test="checkTime != null">
+        check_time,
+      </if>
+      <if test="checkType != null">
+        check_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="anchorId != null">
+        #{anchorId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="card != null">
+        #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPositive != null">
+        #{cardPositive,jdbcType=VARCHAR},
+      </if>
+      <if test="cardOpposite != null">
+        #{cardOpposite,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkName != null">
+        #{checkName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null">
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkType != null">
+        #{checkType,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceshow.modules.user.entity.UserApplicationAnchor">
+    update user_application_anchor
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="card != null">
+        card = #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPositive != null">
+        card_positive = #{cardPositive,jdbcType=VARCHAR},
+      </if>
+      <if test="cardOpposite != null">
+        card_opposite = #{cardOpposite,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkName != null">
+        check_name = #{checkName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null">
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkType != null">
+        check_type = #{checkType,jdbcType=TINYINT},
+      </if>
+    </set>
+    where anchor_id = #{anchorId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceshow.modules.user.entity.UserApplicationAnchor">
+    update user_application_anchor
+    set user_id = #{userId,jdbcType=INTEGER},
+      card = #{card,jdbcType=VARCHAR},
+      card_positive = #{cardPositive,jdbcType=VARCHAR},
+      card_opposite = #{cardOpposite,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      check_name = #{checkName,jdbcType=VARCHAR},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
+      check_type = #{checkType,jdbcType=TINYINT}
+    where anchor_id = #{anchorId,jdbcType=INTEGER}
+  </update>
+</mapper>
